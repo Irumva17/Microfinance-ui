@@ -1,0 +1,130 @@
+[
+    {
+        "name": "Accueil",
+        "link": "/"
+    },
+    {
+        "name": "Menu",
+        "subLinks": [
+            {
+                "name": "Guichet",
+                "link": "/menu/guichet/guichet"
+            },
+            {
+                "name": "Chèques",
+                "link": "/menu/cheques"
+            },
+            {
+                "name": "Epargne",
+                "link": "/menu/epargne"
+            },
+            {
+                "name": "Salarier",
+                "link": "/menu/salarier"
+            },
+            {
+                "name": "Quittances",
+                "link": "/menu/quittances"
+            },
+            {
+                "name": "Depense",
+                "link": "/menu/depense"
+            }
+        ]
+    },
+    {
+        "name": "Crédit",
+        "link": "/menu/credit"
+    },
+    {
+        "name": "Placement",
+        "link": "/menu/placement"
+    },
+    {
+        "name": "Comptabilité",
+        "subLinks": [
+            {
+                "name": "Plan comptable",
+                "link": "/comptabilite/plan_comptable"
+            },
+            {
+                "name": "Journal",
+                "link": "/comptabilite/journal"
+            },
+            {
+                "name": "Grand Livre",
+                "link": "/comptabilite/grand_livre"
+            },
+            {
+                "name": "Balance",
+                "link": "/comptabilite/balance"
+            },
+            {
+                "name": "Bilan",
+                "link": "/comptabilite/bilan"
+            },
+            {
+                "name": "Compte de résultats",
+                "link": "/comptabilite/compte_de_resultats"
+            },
+            {
+                "name": "Flux de la tresorie",
+                "link": "/comptabilite/flux_de_la_tresorie"
+            }
+        ]
+    },
+    {
+        "name": "Microfinance",
+        "subLinks": [
+            {
+                "name": "Actionnaire",
+                "link": "/actionnaire"
+            },
+            {
+                "name": "Banque",
+                "subLinks": [
+                    {
+                        "name": "Compte bancaire",
+                        "link": "/banque/comptebancaire"
+                    },
+                    {
+                        "name": "Hist. Crédits",
+                        "link": "/banque/creditbanques"
+                    },
+                    {
+                        "name": "Hist. Depots",
+                        "link": "/banque/depotbanques"
+                    },
+                    {
+                        "name": "Hist. Retraits",
+                        "link": "/banque/retraitbanques"
+                    },
+                    {
+                        "name": "Hist. Rembourssements",
+                        "link": "/banque/rembourssementbanques"
+                    }
+                ]
+            },
+            {
+                "name": "Capital",
+                "link": "/capital"
+            },
+            {
+                "name":"Prix",
+                "link": "/prix" 
+            },
+            {
+                "name": "Utilisateurs",
+                "link": "/permissions"
+            },
+            {
+                "name": "Historique",
+                "link": "/HistoriqueMicrofinance"
+            },
+            {
+                "name": "Microfinance",
+                "link": "/microfinance"
+            }
+        ]
+    }
+]

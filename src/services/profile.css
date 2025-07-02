@@ -1,0 +1,243 @@
+* {
+    box-sizing: border-box;
+}
+
+#main {
+    background-color: var(--submenu)
+}
+
+.affichage-profile {
+    margin: 4px;
+    display: flex;
+    gap: 10px;
+}
+
+strong {
+    font-weight: bold;
+}
+
+.top {
+    margin: 0px;
+    border-radius: 0;
+    padding: 30px 80px 70px 100px;
+    border-top: 1px solid var(--second);
+    width: 100%;
+    background: var(--primary);
+    transition: .5s ease-in-out;
+}
+
+.left,
+.right {
+    background-color: var(--second);
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.2)
+}
+
+.right {
+    position: relative;
+    width: 75%;
+    overflow: hidden;
+    height: 84vh;
+    padding: 0;
+    /* border-radius: 0; */
+}
+
+.right img {
+    max-width: 100%;
+    min-width: 100%;
+    height: auto;
+}
+.bottom{
+    display: flex;
+    gap: 20px;
+}
+.right .showFull {
+    position: absolute;
+    bottom: 0;
+    max-height: 50%;
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    z-index: 100;
+    /* background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7)); */
+}
+
+.showFull button {
+    display: block;
+    width: 150px;
+    height: fit-content;
+    padding: 12px;
+    background-color: var(--second);
+    color: var(--primary);
+    font-size: 18px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.263);
+    border-radius: 10px;
+    border: none;
+}
+
+.button-profil {
+    background-color: var(--second);
+    border: none;
+    color: var(--primary);
+
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    height: fit-content;
+}
+
+.identifiers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    transition: .5s ease-in-out;
+}
+
+.identifiers p {
+    box-sizing: border-box;
+    flex-grow: 1;
+    color: var(--second);
+    border: 1px solid;
+    text-align: center;
+    width: fit-content;
+    padding: 5px 10px;
+    margin: 0;
+    border-radius: 5px;
+}
+
+.names {
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid rgba(53, 56, 94, 0.3);
+    font-size: 18px;
+    text-transform: capitalize;
+}
+
+.names img {
+    width: 120px;
+    filter: drop-shadow(2px 4px 12px rgba(128, 128, 128, 0.445));
+}
+.client_name{
+    padding: 10px 0;
+}
+
+.actions {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.action {
+    cursor: pointer;
+    width: 85%;
+    padding: 8px;
+    text-align: center;
+    border-radius: 30px;
+    border: 1px solid var(--primary);
+    transition: .2s ease-in-out;
+}
+
+.action:hover,
+.action.active {
+    background-color: var(--primary);
+    color: var(--second);
+}
+.bills{
+    display: flex;
+    gap: 10px;
+}
+.bill-label{
+    width: 70px;
+}
+.bill-input {
+    width: 95px;
+}
+.bordereau-details{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 20px 0;
+}
+
+a.button {
+    /* margin-top: 15px; */
+    font-size: 18px;
+    text-decoration: none;
+    background: var(--second);
+    color: var(--primary);
+    padding: 12px;
+    border: none;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.263);
+    border-radius: 10px;
+}
+
+h2 {
+    margin: 0 0 5px 0;
+    text-align: center;
+}
+.full-image-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.full-image {
+    max-width: 100%;
+    max-height: 85%;
+    min-height: 85%;
+    object-fit: contain;
+}
+
+.no_image_message {
+    display: grid;
+    place-content: center;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    text-shadow: 0 0 10px rgba(128, 128, 128, 0.521);
+    background-color: rgba(0, 0, 0, 0.2);
+    margin: 0;
+}
+.billets{
+    display: flex;
+    flex-direction: column;
+    min-width: 320px;
+    gap: 5px;
+}
+.fa-user{
+    margin-top: 20px;
+    font-size: 120px;
+}
+input{
+    width: 100%;
+}
+.search_component{
+    justify-content: center;
+    min-width: 100%;
+}
+.btn.retour{
+    max-height: 35px
+}
+strong{
+    min-width: fit-content;
+}
