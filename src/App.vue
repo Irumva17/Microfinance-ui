@@ -36,7 +36,7 @@ export default {
     }
   },
   mounted() {
-    let user = JSON.parse(window.localStorage.getItem('user'))
+    let user = JSON.parse(window.localStorage.getItem('_mic_user'))
     if (!!user) {
       this.$store.state.user = user
     }

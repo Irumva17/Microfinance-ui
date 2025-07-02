@@ -8,7 +8,7 @@ export default {
     "$store.state.compte_active": {
       deep: true,
       handler(new_val) {
-        window.localStorage.setItem("compte_active", JSON.stringify(new_val));
+        localStorage.setItem("compte_active", JSON.stringify(new_val));
       },
     },
     "$store.state.message": {
@@ -24,7 +24,7 @@ export default {
     "$store.state.user": {
       deep: true,
       handler(new_val) {
-        window.localStorage.setItem("user", JSON.stringify(new_val));
+        localStorage.setItem("_mic_user", JSON.stringify(new_val));
       },
     },
   },
@@ -73,10 +73,10 @@ export default {
     },
     logout() {
       this.$store.state.user = null;
-      window.localStorage.removeItem("user");
-      window.localStorage.removeItem("compte_active");
-      window.localStorage.removeItem("error_audio");
-      window.localStorage.removeItem("success_audio");
+      localStorage.removeItem("_mic_user");
+      localStorage.removeItem("compte_active");
+      localStorage.removeItem("error_audio");
+      localStorage.removeItem("success_audio");
     },
     async getAgences(of = 1, agences = []) {
       await axios
@@ -184,7 +184,7 @@ export default {
       }
     },
     alertError() {
-      const enable_error = window.localStorage?.getItem("error_audio");
+      const enable_error = localStorage?.getItem("error_audio");
       if (enable_error) {
         if (enable_error != "true") {
           return;

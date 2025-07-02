@@ -626,7 +626,7 @@ export default {
         },
     },
     mounted() {
-        window.localStorage?.getItem('compte_active') ? this.$store.state.compte_active = JSON.parse(window.localStorage?.getItem('compte_active')) : ''
+        localStorage?.getItem('compte_active') ? this.$store.state.compte_active = JSON.parse(localStorage?.getItem('compte_active')) : ''
         this.$nextTick(()=>{
             this.setCompte(this.$store.state.compte_active);
         })

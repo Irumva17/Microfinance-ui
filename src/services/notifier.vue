@@ -24,7 +24,7 @@ export default {
 	watch: {
 		"$store.state.message.success"(new_val) {
 			this.enable_success = true
-			const enable_success = window.localStorage?.getItem('success_audio')
+			const enable_success = localStorage?.getItem('success_audio')
 			if(enable_success){
 				if(enable_success != 'true'){
 					this.enable_success = false

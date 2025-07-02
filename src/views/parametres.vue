@@ -65,11 +65,11 @@ export default {
     watch : {
         success(new_val){
             store.state.success_audio = new_val
-            window.localStorage.setItem('success_audio', new_val)
+            localStorage.setItem('success_audio', new_val)
         },
         error(new_val){
             store.state.error_audio = new_val
-            window.localStorage.setItem('error_audio', new_val)
+            localStorage.setItem('error_audio', new_val)
         },
     },
     components: {
@@ -77,14 +77,14 @@ export default {
     },
     created(){
         this.success = true
-        const enable_success = window.localStorage?.getItem('success_audio')
+        const enable_success = localStorage?.getItem('success_audio')
         if(enable_success){
             if(enable_success != 'true'){
                 this.success = false
             }
         }
         this.error = true
-        const enable_error = window.localStorage?.getItem('error_audio')
+        const enable_error = localStorage?.getItem('error_audio')
         if(enable_error){
             if(enable_error != 'true'){
                 this.error = false

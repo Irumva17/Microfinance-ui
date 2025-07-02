@@ -5,7 +5,6 @@ import App from './App.vue'
 import router from './Router/router'
 import mixins from "./mixins"
 import store from './store'
-// import axios from 'axios'
 import axios from '@/axios'
 
 window.axios = axios

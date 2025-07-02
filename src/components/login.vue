@@ -48,7 +48,7 @@ export default {
       axios.post('login/', credentials)
         .then((response) => {
           this.$store.state.user = response.data;
-          window.localStorage.setItem('user', JSON.stringify(response.data))
+          window.localStorage.setItem('_mic_user', JSON.stringify(response.data))
         }).catch(error => {
           error.response && error.response.status === 401 ? (
             this.$store.state.message.error = "Nom d'utilsateur ou mot de passe incorrect.", 

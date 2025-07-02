@@ -183,8 +183,8 @@ export default {
         },
     },
     mounted() {
-        window.localStorage?.getItem('compte_active') ? 
-        this.$store.state.compte_active = JSON.parse(window.localStorage?.getItem('compte_active')) : ''
+        localStorage?.getItem('compte_active') ? 
+        this.$store.state.compte_active = JSON.parse(localStorage?.getItem('compte_active')) : ''
         this.$nextTick(()=>{ 
             this.$store.state.compte_active?.user ?
             this.getUserHistory(this.$store.state.compte_active.id) : this.getHistory(this.$route.query.numero) 
