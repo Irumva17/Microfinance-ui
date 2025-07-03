@@ -154,7 +154,7 @@ export default {
             form.append('nom', this.nom)
             form.append('adresse', this.adresse)
             form.append('details', this.details)
-            form.append('microfinance', this.$store.state.user.agence.microfinance.id)
+            // form.append('microfinance', this.$store.state.user.agence.microfinance.id)
 
             await axios.post('agences/', form)
                 .then((response) => {

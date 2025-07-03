@@ -377,9 +377,9 @@
           <td>
             <span v-if="client.personne_physique">
               {{
-                client.personne_physique.last_name +
+                client.personne_physique.Last_name +
                 " " +
-                client.personne_physique.first_name
+                client.personne_physique.First_name
               }}
             </span>
             <span v-else-if="client.personne_morale">
@@ -401,7 +401,7 @@
             </span>
             <span v-else> - </span>
           </td>
-          <td>{{ money(client.solde) }}</td>
+          <td>{{ money(client.balance) }}</td>
           <td>{{ client.telephone }}</td>
           <td>{{ client.last_activity }}</td>
           <td>

@@ -25,7 +25,7 @@
     </Modal>
     <Modal :isVisible="show_liberer != ''" @close="closeModal">
         <div class="form">
-            <span class="title">Ajouter le capital souscrit</span>
+            <span class="title">Verser le capital promis</span>
             <div class="content">
                 <div v-if="show_liberer === 'tot' || show_liberer === 'part'">
                     <label>Compte bancaire</label>
@@ -34,70 +34,81 @@
                         {{ err }}
                     </small>
                     <label for="full_name">Nom</label>
-                    <input id="full_name" type="text" v-model="nom" placeholder="Nom de celui qui se trouve sur l'ATS">
+                    <input id="full_name" type="text" v-model="nom" placeholder="Nom figurant sur la preuve de paiement">
+
+                    <label for="ref_number">Montant</label>
+                    <input id="ref_number" type="text" v-model="montant" placeholder="Montant">
+                    <small v-for="err in data_error?.montant" :key="err.id">
+                        {{ err }}
+                    </small>
 
                     <label for="ref_number">Ref number</label>
                     <input id="ref_number" type="text" v-model="ref_number" placeholder="Numero de référence">
-
+                    <small v-for="err in data_error?.ref_number" :key="err.id">
+                        {{ err }}
+                    </small>
+                    
                     <label for="motif">Details</label>
                     <input id="motif" type="text" v-model="motif" placeholder="Details">
                     <small v-for="err in data_error?.motif" :key="err.id">
                         {{ err }}
                     </small>
-                    <div v-if="show_liberer === 'part'">
+                    <!-- <div v-if="show_liberer === 'part'">
                         <label for="capital_souscrit_liberé_totalement">Capital souscrit liberé partielement</label>
                         <input id="capital_souscrit_liberé_totalement" type="number"
                             v-model="capital_souscrit_libere_part">
                         <small v-for="err in data_error?.capital_souscrit_libere_part" :key="err.id">
                             {{ err }}
                         </small>
-                    </div>
-                    <label for="document">Document(ATS)</label>
+                    </div> -->
+                    <label for="document">Fichier justifiant le paiement</label>
                     <input id="document" type="file" @change="uploadDocument">
                 </div>
 
-                <div v-else>
+                <!-- <div v-else>
                     <label for="capital_souscrit_non_liberé">Capital souscrit non liberé</label>
                     <input id="capital_souscrit_non_liberé" type="number" v-model="capital_souscrit_non_libere">
-                </div>
+                </div> -->
             </div>
             <button class="btn-modal" @click="getExtraAction">
-                {{ show_liberer !== 'non' ? 'Liberer' : 'Non liberer' }}
-                {{ money(
+                <!-- {{ show_liberer !== 'non' ? 'Liberer' : 'Non liberer' }} -->
+                  Verser  {{ money(montant || 0) }}
+                <!-- {{ money(
                     (show_liberer === 'tot' ? 
                     capital_souscrit_libere_tot : 
                     show_liberer === 'part' ? 
                     capital_souscrit_libere_part : 
                     capital_souscrit_non_libere) || 0
-                ) }}
+                ) }} -->
             </button>
         </div>
     </Modal>
-    <Modal :isVisible="show_infos" @close="closeModal">
+    <Modal :isVisible="capital_tranches.length > 0" @close="capital_tranches = []">
         <div class="capital-info">
-            <span class="title">Plus d'information</span>
+            <!-- <span class="title">Plus d'information</span>
             <div class="content">
                 <div class="flex">
-                    <span>Actionnaire: {{ selected_capital.actionnaire }}</span>
-                    <span>Capital souscrit : {{ money(selected_capital.capital_souscrit) }}</span>
+                    <i class="fa-solid fa-user"></i>
+                    <span>Actionnaire: {{ item_to_view?.actionnaire }}</span>
+                    <span>Capital souscrit : {{ money(item_to_view?.capital_souscrit) }}</span>
                 </div>
-                <div class="flex" v-if="selected_capital.capital_souscrit_libere_total">
-                    <span>Capital libéré totalement  : {{ money(selected_capital.capital_souscrit_libere_total) }}</span>
-                    <span class="capitalize">Libérer par : {{ selected_capital.souscrit_libere_total_by }}</span>
-                    <span class="capitalize">Date de libération : {{ datetime(selected_capital.souscrit_libere_total_at) }}</span>
+                <div class="flex" v-if="item_to_view?.capital_souscrit_libere_total">
+                    <span>Capital libéré totalement  : {{ money(item_to_view?.capital_souscrit_libere_total) }}</span>
+                    <span class="capitalize">Libérer par : {{ item_to_view?.souscrit_libere_total_by }}</span>
+                    <span class="capitalize">Date de libération : {{ datetime(item_to_view?.souscrit_libere_total_at) }}</span>
                 </div>
-                <div class="flex" v-if="selected_capital.capital_souscrit_non_libere">
-                    <span>Capital libéré totalement  : {{ money(selected_capital.capital_souscrit_non_libere) }}</span>
-                    <span class="capitalize">Libérer par : {{ selected_capital.souscrit_non_libere_by }}</span>
-                    <span class="capitalize">Date de libération : {{ datetime(selected_capital.souscrit_non_libere_at) }}</span>
+                <div class="flex" v-if="item_to_view?.capital_souscrit_non_libere">
+                    <span>Capital libéré totalement  : {{ money(item_to_view?.capital_souscrit_non_libere) }}</span>
+                    <span class="capitalize">Libérer par : {{ item_to_view?.souscrit_non_libere_by }}</span>
+                    <span class="capitalize">Date de libération : {{ datetime(item_to_view?.souscrit_non_libere_at) }}</span>
                 </div>
-            </div>
-            <section v-if="selected_capital.tranches.length">
+            </div> -->
+            <section v-if="capital_tranches?.length">
                 <span class="title">Tranches de libération</span>
                 <table>
                     <tr>
-                        <th>Id</th>
-                        <th>Référence</th>
+                        <!-- <th>Id</th> -->
+                        <!-- <th>Référence</th> -->
                         <th>Montant</th>
                         <th>Banque</th>
                         <th>Nom</th>
@@ -106,20 +117,25 @@
                         <th>Créer par</th>
                         <th>Document</th>
                     </tr>
-                    <tr v-for="item in selected_capital.tranches" :key="item.id">
-                        <td>{{ item.id }}</td>
-                        <td>{{ item.ref_number }}</td>
+                    <tr v-for="item in capital_tranches" :key="item.id">
+                        <!-- <td>{{ item.id }}</td> -->
+                        <!-- <td>{{ item.ref_number }}</td> -->
                         <td>{{ money(item.montant) }}</td>
-                        <td>{{ item.banque.banque }}</td>
+                        <td>{{ item.banque.nom }}</td>
                         <td>{{ item.nom }}</td>
                         <td>{{ item.motif }}</td>
                         <td>{{ datetime(item.created_at) }}</td>
-                        <td>{{ item.created_by }}</td>
-                        <td><a :href="item.document" target="_blank" class="btn">ATS</a></td>
+                        <td>
+                            <span v-if="!item.created_by.first_name && !item.created_by.last_name">
+                                {{ item.created_by.username }}
+                            </span>
+                            <span>{{ item.created_by.last_name }} {{ item.created_by.first_name }}</span>
+                        </td>
+                        <td><a :href="item.document" target="_blank" class="btn">Voir l'ATS</a></td>
                     </tr>
                 </table>
             </section>
-            <a v-else :href="selected_capital.document" target="_blank" class="btn" >ATS</a>
+            <a v-else :href="selected_capital?.document" target="_blank" class="btn" >ATS</a>
         </div>
     </Modal>
     <div class="container">
@@ -127,7 +143,8 @@
             <div class="btns">
                 <button class="btn retour" @click="goBack">&#10094;</button>
                 <button class="btn" @click="showCapital = true">
-                    <i class="fa-solid fa-plus"></i> Ajouter un capital</button>
+                    <i class="fa-solid fa-plus"></i> Ajouter un capital
+                </button>
             </div>
         </div>
         <div class="accounts">
@@ -141,55 +158,31 @@
                 <tr>
                     <th>Id</th>
                     <th>Actionnaire</th>
-                    <th>Capital souscrit</th>
+                    <th>Capital promis</th>
                     <th>Date de souscrition</th>
-                    <th>Liberé totalement</th>
-                    <th>Liberé partielement</th>
-                    <th>Non liberé</th>
+                    <th>Total versé</th>
+                    <th>Reste</th>
+                    <!-- <th>Non liberé</th> -->
                     <!-- <th>Liberé par</th> -->
                     <th>Options</th>
                 </tr>
                 <tr v-for="(capital, index) in capitals" :key="capital.id">
                     <td>{{ capital.id }}</td>
-                    <td>{{ capital.actionnaire }}</td>
-                    <td>{{ money(capital.capital_souscrit) }}</td>
-                    <td>{{ datetime(capital.capital_souscrit_at) }}</td>
-                    <td>{{ money(capital.capital_souscrit_libere_total || 0) }}</td>
-                    <td>{{ money(capital.capital_souscrit_libere_partiel) || 0 }}</td>
-                    <td>{{ money(capital.capital_souscrit_non_libere) || 0 }}</td>
+                    <td>{{ capital.actionnaire.nom }}</td>
+                    <td>{{ money(capital.montant_promis) }}</td>
+                    <td>{{ datetime(capital.created_at) }}</td>
+                    <td>{{ money(capital.total_verse || 0) }}</td>
+                    <td>{{ money(capital.reste_a_verser || 0 )}}</td>
+                    <!-- <td>{{ money(capital.capital_souscrit_non_libere) || 0 }}</td> -->
                     <td >
-                        <!-- <div class="btns">
-                            <button class="btn" v-if="capital.validated_by === null" @click="validation(capital.id)">Valider</button>
-                            <button class="btn delete" v-if="capital.validated_by === null" @click="deleteCapital(capital.id)">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                            <div class="valid" v-else>Validé</div>
-                        </div> -->
-                        <i class="btn fa fa-ellipsis-v" @click="toggleOptions(capital.id)"></i>
-                        <div v-if="selected_capital === capital.id"
+                        <i class="btn fa fa-ellipsis-v" @click="toggleOptions(capital)"></i>
+                        <div v-if="selected_capital.id === capital.id"
                             :class="`menu_options ${getPosition(index)}`" @mouseleave="toggleOptions(capital.id)">
-                            <button class="btn" v-if="isFullyNonLiberated(capital)" @click="
-                                capital_id = capital.id;
-                            show_liberer = 'tot';
-                            capital_souscrit_libere_tot = capital.capital_souscrit;
-                            ">
-                                Libérer totalement
-                            </button>
-
-                            <button class="btn" v-if="hasRemainingCapital(capital)" @click="
-                                capital_id = capital.id;
-                            show_liberer = 'part';
-                            capital_souscrit_libere_part = capital.capital_souscrit / 2;
-                            ">
-                                Libérer partiellement
-                            </button>
-
-                            <button class="btn delete" v-if="canBeMarkedAsNonLiberated(capital)"
-                                @click="capital_id = capital.id, show_liberer = 'non'">
-                                Capital non libéré
+                            <button class="btn" @click="capital_id = capital.id;show_liberer = 'tot'">
+                                Verser
                             </button>
                             <div class="menu_arrow">‣</div>
-                            <button class="btn" @click="show_information(capital.id)">Plus d'information</button>
+                            <button class="btn" @click="show_information(capital)">Tranches de libération</button>
                         </div>
                     </td>
                 </tr>
@@ -208,11 +201,10 @@ export default {
         return {
             capital: [],
             capitals: [],
-            selected_capital: [],
+            selected_capital: {},
             actionnaire: [],
             action: [],
             banque: [],
-            selected_capital: '',
             capital_id: '',
             got_bank_account: '',
             capital_type: '',
@@ -229,6 +221,10 @@ export default {
             showCapital: false,
             show_liberer: false,
             show_infos: false,
+
+            capital_tranches: [],
+            item_to_view: null,
+
             data_error: {}
         }
     },
@@ -260,9 +256,20 @@ export default {
         hasRemainingCapital(capital) {
             return this.remainingCapital(capital) > 0;
         },
-        show_information(id) {
-            this.selected_capital = this.capitals.find(capital => capital.id === id);
-            this.show_infos = true;
+        show_information(item) {
+            this.$store.commit('clearMessage')
+            axios.get(`tranchesouscription/?capital_id=${item.id}`)
+                .then((reponse) => {
+                    // this.item_to_view = item
+                    if(!reponse.data.results.length) {
+                        this.$store.commit('setError', 'Pas des tranches trouvées.')
+                    }
+                    this.capital_tranches = reponse.data.results;
+                    // this.show_infos = true;
+                }).catch((error) => {
+                    this.displayErrorOrRefreshToken(error, () => this.show_information(item));
+                });
+            // this.selected_capital = this.capitals.find(capital => capital.id === id);
         },
         isFullyNonLiberated(capital) {
             return (
@@ -296,34 +303,41 @@ export default {
             data.append('ref_number', this.ref_number)
             data.append('banque', this.got_bank_account)
             data.append('document', this.document)
+            data.append('montant', this.montant)
+            data.append('capital', this.capital_id)
 
-            this.show_liberer === 'tot' ? (
-                data.append('capital_souscrit_libere_total', this.capital_souscrit_libere_tot)
-            ) : this.show_liberer === 'part' ? (
-                data.append('capital_souscrit_libere_partiel', this.capital_souscrit_libere_part)
-            ) : (
-                data.append('capital_souscrit_non_libere', this.capital_souscrit_non_libere)
-            )
-            let url = this.show_liberer === 'tot' ? (
-                '/liberer_souscription_totale/'
-            ) : this.show_liberer === 'part' ? (
-                '/liberer_souscription_partielle/'
-            ) : (
-                '/Souscription_non_liberer/'
-            )
+            // this.show_liberer === 'tot' ? (
+            //     data.append('capital_souscrit_libere_total', this.capital_souscrit_libere_tot)
+            // ) : this.show_liberer === 'part' ? (
+            //     data.append('capital_souscrit_libere_partiel', this.capital_souscrit_libere_part)
+            // ) : (
+            //     data.append('capital_souscrit_non_libere', this.capital_souscrit_non_libere)
+            // )
+            // let url = this.show_liberer === 'tot' ? (
+            //     '/liberer_souscription_totale/'
+            // ) : this.show_liberer === 'part' ? (
+            //     '/liberer_souscription_partielle/'
+            // ) : (
+            //     '/Souscription_non_liberer/'
+            // )
 
-            axios.post(`capitals/${this.capital_id}` + url, data)
+            axios.post(`tranchesouscription/`, data)
                 .then((reponse) => {
                     this.$store.state.message.success = 'Reussis.'
-                    this.capitals = this.capitals.map(capital => {
-                        if(capital.id === this.capital_id) {
-                            Object.assign(capital, reponse.data)
-                            if(this.show_liberer === 'part') {
-                                capital?.tranches.push(reponse.data)
-                            }
-                        }
-                        return capital
-                    })
+                    // this.capitals = this.capitals.map(capital => {
+                    //     if(capital.id === this.capital_id) {
+                    //         Object.assign(capital, reponse.data)
+                    //         if(this.show_liberer === 'part') {
+                    //             capital?.tranches.push(reponse.data)
+                    //         }
+                    //     }
+                    //     return capital
+                    // })
+                    let capitalIndex = this.capitals.findIndex(capital => capital.id === this.capital_id)
+                    if (capitalIndex !== -1) {
+                        this.capitals[capitalIndex].total_verse += reponse.data.montant
+                        this.capitals[capitalIndex].reste_a_verser -= reponse.data.montant
+                    }
                     this.closeModal()
                 }).catch((error) => {
                     this.displayErrorOrRefreshToken(error, this.getExtraAction)
@@ -358,6 +372,8 @@ export default {
             this.show_infos = false
             this.compte = ''
             this.montant = ''
+            this.motif = ''
+
             this.action = ''
             this.got_bank_account = '',
                 this.capital_type = '',
@@ -388,7 +404,7 @@ export default {
         },
         postCapitalSouscrit() {
             const formData = new FormData();
-            formData.append("capital_souscrit", this.capital_souscrit);
+            formData.append("montant_promis", this.capital_souscrit);
             formData.append("actionnaire", this.action);
             axios.post('capitals/', formData)
                 .then((reponse) => {

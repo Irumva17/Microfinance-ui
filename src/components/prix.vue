@@ -31,11 +31,11 @@
             <span class="title" v-if="!edit">Nouveau Prix</span>
             <span class="title" v-else>Modifier le Prix</span>
             <div class="prix_content" v-if="step == 1">
-                <label for="motif">Motif: *</label>
+                <!-- <label for="motif">Motif: *</label>
                 <input type="text" id="motif" v-model="motif" placeholder="Motif">
                 <small v-for="err in data_error?.motif" :key="err.id">
                     {{ err }}
-                </small>
+                </small> -->
                 <label for="table">Opération: *</label>
                 <select name="table" id="table" v-model="table">
                     <option value="" disabled>--------</option>
@@ -85,24 +85,24 @@
         <section class="table">
             <table>
                 <tr>
-                    <th>Motif</th>
+                    <th>Options</th>
+                    <!-- <th>Motif</th> -->
                     <th>Prix</th>
                     <th>Minimum</th>
                     <th>Maximum</th>
                     <th>Pourcentage</th>
                     <th>Opération</th>
-                    <th>Microfinance</th>
+                    <!-- <th>Microfinance</th> -->
                     <th>Classe Comptable</th>
-                    <th>Options</th>
                 </tr>
                 <tr v-for="price in prices" :key="price.id">
-                    <td>{{ price.motif }}</td>
-                    <td>{{ money(price.prix) }}</td>
+                    <td>{{ price.table }}</td>
+                    <td>{{ money(price.prix) || '-' }}</td>
                     <td>{{ money(price.minimum) }}</td>
                     <td>{{ money(price.maximum) }}</td>
                     <td>{{ price.pourcentage ? price.pourcentage + '%' : '-' }}</td>
-                    <td>{{ price.table }}</td>
-                    <td>{{ price.microfinance }}</td>
+                    <!-- <td>{{ price.table }}</td> -->
+                    <!-- <td>{{ price.microfinance }}</td> -->
                     <td>
                         <button v-if="!price.classe_comptable" class="btn "
                             @click="prepareData(price.id, price), show_modal = true"><i class="fa-solid fa-plus"></i>

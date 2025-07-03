@@ -1,22 +1,147 @@
 <template>
     <Modal :isVisible="show_modal_user" @close="closeModal">
-        <form class="form" @submit.prevent="handleSubmit">
+        <form class="form-nini" @submit.prevent="handleSubmit">
             <span class="title">Créer Un Utilisateur</span>
             <div class="content" v-if="step == 1">
-                <label for="last_name">Nom</label>
-                <input type="text" v-model="user.last_name" id="last_name" placeholder="Nom">
-                <label for="first_name">Prénom</label>
-                <input type="text" v-model="user.first_name" id="first_name" placeholder="Prénom">
-                <label for="cni">CNI</label>
-                <input type="text" v-model="CNI" id="cni" placeholder="CNI">
-                <small v-for="err in data_error?.CNI" :key="err.id">
+                <div class="inputRow">
+                    <div class="inputColumn">
+                        <label for="last_name">Nom</label>
+                        <input type="text" v-model="user.last_name" id="last_name" placeholder="Nom">
+                    </div>
+                    <div class="inputColumn">
+                        <label for="first_name">Prénom</label>
+                        <input type="text" v-model="user.first_name" id="first_name" placeholder="Prénom">
+                    </div>
+                </div>
+                
+                <div class="inputRow">
+                    <div class="inputColumn">
+                        <label for="cni">Sexe</label>
+                        <select class="select" name="agence" v-model="sex">
+                            <option value="" disabled>-----</option>
+                            <option value="M">Homme</option>
+                            <option value="F">Femme</option>
+                            <option value="NA">Non Applicable</option>
+                            <option value="AUTRES">AUTRES</option>
+                        </select>
+                        <small v-for="err in data_error?.sex" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                    <div class="inputColumn">
+                        <label for="telephone">Residence</label>
+                        <select class="select" name="agence" v-model="residence">
+                            <option value="" disabled>-----</option>
+                            <option value="RESIDENT">Resident</option>
+                            <option value="NON RESIDENT">Non Residant</option>
+                        </select>
+                        <small v-for="err in data_error?.residence" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                </div>
+
+                <div class="inputRow">
+                    <div class="inputColumn">
+                        <label for="birthDate">Date de naissance</label>
+                        <input type="date" v-model="date_naissance" id="birthDate" placeholder="Date de naissance">
+                        <small v-for="err in data_error?.date_naissance" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                    <div class="inputColumn">
+                        <label for="birthPlaece">Lieu de naissance</label>
+                        <input type="text" v-model="lieu_naissance" id="birthPlaece" placeholder="Lieu de naissance">
+                        <small v-for="err in data_error?.lieu_naissance" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                </div>
+
+                <div class="inputRow">
+                    <div class="inputColumn">
+                        <label for="cni">Proffession</label>
+                        <input type="text" v-model="proffession" id="cni" placeholder="Proffession">
+                        <small v-for="err in data_error?.proffession" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                    <div class="inputColumn">
+                        <label for="activite">Activite:</label>
+                        <select name="activite" v-model="activite">
+                            <option value="">-------</option>
+                            <option value="AGRO-ELEVEUR">Agro Eleveur</option>
+                            <option value="COMMERCANT">Commercant</option>
+                            <option value="SALARIE">Salarie</option>
+                            <option value="INDUSTRIEL">Industriel</option>
+                            <option value="SANS">Sans</option>
+                            <option value="AUTRES">Autres</option>
+                        </select>
+                        <small v-for="err in data_error?.activite" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                </div>
+
+                <div class="inputRow">
+                    <div class="inputColumn">
+                        <label for="cni">CNI</label>
+                        <input type="text" v-model="CNI" id="cni" placeholder="CNI">
+                        <small v-for="err in data_error?.CNI" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                    <div class="inputColumn">
+                        <label for="telephone">Téléphone</label>
+                        <input type="text" v-model="telephone" id="telephone" placeholder="Téléphone">
+                        <small v-for="err in data_error?.telephone" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+            <div class="content" v-if="step == 2">
+                <!-- <label for="username">Nom d'utilisateur </label>
+                <input type="text" v-model="user.username" id="username" placeholder="Nom d'utilisateur">
+                <small v-for="err in data_error?.user?.username" :key="err.id">
                     {{ err }}
-                </small>
-                <label for="telephone">Téléphone</label>
-                <input type="text" v-model="telephone" id="telephone" placeholder="Téléphone">
-                <small v-for="err in data_error?.telephone" :key="err.id">
-                    {{ err }}
-                </small>
+                </small> -->
+                <!-- <span class="username_message">Le nom d'utilisateur sera le numero de téléphone.</span> -->
+
+                <div class="inputRow">
+                    <div class="inputColumn">
+                        <label for="province">Province</label>
+                        <input type="text" v-model="province" id="province" placeholder="Province">
+                        <small v-for="err in data_error?.province" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                    <div class="inputColumn">
+                        <label for="commune">Commune</label>
+                        <input type="text" v-model="commune" id="commune" placeholder="Commune">
+                        <small v-for="err in data_error?.commune" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                </div>
+                <div class="inputRow">
+                    <div class="inputColumn">
+                        <label for="adress">Adresse</label>
+                        <input type="text" v-model="adresse" id="adress" placeholder="Adresse">
+                        <small v-for="err in data_error?.adresse" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                    <div class="inputColumn">
+                        <label for="email">Email</label>
+                        <input type="email" v-model="user.email" id="email" placeholder="Email">
+                        <small v-for="err in data_error?.email" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                </div>
+                
                 <label for="agence">Agence</label>
                 <select class="select" name="agence" v-model="agence">
                     <option value="" disabled>-----</option>
@@ -26,31 +151,56 @@
                 <small v-for="err in data_error?.agence" :key="err.id">
                     {{ err }}
                 </small>
-            </div>
-            <div class="content" v-if="step == 2">
-                <!-- <label for="username">Nom d'utilisateur </label>
-                <input type="text" v-model="user.username" id="username" placeholder="Nom d'utilisateur">
-                <small v-for="err in data_error?.user?.username" :key="err.id">
-                    {{ err }}
-                </small> -->
-                <span class="username_message">Le nom d'utilisateur sera le numero de téléphone.</span>
-                <label for="email">Email</label>
-                <input type="email" v-model="user.email" id="email" placeholder="Email">
-                <label for="password">Mot de passe</label>
-                <input type="password" v-model="user.password" id="password" placeholder="Mot de passe">
-                <small v-for="err in data_error?.user?.password" :key="err.id">
-                    {{ err }}
-                </small>
-                <label for="confirm_password">Confirmer le mot de passe.</label>
-                <input type="password" v-model="confirm_password" id="confirm_password"
-                    placeholder="Confirmer le mot de passe">
-            <!-- </div>
-            <div class="content" v-if="step == 3"> -->
-                <label for="document">Document</label>
-                <input type="file" @change="handleFileUpload($event, 'document')" id="document" accept="application/pdf" placeholder="Document">
-                <small v-for="err in data_error?.dossier" :key="err.id">
-                    {{ err }}
-                </small>
+
+                <div class="inputRow">
+                    <div class="inputColumn">
+                        <label for="username">Username</label>
+                        <input type="email" v-model="user.username" id="username" placeholder="Nom d'utilisateur">
+                        <small v-for="err in data_error?.email" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                    <div class="inputColumn">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" v-model="user.password" id="password" placeholder="Mot de passe">
+                        <small v-for="err in data_error?.user?.password" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                </div>
+
+                <!-- 
+                    <label for="confirm_password">Confirmer le mot de passe.</label>
+                    <input type="password" v-model="confirm_password" id="confirm_password" placeholder="Confirmer le mot de passe"> 
+                -->
+                <!-- </div> <div class="content" v-if="step == 3"> -->
+                <div class="inputRow">
+                    <div class="inputColumn">
+                        <label for="photo">Photo</label>
+                        <input type="file" @change="handleFileUpload($event, 'photo')" id="photo" accept="image/*" placeholder="Document">
+                        <small v-for="err in data_error?.photo" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                    <div class="inputColumn">
+                        <label for="document">Document</label>
+                        <input type="file" @change="handleFileUpload($event, 'document')" id="document" accept="application/pdf" placeholder="Document">
+                        <small v-for="err in data_error?.compte_data?.document" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                    <div class="inputColumn">
+                        <label for="document">Dossier</label>
+                        <input type="file" 
+                            @change="handleFileUpload($event, 'dossier')" 
+                            id="dossier" accept="application/pdf" placeholder="Document"
+                        >
+                        <small v-for="err in data_error?.dossier" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
+                </div>
+                
             </div>
             <div class="content" v-if="step == 3">
                 <label>L'ajouter dans les groupes.</label>
@@ -135,7 +285,7 @@
             <tr v-for="(user, index) in users" :key="index" @dblclick="gotoRemise(user)">
                 <td>{{ user.id }}</td>
                 <td>{{ user.user.first_name }} {{ user.user.last_name }}</td>
-                <td>{{ user.agence }}</td>
+                <td>{{ user.agence?.nom }}</td>
                 <td>{{ user.telephone }}</td>
                 <td>{{ money(user.balance) }}</td>
                 <td>
@@ -196,10 +346,21 @@ export default {
                 last_name: ''
             },
             document: null,
+            proffession: '',
+            residence: '',
+            date_naissance: '',
+            lieu_naissance: '',
+            activite: '',
             file_name: '',
+            adresse: '',
             telephone: '',
+            commune: '',
+            province: '',
             CNI: '',
+            sex: '',
+            dossier: null,
             agence: null,
+            photo: '',
             agences: store.state.agences,
             groups: store.state.groups,
             show_password: false,
@@ -346,19 +507,34 @@ export default {
             }
         },
         async createUser() {
+            this.data_error = []
             const formData = new FormData();
-            formData.append('user.username', this.telephone);
-            formData.append('user.password', this.user.password);
-            formData.append('user.email', this.user.email);
-            formData.append('user.first_name', this.user.first_name);
-            formData.append('user.last_name', this.user.last_name);
             formData.append('CNI', this.CNI);
             formData.append('telephone', this.telephone);
             formData.append('agence', this.agence);
             formData.append('dossier', this.document);
+
+            formData.append('user.username', this.user.username);
+            formData.append('user.password', this.user.password);
+            formData.append('user.email', this.user.email);
+            formData.append('user.first_name', this.user.first_name);
+            formData.append('user.last_name', this.user.last_name);
             this.user_groups.forEach(groupId => {
                 formData.append('user.groups', groupId);
             });
+            formData.append('personne_physique.date_naissance', this.date_naissance)
+            formData.append('personne_physique.lieu_naissance', this.lieu_naissance)
+            formData.append('personne_physique.profession', this.proffession)
+            formData.append('personne_physique.sexe', this.sex)
+            formData.append('personne_physique.activite', this.activite)
+            formData.append('personne_physique.residence', this.residence)
+
+            formData.append('compte_data.adresse', this.adresse)
+            formData.append('compte_data.commune', this.commune)
+            formData.append('compte_data.document', this.document)
+            formData.append('compte_data.photo', this.photo)
+            formData.append('compte_data.organisation', 'individu')
+
             try {
                 const response = await axios.post('personnels/', formData);
                 this.closeModal();

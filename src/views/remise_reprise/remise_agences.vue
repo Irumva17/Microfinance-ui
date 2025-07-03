@@ -52,7 +52,7 @@
                     <th>Montant</th>
                     <th>Date de création</th>
                     <th>Détails</th>
-                    <th>Action</th>
+                    <!-- <th>Action</th> -->
                     <th>Date de réception</th>
                     <th>Créé par</th>
                     <th>Reçu par</th>
@@ -65,19 +65,29 @@
                     <td>{{ money(remise.montant) }}</td>
                     <td>{{ datetime(remise.created_at) }}</td>
                     <td>{{ remise.details }}</td>
-                    <td>{{ remise.action }}</td>
+                    <!-- <td>{{ remise.action }}</td> -->
                     <td>{{ datetime(remise.received_at) }}</td>
-                    <td>{{ remise.created_by }}</td>
-                    <td>{{ remise.received_by }}</td>
-                    <td>{{ remise.agence }}</td>
-                    <td>{{ remise.banque ? remise.banque : '-' }}</td>
+                    <td>
+                        <span v-if="!remise.created_by?.last_name && !remise.created_by?.first_name">
+                            {{ remise.created_by?.username }}
+                        </span>
+                        <span v-else>{{ remise.created_by?.last_name }} {{ remise.created_by?.first_name }}</span>
+                    </td>
+                    <td>
+                        <span v-if="!remise.received_by?.last_name && !remise.received_by?.first_name">
+                            {{ remise.received_by?.username }}
+                        </span>
+                        <span v-else>{{ remise.received_by?.last_name }} {{ remise.received_by?.first_name }}</span>
+                    </td>
+                    <td>{{ remise.agence?.nom }}</td>
+                    <td>{{ remise.banque ? remise.banque?.nom : '-' }}</td>
                     <td>
                         <span v-if="remise.received_at" class="valid">Validé</span>
                         <button v-else class="btn" 
-                        @click="
-                            validation_id = remise.id, 
-                            validation_action = remise.action,
-                            validate_password = true">
+                            @click=" validation_id = remise.id, 
+                                validation_action = remise.action,
+                                validate_password = true "
+                        >
                             Valider
                         </button>
                     </td>
@@ -147,9 +157,12 @@ export default {
         },
         nouveauxRemiseOuReprise() {
             const formData = new FormData();
-            formData.append('montant', this.montant);
+            formData.append(
+                'montant', 
+                this.action === 'remise' ? this.montant : -1 * this.montant
+            );
             formData.append('details', this.details);
-            formData.append('action', this.action);
+            // formData.append('action', this.action);
             formData.append('received_by', this.compte_arrive);
             formData.append('agence', parseInt(this.$route.query.id));
             formData.append('banque', this.action === 'reprise' ? this.banque : '')

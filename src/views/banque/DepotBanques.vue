@@ -15,24 +15,18 @@
                 <label>Motif:</label>
                 <input type="text" placeholder="explication de l'action" v-model="motif">
                 <label for="source_type">Type de source</label>
-                <!-- <input type="text" placeholder="Type de source" v-model="source_type"> -->
-                <select name="source_type" v-model="source_type">
-                    <option value="">------</option>
-                    <option v-for="source in options.actions.POST.source_type.choices" :value="source.value">
-                        {{ source.display_name }}
-                    </option>
-                </select>
+                <input type="text" placeholder="explication de l'action" v-model="source_type">
                 <label>Débiteur</label>
                 <select v-model="debit">
                     <option value="">-------</option>
-                    <option v-for="debit in prices" :key="debit.id" :value="debit.id">
+                    <option v-for="debit in plans" :key="debit.id" :value="debit.id">
                         {{ debit.numero }} {{ debit.nom }}
                     </option>
                 </select>
                 <label>Créditeur</label>
                 <select v-model="credit">
                     <option value="">-------</option>
-                    <option v-for="debit in prices" :key="debit.id" :value="debit.id">
+                    <option v-for="debit in plans" :key="debit.id" :value="debit.id">
                         {{ debit.numero }} {{ debit.nom }}
                     </option>
                 </select>
@@ -92,7 +86,7 @@
                     <td>{{ money(item.montant) }}</td>
                     <td>{{ datetime(item.created_at) }}</td>
                     <td>{{ item.motif }}</td>
-                    <td>{{ item.compte.banque }}</td>
+                    <td>{{ item.compte.nom }}</td>
 
                 </tr>
             </table>
@@ -123,7 +117,7 @@ export default {
             comptes: [],
             comptebancaires: [],
             options: [],
-            prices: [],
+            plans: [],
             debit: '',
             credit: '',
             date_fin: '',
@@ -158,21 +152,20 @@ export default {
                     this.displayErrorOrRefreshToken(error, this.getdepot)
                 })
         },
-        getOptions() {
-            axios
-                .options(`depotbanques/`)
-                .then((reponse) => {
-                    this.options = reponse.data
-                    console.log('OPTIONS', this.options.actions.POST.source_type.choices)
-                }).catch((error) => {
-                    this.displayErrorOrRefreshToken(error, this.getdepot)
-                })
-        },
+        // getOptions() {
+        //     axios
+        //         .options(`depotbanques/`)
+        //         .then((reponse) => {
+        //             this.options = reponse.data
+        //             console.log('OPTIONS', this.options.actions.POST.source_type.choices)
+        //         }).catch((error) => {
+        //             this.displayErrorOrRefreshToken(error, this.getdepot)
+        //         })
+        // },
         async getPrix() {
             await axios.get('plancomptable/')
                 .then((rep) => {
-                    this.prices = rep.data.results
-                    console.log(this.prices)
+                    this.plans = rep.data.results
                 }).catch((error) => this.displayErrorOrRefreshToken(error, this.getPrix))
         },
         searchLasta(text) {
@@ -190,7 +183,7 @@ export default {
             const data = new FormData();
             data.append("nom_client", this.nom_du_client);
             data.append("compte_source", this.compte_du_client);
-            data.append("source_type", this.source_type);
+            data.append("compte_source", this.source_type);
             data.append("ref_number", this.ref_number);
             data.append("montant", this.montant);
             data.append("motif", this.motif);
@@ -228,7 +221,7 @@ export default {
     mounted() {
         this.getdepot();
         this.getCompteBancaires();
-        this.getOptions()
+        // this.getOptions()
         this.getPrix()
         // this.getBanque()
         // this.getcompte();

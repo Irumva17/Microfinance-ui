@@ -5,10 +5,10 @@ axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 
 axios.interceptors.request.use(
   (config) => {
-    if(!navigator.onLine) {
-      store.state.online = false;
-      return Promise.reject(new Error('You are offline.'));
-    }
+    // if(!navigator.onLine) {
+    //   store.state.online = false;
+    //   return Promise.reject(new Error('You are offline.'));
+    // }
     store.state.is_loading = true
     const token = store.state.user?.access
     token && (config.headers.Authorization = `Bearer ${token}`)

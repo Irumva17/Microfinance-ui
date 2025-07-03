@@ -1,0 +1,29 @@
+ADMIN
+
+    mic
+    agence
+    personnel
+    groups
+
+API
+    Actionnaire
+    Capital
+    Tranches souscription 
+    Retrait Banques
+    Depot Banques
+    Remise/Reprise Agences: 
+        Montant postif: Mic =>Agence
+        Montant negatif: 
+            Non banqur: Agence => Mic
+            Avec Banques: Agence => Banque
+
+        Validation
+
+    Remise/Reprise Personnel: 
+        Montant postif: Agence => Personnel
+        Montant negatif: Personnel => Agence
+        Validation
+    
+    Comptes Clients: 
+        Modification des donnees d'un client => Personne Physique/ Personne Morale
+        Modification des donnees des comptes => comptes

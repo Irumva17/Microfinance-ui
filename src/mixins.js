@@ -50,9 +50,16 @@ export default {
         type === "document" ? (this.document = null) : (this.photo = null);
         return;
       }
-      type === "document"
-        ? (this.document = event.target.files[0])
-        : (this.photo = event.target.files[0]);
+      if(type === "document"){
+        this.document = event.target.files[0]
+      } else if(type === "dossier") {
+        this.dossier = event.target.files[0]
+      } else {
+        this.photo = event.target.files[0]
+      }
+      // type === "document"
+        // ? (this.document = event.target.files[0])
+        // : (this.photo = event.target.files[0]);
     },
     goBack() {
       this.$router.back();
@@ -160,6 +167,7 @@ export default {
             error.response.data?.errors ||
             error.response.data?.message ||
             error.response.data?.error ||
+            error.response.data?.detail ||
             'Une erreur s\'est produite.';
         }
       } else if (error.message === "Network error") {
@@ -245,6 +253,11 @@ export default {
       data.append(type + '.province', this.province);
       data.append(type + '.organisation', this.organisation);
       // data.append(type + '.payante', this.payante);
+      data.append('frais_creation_compte', this.frais_creation_compte);
+      data.append('frais_adhesion', this.frais_adhesion);
+      data.append('frais_commande_chequier', this.frais_commande_chequier);
+
+
       this.document != null
         ? (data.append(type + '.document', this.document))
         : (this.$store.state.compte_active.document != null
@@ -267,15 +280,15 @@ export default {
           this.$emit('done')
         }).catch((error) => {
           this.data_error = error.response?.data
-          this.displayErrorOrRefreshToken(error, this.handleAccountCreation)
+          this.displayErrorOrRefreshToken(error, ()=> this.handleAccountCreation(url, type, data))
         })
     }
   },
-  mounted() {
-    if (!navigator.onLine) {
-      this.$store.state.online = false;
-    } else {
-      this.$store.state.online = true;
-    }
-  },
+  // mounted() {
+  //   if (!navigator.onLine) {
+  //     this.$store.state.online = false;
+  //   } else {
+  //     this.$store.state.online = true;
+  //   }
+  // },
 };

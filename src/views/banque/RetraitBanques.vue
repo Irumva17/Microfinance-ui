@@ -74,7 +74,7 @@
                     <td>{{ item.bordereau }}</td>
                     <td>{{ money(item.montant) }}</td>
                     <td>{{ item.motif }}</td>
-                    <td>{{ item.banque.banque }}</td>
+                    <td>{{ item.banque.nom }}</td>
                 </tr>
             </table>
         </section>

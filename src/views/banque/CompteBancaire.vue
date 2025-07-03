@@ -76,7 +76,7 @@
                 <tr v-for="item in comptebancaires" :key="item.id">
                     <td>{{ item.banque }}</td>
                     <td>{{ item.compte }}</td>
-                    <td>{{ money(item.solde) }}</td>
+                    <td>{{ money(item.balance) }}</td>
                     <td>{{ item.details }}</td>
                     <td>
                         <!-- <div class="btns">

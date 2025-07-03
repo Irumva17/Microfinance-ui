@@ -155,6 +155,7 @@
                         <option value="SALARIE">Salarie</option>
                         <option value="INDUSTRIEL">Industriel</option>
                         <option value="SANS">Sans</option>
+                        <option value="AUTRES">Autres</option>
                     </select>
                 </div>
                 <div class="inputColumn">
@@ -265,6 +266,20 @@
                     <input type="file" @change="handleFileUpload($event, 'photo')" accept="image/*" required />
                 </div> -->
             </div>
+            <div class="checkboxRow">
+                        <div class="inputColumn">
+                            <label for="création_compte">Frais de création compte:</label>
+                            <input type="checkbox" v-model="frais_creation_compte" id="création_compte"  required />
+                        </div>
+                        <div class="inputColumn">
+                            <label for="d'adhésion">Frais d'adhésion:</label>
+                            <input type="checkbox" v-model="frais_adhesion" id="d'adhésion"  required />
+                        </div>
+                        <div class="inputColumn">
+                            <label for="commande_chéquier">Frais commande chéquier:</label>
+                            <input type="checkbox" v-model="frais_commande_chequier" id="commande_chéquier" required />
+                        </div>
+                    </div>
         </div>
         <div class="btns">
             <button type="button" v-if="current_slide == 2" class="btn-modal"
@@ -298,7 +313,11 @@ export default {
             isSucces: false,
             current_slide: 1,
             // prix_dun_compte : 0,
-            data_error: []
+            data_error: [],
+
+            frais_creation_compte: false,
+            frais_adhesion: false,
+            frais_commande_chequier: false,
         };
     },
     methods: {

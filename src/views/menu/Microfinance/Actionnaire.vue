@@ -59,16 +59,16 @@
                     <th>CNI</th>
                     <th>Telephone</th>
                     <th>Details</th>
-                    <th>Montant</th>
+                    <!-- <th>Montant</th> -->
                 </tr>
                 <tr v-for="action in actionnaire" :key="action.id">
                     <td>{{ action.id }}</td>
-                    <td>{{ action.nom }} {{ action.prenom }}</td>
+                    <td>{{ action.fullname }}</td>
                     <td>{{ action.adresse }}</td>
                     <td>{{ action.CNI }}</td>
                     <td>{{ action.telephone }}</td>
                     <td>{{ action.details }}</td>
-                    <td>{{ money(action.montant) }}</td>
+                    <!-- <td>{{ money(action.montant) }}</td> -->
                 </tr>
             </table>
         </section>

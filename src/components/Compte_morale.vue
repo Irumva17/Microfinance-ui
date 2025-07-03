@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="" class="form-nini">
-        <span class="title">Creer un compte d'une organisation.</span>
+        <span class="title">Créer un compte d'une organisation.</span>
         <div class="content" v-if="current_slide === 1">
             <label for="company_name">Nom:</label>
             <input type="text" v-model="nom" id="company_name">
@@ -29,10 +29,10 @@
             <label for="genre">Institution:</label>
             <select name="genre" id="genre" v-model="institution">
                 <option value="" disabled>------</option>
-                <option value="INSTITUTION PUBLIQUE">Institution Publique</option>
-                <option value="INSTITUTION PRIVEE">Institution Privée</option>
-                <option value="INSTITUTION FINANCIERE">Institution Financière</option>
-                <option value="INSTITUTION NON FINANCIERE">Institution Non Financière</option>
+                <option value="1">Banque centrale</option>
+                <option value="2">Banques commerciales</option>
+                <option value="3">Institution de microfinance</option>
+                <option value="4">Autres sociétés financières</option>
             </select>
             <label for="activite">Activite:</label>
             <select name="activite" id="activite" v-model="activite">
@@ -43,7 +43,7 @@
             </select>
         </div>
         <div class="content" v-if="current_slide === 2">
-            <div class="inputRow">
+            <!-- <div class="inputRow"> -->
                 <div class="content" v-if="current_slide === 2">
                     <div class="inputRow">
                         <div class="inputColumn">
@@ -113,12 +113,22 @@
                             <input type="text" id="commune" v-model="commune">
                         </div>
                     </div>
-                    <label for="colline"> Colline/Quartier:</label>
-                    <input type="text" v-model="colline" id="colline">
-                    <div class="inputColumn">
+                    <div class="inputRow">
+                        <div class="inputColumn">
+                            <label for="colline"> Colline/Quartier:</label>
+                            <input type="text" v-model="colline" id="colline">
+                        </div>
+                        <div class="inputColumn">
+                            <label for="telephone">Téléphone:</label>
+                            <input type="tel" v-model="telephone" id="Telephone">
+                        </div>
+                    </div>
+                    <!-- <label for="colline"> Colline/Quartier:</label>
+                    <input type="text" v-model="colline" id="colline"> -->
+                    <!-- <div class="inputColumn">
                         <label for="telephone">Téléphone:</label>
                         <input type="tel" v-model="telephone" id="Telephone">
-                    </div>
+                    </div> -->
                     <div class="inputColumn">
                         <label for="payant">Peyante</label>
                         <select id="payant" v-model="payante">
@@ -136,8 +146,22 @@
                         <label>Image:</label>
                         <input type="file" @change="handleFileUpload($event, 'photo')" accept="image/*" required />
                     </div>
+                    <div class="checkboxRow">
+                        <div class="inputColumn">
+                            <label for="création_compte">Frais de création compte:</label>
+                            <input type="checkbox" v-model="frais_creation_compte" id="création_compte"  required />
+                        </div>
+                        <div class="inputColumn">
+                            <label for="d'adhésion">Frais d'adhésion:</label>
+                            <input type="checkbox" v-model="frais_adhesion" id="d'adhésion"  required />
+                        </div>
+                        <div class="inputColumn">
+                            <label for="commande_chéquier">Frais commande chéquier:</label>
+                            <input type="checkbox" v-model="frais_commande_chequier" id="commande_chéquier" required />
+                        </div>
+                    </div>
                 </div>
-            </div>
+            <!-- </div> -->
         </div>
         <div class="btns">
             <button type="button" v-if="current_slide == 2" class="btn-modal" @click="current_slide = 1">&#10094;
@@ -169,6 +193,10 @@ export default {
             document: null,
             photo: '',
             current_slide: 1,
+
+            frais_creation_compte: false,
+            frais_adhesion: false,
+            frais_commande_chequier: false,
             // prix_dun_compte : 0,
             data_error: {}
         };
@@ -194,6 +222,7 @@ export default {
         //             this.current_slide = 1
         //         })
         // },
+        
         async createNewAccount() {
             if(!this.checkNum()) return
             const data = new FormData();
@@ -240,3 +269,23 @@ export default {
     }
 }
 </script>
+
+<style>
+.checkboxRow {
+    display: flex;
+    margin-top: 15px;
+    font-size: 15px;
+    justify-content: space-between;
+
+    .inputColumn {
+        max-width: fit-content;
+        display: flex;
+        align-items: center;
+
+        label {
+            font-size: 14px;
+        }
+    }
+
+}
+</style>
