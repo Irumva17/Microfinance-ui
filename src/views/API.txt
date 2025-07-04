@@ -27,3 +27,26 @@ API
     Comptes Clients: 
         Modification des donnees d'un client => Personne Physique/ Personne Morale
         Modification des donnees des comptes => comptes
+
+
+
+
+remove situations journaliers
+
+remove groups related
+
+remove deblocage corresponding button once they don't exist
+ 
+ debit, credit kuri historique,
+ gukurako champ ya montant kuri historique client
+
+ - debiter 
+ + crediter
+
+
+ impression historique API
+
+ telechargement d'un fichier csv vide
+ vider les fichiers existant lors de la  chargement d'un fichier csv lors de la virement multiple
+
+ keep track of the user's balance after remise/reprise

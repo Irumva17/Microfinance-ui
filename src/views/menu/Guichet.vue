@@ -414,7 +414,7 @@
                       @click="goToProfile(client)"><span>Transactions</span></i> -->
                     <i class="option-link fa-solid fa-clock-rotate-left"
                       @click="goToHistory(client)"><span>Historique</span></i>
-                    <i class="option-link fa-solid fa-clone" @click="modalDupliquer(client)"><span>SousCompte</span></i>
+                    <!-- <i class="option-link fa-solid fa-clone" @click="modalDupliquer(client)"><span>SousCompte</span></i> -->
                     <!-- <i class="option-link fa-solid fa-lock-open" @click="setStore(client)"><span>Débloqué</span></i> -->
                     <i class="option-link fa-solid fa-lock" @click="setStore(client)"><span>Deblocage</span></i>
                     <i class="option-link fa-solid fa-pencil" @click="modifier(client)"><span>Modifier</span></i>

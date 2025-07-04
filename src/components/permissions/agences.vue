@@ -33,7 +33,7 @@
                 <th>Balance</th>
                 <th>Depots</th>
                 <th>Retraits</th>
-                <th>Microfinance</th>
+                <!-- <th>Microfinance</th> -->
                 <th>Options</th>
             </tr>
             <tr v-for="agence in agences" :key="agence.id" @dblclick="gotremise(agence.nom, agence.id)">
@@ -43,7 +43,7 @@
                 <td>{{ money(agence.balance) }}</td>
                 <td>{{ money(agence.depots) }}</td>
                 <td>{{ money(agence.retraits) }}</td>
-                <td>{{ agence.microfinance }}</td>
+                <!-- <td>{{ agence.microfinance }}</td> -->
                 <td>
                     <i class="btn fa fa-ellipsis-v" @click="toggleOptions(agence.id)"></i>
                     <div v-if="selected_agency === agence.id" :class="`menu_options`">
