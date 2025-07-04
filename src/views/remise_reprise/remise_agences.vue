@@ -34,10 +34,10 @@
         <div class="btns">
             <span class="btn" @click="goBack">&#10094;</span>
             <span class="btn" @click="show_modal = true, action = 'remise'">
-                <i class="fa-solid fa-arrow-down"></i> &nbsp; Remettre
+                <i class="fa-solid fa-arrow-down"></i> &nbsp; Remettre (+)
             </span>
             <span class="btn" @click="show_modal = true, action = 'reprise'">
-                <i class="fa-solid fa-arrow-up"></i> &nbsp; Reprendre
+                <i class="fa-solid fa-arrow-up"></i> &nbsp; Reprendre (-)
             </span>
             <PasswordValidator 
               v-if="validate_password" 
@@ -68,16 +68,18 @@
                     <!-- <td>{{ remise.action }}</td> -->
                     <td>{{ datetime(remise.received_at) }}</td>
                     <td>
-                        <span v-if="!remise.created_by?.last_name && !remise.created_by?.first_name">
+                        <!-- <span v-if="!remise.created_by?.last_name && !remise.created_by?.first_name">
                             {{ remise.created_by?.username }}
                         </span>
-                        <span v-else>{{ remise.created_by?.last_name }} {{ remise.created_by?.first_name }}</span>
+                        <span v-else>{{ remise.created_by?.last_name }} {{ remise.created_by?.first_name }}</span> -->
+                        {{ getItemName(remise.created_by) }}
                     </td>
                     <td>
-                        <span v-if="!remise.received_by?.last_name && !remise.received_by?.first_name">
+                        <!-- <span v-if="!remise.received_by?.last_name && !remise.received_by?.first_name">
                             {{ remise.received_by?.username }}
                         </span>
-                        <span v-else>{{ remise.received_by?.last_name }} {{ remise.received_by?.first_name }}</span>
+                        <span v-else>{{ remise.received_by?.last_name }} {{ remise.received_by?.first_name }}</span> -->
+                        {{ getItemName(remise.received_by) }}
                     </td>
                     <td>{{ remise.agence?.nom }}</td>
                     <td>{{ remise.banque ? remise.banque?.nom : '-' }}</td>

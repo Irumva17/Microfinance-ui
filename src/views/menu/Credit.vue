@@ -227,9 +227,9 @@
         <button class="btn" @click="showconf = true" v-if="this.config.count === 0">
           <i class="fa-solid fa-gear"></i> &nbsp; Configuration Crédit 
         </button>
-        <button class="btn" @click="showVisual = true" v-else>
+        <!-- <button class="btn" @click="showVisual = true" v-else>
           <i class="fa-solid fa-eye"></i>&nbsp; Configuration Crédit 
-        </button>
+        </button> -->
       </div>
       <div class="row">
         <button @click="show_modo = true" class="btn">

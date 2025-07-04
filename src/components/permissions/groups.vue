@@ -56,23 +56,23 @@
             <button v-else class="btn-modal" @click="creerUnGroup">Créer</button>
         </div>
     </Modal>
-    <button class="depot btn" @click="checkAction('create')"><i class="fa-solid fa-plus"></i> Groupe </button>
+    <!-- <button class="depot btn" @click="checkAction('create')"><i class="fa-solid fa-plus"></i> Groupe </button> -->
     <section class="table">
         <table>
             <tr>
                 <th>Nom</th>
-                <th>Option</th>
+                <!-- <th>Option</th> -->
             </tr>
             <tr v-for="group in groups" :key="group.id">
-                <td>{{ group.group.name }}</td>
-                <td>
+                <td>{{ group.name }}</td>
+                <!-- <td>
                     <div class="btns">
                         <button class="btn"
                             @click="checkAction('edit'), groupClickHandler(group.group.permissions, group.id, group.group.name)">
                             <i class="fa-solid fa-pencil"></i>
                         </button>
                     </div>
-                </td>
+                </td> -->
             </tr>
         </table>
     </section>
@@ -138,7 +138,7 @@ export default {
         },
         async getGroups(page_nmber = 1, all_groups = []) {
             try {
-                const response = await axios.get(`groupmicrofinance/?page=${page_nmber}`);
+                const response = await axios.get(`groups/?page=${page_nmber}`);
                 const data = response.data;
                 all_groups = all_groups.concat(data.results);
                 if (data.next) {
@@ -292,7 +292,7 @@ export default {
         },
     },
     mounted() {
-        this.permissions = this.$store.state.permissions?.length ? this.$store.state.permissions : this.getPermissions();
+        // this.permissions = this.$store.state.permissions?.length ? this.$store.state.permissions : this.getPermissions();
         this.groups = this.$store.state.groups?.length ? this.$store.state.groups : this.getGroups();
     }
 }

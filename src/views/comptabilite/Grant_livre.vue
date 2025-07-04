@@ -55,9 +55,9 @@
                     <td>{{ operation.ref_number }}</td>
                     <td>{{ operation.motif }}</td>
                     <td>{{ datetime(operation.created_at) }}</td>
-                    <td>{{ operation.debiteur }}</td>
-                    <td>{{ operation.crediteur }}</td>
-                    <td>{{ operation.created_by }}</td>
+                    <td>{{ operation.debiteur.nom }}</td>
+                    <td>{{ operation.crediteur.nom }}</td>
+                    <td>{{ operation.created_by.nom }}</td>
                 </tr>
             </table>
         </section>

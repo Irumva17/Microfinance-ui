@@ -178,14 +178,14 @@
                     </div>
                     <div v-else-if="compte_active.personne_morale">
                         {{ compte_active.personne_morale.nom }}
-                    </div>
+                     </div>
                     <div v-else>
                         -
                     </div>
                 </div>
                 <div class="affichage-profile"><strong>Compte :</strong> {{ compte_active.numero }}</div>
-                <div class="affichage-profile"><strong>Solde :</strong> {{ money(compte_active.solde) }}</div>
-                <div class="affichage-profile"><strong>CNI/NIF :</strong>
+                <div class="affichage-profile"><strong>Solde :</strong> {{ money(compte_active.balance) }}</div>
+                <!-- <div class="affichage-profile"><strong>CNI/NIF :</strong>
                     <span v-if="compte_active.personne_physique">
                         {{ compte_active.personne_physique.CNI }}
                     </span>
@@ -195,7 +195,7 @@
                     <span v-else>
                         -
                     </span>
-                </div>
+                </div> -->
                 <div class="affichage-profile">
                     <strong>Province :</strong> {{ compte_active.province }}
                 </div>
@@ -218,8 +218,8 @@
                     <div class="client_name" v-if="compte_active">
                         <div v-if="compte_active.personne_physique">
                             {{ 
-                                compte_active.personne_physique.last_name + ' ' +
-                                compte_active.personne_physique.first_name
+                                compte_active.personne_physique.Last_name + ' ' +
+                                compte_active.personne_physique.First_name
                             }}
                         </div>
                         <div v-else-if="compte_active.personne_morale">
@@ -403,7 +403,7 @@ export default {
                     return action;
                 }
             } else if (action === 'Retrait') {
-                let deb = this.$store.state.compte_active.deblocages
+                let deb = this.$store.state.compte_active?.deblocages
                     .filter(deblocage =>
                         deblocage.unblock_for === "cheque" ||
                         deblocage.unblock_for === 'quittance' ||

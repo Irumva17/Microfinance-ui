@@ -3,6 +3,7 @@
   <Loader v-if="this.$store.state.is_loading" />
   <NetworkStatus v-if="!this.$store.state.online" />
   <!-- <Developper /> -->
+   <!-- <Navbar /> -->
   <router-view v-if="this.$store.state.user"></router-view>
   <Login v-else />
 </template>
@@ -11,6 +12,7 @@
 import Developper from './components/Developper.vue';
 import Loader from './components/loader.vue';
 import Login from './components/login.vue';
+import Navbar from './components/Navbar.vue';
 import NetworkStatus from './services/NetworkStatus.vue';
 import Notifier from './services/notifier.vue';
 export default {
@@ -25,7 +27,7 @@ export default {
     }
   },
   components: {
-    Login, Notifier, Developper, Loader, NetworkStatus
+    Login, Notifier, Developper, Loader, NetworkStatus, Navbar
   },
   methods: {
     getSavedBackgroundImage() {

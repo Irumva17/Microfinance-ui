@@ -8,7 +8,7 @@
                 {{ search_for === 'compte' ? acc.numero : acc.compte }}
                 {{
                     search_for === 'compte' ? (
-                        acc.personne_physique ? acc.personne_physique.first_name + ' ' +  acc.personne_physique.last_name :
+                        acc.personne_physique ? acc.personne_physique.First_name + ' ' +  acc.personne_physique.Last_name :
                         acc.personne_morale ? acc.personne_morale.nom : '--'
                     ) : (
                         acc.banque

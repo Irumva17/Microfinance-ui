@@ -40,7 +40,7 @@
         <div class="userData">
             <h2>
                 {{ user?.fullname || user?.username }} <br>
-                <span>{{ user.agence?.nom }}</span>
+                <span>{{ user?.agence?.nom }}</span>
             </h2>
             <i class="fa-solid fa-angle-down" :class="{ rotated: isDropdownOpen }"></i>
         </div>
@@ -50,8 +50,8 @@
             </div>
             <div>
                 <h3>
-                    {{ user.username }} <br>
-                    <p>{{ user.agence?.nom }}</p>
+                    {{ user?.username }} <br>
+                    <p>{{ user?.agence?.nom }}</p>
                 </h3>
                 <div>
                     <router-link class="a" :to="{ name: 'Parametres' }">

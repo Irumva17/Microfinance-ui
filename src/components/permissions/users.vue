@@ -16,8 +16,8 @@
                 
                 <div class="inputRow">
                     <div class="inputColumn">
-                        <label for="cni">Sexe</label>
-                        <select class="select" name="agence" v-model="sex">
+                        <label for="sexe">Sexe</label>
+                        <select class="select" name="sexe" id="sexe" v-model="sex">
                             <option value="" disabled>-----</option>
                             <option value="M">Homme</option>
                             <option value="F">Femme</option>
@@ -29,8 +29,8 @@
                         </small>
                     </div>
                     <div class="inputColumn">
-                        <label for="telephone">Residence</label>
-                        <select class="select" name="agence" v-model="residence">
+                        <label for="residence">Residence</label>
+                        <select class="select" name="residence" v-model="residence">
                             <option value="" disabled>-----</option>
                             <option value="RESIDENT">Resident</option>
                             <option value="NON RESIDENT">Non Residant</option>
@@ -205,8 +205,8 @@
             <div class="content" v-if="step == 3">
                 <label>L'ajouter dans les groupes.</label>
                 <div v-for="group in groups" :key="group.id">
-                    <input type="checkbox" :value="group.group.id" v-model="user_groups" />
-                    {{ group.group.name }}
+                    <input type="checkbox" :id="`group-${group.id}`" :value="group.id" v-model="user_groups" />
+                    <label :for="`group-${group.id}`">{{ group.name }}</label>
                 </div>
             </div>
             <div class="btns">
@@ -261,9 +261,9 @@
             <span class="title">Groupes</span>
             <div class="content">
                 <div v-for="group in groups" :key="group.id" class="permission">
-                    <input type="checkbox" :id="`checkbox-${group.id}`" :value="group.group.id"
-                        :checked="user_groups.includes(group.group.id)" @change="toggleGroup(group.group.id)" />
-                    <label :for="`checkbox-${group.id}`">{{ group.group.name }}</label>
+                    <input type="checkbox" :id="`checkbox-${group.id}`" :value="group.id"
+                        :checked="user_groups.includes(group.id)" @change="toggleGroup(group.id)" />
+                    <label :for="`checkbox-${group.id}`">{{ group.name }}</label>
                 </div>
             </div>
             <button class="btn-modal" @click="saveModification(active_user)">
@@ -291,10 +291,10 @@
                 <td>
                     <i class="btn fa fa-ellipsis-v" @click="toggleOptions(user.id)"></i>
                     <div v-if="selected_user === user.id" :class="`menu_options ${ getPosition(index)}`" @mouseleave="toggleOptions(user.id)">
-                        <button class="btn" @click="viewGroups(user.user)">
+                        <!-- <button class="btn" @click="viewGroups(user.user)">
                             <i class="fa-solid fa-users"></i> &nbsp;
                             Voir ces groupes
-                        </button>
+                        </button> -->
                         <button class="btn" @click="goToHistory(user)">
                             <i class="fa-solid fa-clock-rotate-left"></i> &nbsp;
                             Historique
@@ -443,7 +443,7 @@ export default {
             this.user_edit = true;
             this.active_username = user.username;
             this.user_groups = this.groups.filter(group => {
-                return user.groups.some(gp => gp === group.group.id);
+                return user.groups.some(gp => gp === group.id);
             });
             this.active_user = user
         },
@@ -597,7 +597,7 @@ export default {
         },
         async getGroups(page_nmber = 1, all_groups = []) {
             try {
-                const response = await axios.get(`groupmicrofinance/?page=${page_nmber}`);
+                const response = await axios.get(`groups/?page=${page_nmber}`);
                 const data = response.data;
                 all_groups = all_groups.concat(data.results);
 

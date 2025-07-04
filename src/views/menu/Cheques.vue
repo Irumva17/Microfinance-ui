@@ -244,6 +244,7 @@
                         <th>Quantite</th>
                         <th>Numero </th>
                         <th>Action</th>
+                        <th></th>
                     </tr>
                     <tr v-for="(cheque, index) in printable" :key="index">
                         <td>{{ cheque.id }}</td>
@@ -269,13 +270,15 @@
                                     {{ `${cheque.is_printed ? 'Réimprimer' : 'Imprimer'}` }}
                                     <!-- Imprimer -->
                                 </button>
-                                <!-- <button class="btn delete" v-if="cheque.is_done === false" @click="deleteCheque(cheque.id)">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button> -->
-                                <button class="btn delete" @click="chequeAjour(cheque.id)"
-                                    v-if="cheque.is_done == true">Bloquer
-                                </button>
                             </div>
+                        </td>
+                        <td>
+                            <button class="btn delete" v-if="cheque.is_done === false" @click="deleteCheque(cheque.id)">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                            <!-- <button class="btn delete" @click="chequeAjour(cheque.id)"
+                                v-if="cheque.is_done == true">Bloquer
+                            </button> -->
                         </td>
                     </tr>
                 </table>
@@ -336,18 +339,18 @@ export default {
         SearchCompte
     },
     methods: {
-        // async deleteCheque(id) {
-        //     const confirmation = confirm(`Vous voulez vraiment supprimer ces chèques?`)
-        //     if (confirmation) {
-        //         try {
-        //             await axios.delete(`cheques/${id}/`);
-        //             this.printable = this.printable.filter(user => user.id != id);
-        //             this.$store.state.message.success = 'Supprimés avec succès.'
-        //         } catch (error) {
-        //             this.displayErrorOrRefreshToken(error, this.deleteCheque)
-        //         }
-        //     }
-        // },
+        async deleteCheque(id) {
+            const confirmation = confirm(`Vous voulez vraiment supprimer ces chèques?`)
+            if (confirmation) {
+                try {
+                    await axios.delete(`cheques/${id}/`);
+                    this.printable = this.printable.filter(user => user.id != id);
+                    this.$store.state.message.success = 'Supprimés avec succès.'
+                } catch (error) {
+                    this.displayErrorOrRefreshToken(error,()=> this.deleteCheque(id))
+                }
+            }
+        },
         chequeAjour(id) {
             this.index = this.printable.findIndex((cheq_) => cheq_.id === id)
             this.show_black = true
@@ -385,16 +388,18 @@ export default {
                 details: this.detail,
                 compte: this.compte,
             }
+
             axios.post(`retraitcheques/`, form)
                 .then(() => {
                     this.$store.state.message.success = 'Chèques retirés avec succès.'
-                    this.printable = this.printable.filter(cheque => cheque.id != this.compte)
+                    this.printable = this.printable.filter((cheque) => cheque.compte.id !== this.compte);
                     this.closeModal()
                 }).catch((error) => {
                     this.displayErrorOrRefreshToken(error, this.retraitCheques)
                     this.data_error = error.response?.data
                 })
-        },
+            },
+
         update(data) {
             this.printable = this.printable.map((cheque) => {
                 if(cheque.id === data.id) return { ...cheque, ...data }
@@ -417,7 +422,9 @@ export default {
         },
         async getCheques() {
             await axios.get(`cheques/?${this.is_active === 'pas_encore' ? 'is_done=false' : 'is_done=true'}`)
-                .then((response) => this.printable = response.data.results )
+                .then((response) => {
+                    this.printable = response.data.results.filter((item)=> item.is_deleted !== true);
+                })
                 .catch((error) => this.displayErrorOrRefreshToken(error, this.getCheques))
         },
         closeModal() {

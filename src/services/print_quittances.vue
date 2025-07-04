@@ -10,7 +10,7 @@
                     <p>Depot <span></span></p>
                     <p>Retrait <span></span></p>
                 </div>
-                <h2 style="margin: 5px;">N°:{{ $store.state.user.agence.microfinance.nom }}/{{ num }}</h2>
+                <!-- <h2 style="margin: 5px;">N°:{{ $store.state.user.agence.microfinance.nom }}/{{ num }}</h2> -->
             </div>
             <div class="bottom">
                 Effectué par: ............................................................ <br>

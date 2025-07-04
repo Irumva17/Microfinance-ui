@@ -29,11 +29,14 @@ export default {
     },
   },
   methods: {
+    getItemName(item) {
+      if (!item?.last_name && !item?.first_name) return item?.username;
+      return `${item?.last_name} ${item?.first_name}`;
+    },
     checkNum() {
       if (this.telephone.length > 16) {
-        this.$store.state.message.error =
-          "Le téléphone ne doit pas deppasser 16 caractères.";
-        console.log('Longer')
+        this.$store.state.message.error = "Le téléphone ne doit pas deppasser 16 caractères.";
+        // this.current_slide = 1;
         return false;
       } else return true
     },
@@ -277,7 +280,9 @@ export default {
             'setSuccess',
             `Le compte de ${this.nom} a été créée avec succès.`
           );
-          this.$emit('done')
+          this.$emit('done', response.data?.compte)
+          // this.clients?.results.unshift(response.data);
+          // this.$store.state.clients.results.unshift(response.data);
         }).catch((error) => {
           this.data_error = error.response?.data
           this.displayErrorOrRefreshToken(error, ()=> this.handleAccountCreation(url, type, data))

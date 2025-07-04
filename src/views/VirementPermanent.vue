@@ -7,18 +7,18 @@
                 <label for="type_compte">Type de compte arrivée</label>
                 <select name="type_compte" v-model="type_de_compte">
                     <option value="" disabled>Veuillez choisir</option>
-                    <option value="compte_interne">Compte interne</option>
-                    <option value="compte_externe">Compte externe</option>
+                    <option value="interne">Compte interne</option>
+                    <option value="externe">Compte externe</option>
                 </select>
                 <span v-if="type_de_compte != ''">Compte arrivée</span>
-                <SearchCompte v-if="type_de_compte === 'compte_interne'" @compte="add_account" />
-                <input v-else-if="type_de_compte === 'compte_externe'" type="text" v-model="compte"
+                <SearchCompte v-if="type_de_compte === 'interne'" @compte="add_account" />
+                <input v-else-if="type_de_compte === 'externe'" type="text" v-model="compte"
                     placeholder="Compte arrivée externe">
-                <small v-for="err in data_error?.compte_arrivee" :key="err.id">
+                <small v-for="err in data_error?.arrivee" :key="err.id">
                     {{ err }}
                 </small>
-                <span v-if="type_de_compte === 'compte_externe'">Compte bancaire</span>
-                <SearchCompte v-if="type_de_compte === 'compte_externe'" search_for='banque' @compte="add_account" />
+                <span v-if="type_de_compte === 'externe'">Compte bancaire</span>
+                <SearchCompte v-if="type_de_compte === 'externe'" search_for='banque' @compte="add_account" />
                 <small v-for="err in data_error?.banque" :key="err.id">
                     {{ err }}
                 </small>
@@ -63,9 +63,9 @@
                 </tr>
                 <tr v-for="(item, index) in list" :key="item.id">
                     <td>{{ item.id }}</td>
-                    <td>{{ item.type_compte_arrivee === "compte_interne" ? 'Interne' : 'Externe' }}</td>
+                    <td>{{ item.type_arrivee === "interne" ? 'Interne' : 'Externe' }}</td>
                     <td>{{ item.compte_depart }}</td>
-                    <td>{{ item.compte_arrivee_interne || item.compte_arrivee_externe }}</td>
+                    <td>{{ item.compte_interne || item.compte_externe }}</td>
                     <td>{{ item.banque ? item.banque : '-' }}</td>
                     <td>{{ money(item.montant) }}</td>
                     <td>{{ item.motif }}</td>
@@ -74,7 +74,7 @@
                     <td>{{ item.created_by }}</td>
                     <td>
                         <button v-if="item.is_active" class="btn delete" @click="getDesactive(item.id, index)"><i class="fa-solid fa-power-off"></i></button>
-                        <span v-else class="desactiveted">&times;</span>
+                        <span v-else class="desactivated">&times;</span>
                     </td>
                 </tr>
             </table>
@@ -101,7 +101,7 @@ export default {
             montant: null,
             details: "",
             data_error: "",
-            compte_arrivee: '',
+            arrivee: '',
             banque: '',
             date_virement: '',
             motif: '',
@@ -124,7 +124,7 @@ export default {
             this.montant = null,
             this.details = "",
             this.data_error = "",
-            this.compte_arrivee = '',
+            this.arrivee = '',
             this.banque = '',
             this.date_virement = '',
             this.motif = '',
@@ -133,7 +133,7 @@ export default {
             this.banque = ''
         },
         getDesactive(id, index){
-            axios.get(`virementpermanents/${id}/desactiver_virement/`)
+            axios.get(`virementpermanents/${id}/desactiver/`)
                 .then(() => {
                     this.list[index].is_active = false
                     this.$store.state.message.success = `Virement désactivé avec success!`
@@ -152,20 +152,20 @@ export default {
 
         async handleVirementPermanent(type_de_compte) {
             const data = new FormData();
-            data.append('type_compte_arrivee', type_de_compte)
+            data.append('type', type_de_compte)
             data.append('compte_depart', this.$route.params.id)
             data.append('montant', this.montant)
             data.append('motif', this.details)
             data.append('date_virement', this.date_virement)
-            type_de_compte === 'compte_externe' && (
+            type_de_compte === 'externe' && (
                 data.append('banque', this.got_bank_account),
-                data.append('compte_arrivee_externe', this.compte),
-                data.append('compte_arrivee_interne', '')
+                data.append('compte_externe', this.compte),
+                data.append('compte_interne', '')
             )
-            type_de_compte === 'compte_interne' && (
+            type_de_compte === 'interne' && (
                 data.append('banque', ''),
-                data.append('compte_arrivee_externe', ''),
-                data.append('compte_arrivee_interne', this.compte)
+                data.append('compte_externe', ''),
+                data.append('compte_interne', this.compte)
             )
 
             try {
@@ -186,7 +186,7 @@ export default {
 </script>
 
 <style scoped>
-    .desactiveted {
+    .desactivated {
         padding:0 10px;
         color: red;
         font-size: 20px;

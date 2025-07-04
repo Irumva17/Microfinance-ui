@@ -15,14 +15,14 @@
         <label v-if="pour" for="peyant">Deloquer avec:</label>
         <select v-if="pour" name="peyant" id="peyant" v-model="peyant" required>
           <option value="" disabled>--------</option>
-          <!-- <option v-if="pour == 'retrait'" value="cahier">Cahier</option> -->
+          <option v-if="pour == 'retrait'" value="cahier">Cahier</option>
           <option value="cheque">Chèque</option>
           <option v-if="pour === 'retrait'" value="quittance">Quittance</option>
           <option v-if="pour === 'virement'" value="ordre de virement interne">Virement interne</option>
           <option v-if="pour === 'virement'" value="ordre de virement externe">Virement externe</option>
         </select>
-        <label for="numero">Numero:</label>
-        <input type="text" v-model="code" id="numero" />
+        <label v-if="peyant !== 'cahier'" for="numero">Numero:</label>
+        <input v-if="peyant !== 'cahier'" type="text" v-model="code" id="numero" />
       </div>
       <button class="btn-modal" @click="handleDeblocage">Debloquer</button>
     </form>
@@ -313,8 +313,8 @@
     </form>
   </Modal>
   <Modal :isVisible="show_create_account" @close="closeModal">
-    <GuichetCompteIndividuel v-if="show_personne_physique" @done="closeModal" @cancel="closeModal" />
-    <GuichetCompteMorale v-if="show_personne_morale" @done="closeModal" @cancel="closeModal" />
+    <GuichetCompteIndividuel v-if="show_personne_physique" @done="appendNewAccount" @cancel="closeModal" />
+    <GuichetCompteMorale v-if="show_personne_morale" @done="appendNewAccount" @cancel="closeModal" />
   </Modal>
   <Modal :isVisible="show_mandataire" @close="closeModal">
     <div class="form">
@@ -364,14 +364,14 @@
           <th>Id</th>
           <th>Compte</th>
           <th>Nom et Prenom</th>
-          <th>Genre</th>
-          <th>CNI/NIF</th>
+          <!-- <th>Genre</th> -->
+          <!-- <th>CNI/NIF</th> -->
           <th>Solde</th>
           <th>Telephone</th>
-          <th>Dernière activité</th>
+          <!-- <th>Dernière activité</th> -->
           <th>Options</th>
         </tr>
-        <tr v-for="client in clients.results" :key="client.id" @dblclick="goToProfile(client)">
+        <tr v-for="client in clients.results" :key="client.id" @dblclick="goToProfile(client)" class="clickable-row">
           <td>{{ client.id }}</td>
           <td>{{ client.numero }}</td>
           <td>
@@ -386,13 +386,13 @@
               {{ client.personne_morale.nom }}
             </span>
           </td>
-          <td>
+          <!-- <td>
             <span v-if="client.personne_physique">
               {{ client.personne_physique.sexe === "M" ? "Masculin" : "Feminin" }}
             </span>
             <span v-else> - </span>
-          </td>
-          <td>
+          </td> -->
+          <!-- <td>
             <span v-if="client.personne_physique">
               {{ client.personne_physique.CNI }}
             </span>
@@ -400,24 +400,23 @@
               {{ client.personne_morale.NIF }}
             </span>
             <span v-else> - </span>
-          </td>
+          </td> -->
           <td>{{ money(client.balance) }}</td>
           <td>{{ client.telephone }}</td>
-          <td>{{ client.last_activity }}</td>
+          <!-- <td>{{ client.last_activity }}</td> -->
           <td>
             <div class="menu-container">
               <i class="btn fa fa-ellipsis-v" @click="toggleOptions(client.id)">
                 <div v-if="selectedClient === client.id" class="option-links">
                   <div v-if="client.is_active">
                     <!-- <i class="fa-solid fa-money-bill-transfer"></i> -->
-                    <i class="option-link fa-solid fa-money-bill-transfer"
-                      @click="goToProfile(client)"><span>Transactions</span></i>
+                    <!-- <i class="option-link fa-solid fa-money-bill-transfer"
+                      @click="goToProfile(client)"><span>Transactions</span></i> -->
                     <i class="option-link fa-solid fa-clock-rotate-left"
                       @click="goToHistory(client)"><span>Historique</span></i>
                     <i class="option-link fa-solid fa-clone" @click="modalDupliquer(client)"><span>SousCompte</span></i>
-                    <i class="option-link fa-solid fa-lock-open" v-if="client.deblocages.length"
-                      @click="setStore(client)"><span>Débloquer</span></i>
-                    <i class="option-link fa-solid fa-lock" v-else @click="setStore(client)"><span>Deblocage</span></i>
+                    <!-- <i class="option-link fa-solid fa-lock-open" @click="setStore(client)"><span>Débloqué</span></i> -->
+                    <i class="option-link fa-solid fa-lock" @click="setStore(client)"><span>Deblocage</span></i>
                     <i class="option-link fa-solid fa-pencil" @click="modifier(client)"><span>Modifier</span></i>
                     <i class="option-link fa-solid fa-users" @click="goToMandataire(client)"><span>Mandataire</span></i>
                   </div>
@@ -534,6 +533,12 @@ export default {
     }
   },
   methods: {
+    appendNewAccount(account) {
+      
+      this.clients.results.unshift(account);
+      this.$store.state.clients = this.clients;
+      this.closeModal();
+    },
     newAccount(account) {
       account === 'morale' ? this.show_personne_morale = true : this.show_personne_physique = true
       this.show_create_account = true
@@ -629,7 +634,16 @@ export default {
       try {
         const response = await axios.post(`deblocages/${this.pour === 'virement' ? 'for_virement/' : ''}`, data);
         this.$store.state.message.success = "Débloqué avec succès.";
-        this.$store.state.compte_active.deblocages.unshift(response.data);
+
+        let accountIndex = this.clients.results.findIndex(cli => cli.id === this.client);
+        if (accountIndex !== -1) {
+          this.clients.results[accountIndex].deblocages.unshift(response.data);
+          this.$store.state.clients.results[accountIndex].deblocages.unshift(response.data);
+        }
+        // this.$store.state.compte_active.deblocages.unshift(response.data);
+        // this.$store.state.compte_active.deblocages.unshift(response.data);
+
+
         this.$nextTick(() => this.closeModal())
       } catch (error) {
         this.displayErrorOrRefreshToken(error, this.handleDeblocage);
@@ -749,3 +763,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.clickable-row {
+  cursor: pointer;
+}
+</style>

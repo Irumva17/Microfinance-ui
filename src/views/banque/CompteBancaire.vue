@@ -90,8 +90,9 @@
                                 Depot </button>
                             <button class=" btn" @click="goToRetrait(item)"> <i class="fa-solid fa-arrow-up"></i> &nbsp;
                                 Retrait </button>
-                            <button class="credit btn" @click="goToCredit(item)"> <i
-                                    class="fa-solid fa-sack-dollar"></i>&nbsp; Crédit </button>
+                            <!-- <button class="credit btn" @click="goToCredit(item)"> 
+                                <i class="fa-solid fa-sack-dollar"></i>&nbsp; Crédit 
+                            </button> -->
                             <div class="menu_arrow">‣</div>
                         </div>
                     </td>

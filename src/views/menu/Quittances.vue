@@ -62,11 +62,12 @@
                         <td>{{ quittance.code_debut }} - {{ quittance.code_fin }}</td>
                         <td>
                             <div class="btns">
-                                <button v-if="quittance.validated_by == 'None'" @click="valider(quittance.id)"
-                                    class="btn">Valider</button>
-                                <button v-else class="btn" @click="getReady(quittance)">
+                                <!-- <button v-if="quittance.validated_by == 'None'" @click="valider(quittance.id)"
+                                    class="btn">Valider</button> -->
+                                <button v-if="!quittance.is_printed" class="btn" @click="getReady(quittance)">
                                     <i class="fa-solid fa-print"></i> Imprimer
                                 </button>
+                                <span v-else class="valid">Imprimé</span>
                                 <!-- <button v-if="quittance.validated_by == 'None'" class="btn delete"
                                     @click=" deletequittance(quittance.id)">
                                     <i class="fa-solid fa-trash"></i>
@@ -125,13 +126,28 @@ export default {
                 })
         },
         getReady(quittance) {
-            this.quittances_nums = [];
-            for (let i = quittance.code_debut; i <= quittance.code_fin; i++) {
-                this.quittances_nums.push(i);
-            }
-            this.$nextTick(() => {
-                print();
-            });
+            axios.get(`quittances/${quittance.id}/quittance-printed/`)
+                .then((response) => {
+                    this.$store.state.message.success = 'Quittance prêt à imprimer.'
+                    // this.show_print = true
+                    // this.show_modal = false
+                    // this.generateQuittancesNums(response.data, () => {
+                    //     this.show_print = true
+                    // })
+                    let itemIndex = this.quittances.findIndex(item => item.id === quittance.id);
+                    if (itemIndex !== -1) {
+                        this.quittances[itemIndex].is_printed = true;
+                    }
+                    this.quittances_nums = [];
+                        for (let i = quittance.code_debut; i <= quittance.code_fin; i++) {
+                            this.quittances_nums.push(i);
+                        }
+                        this.$nextTick(() => {
+                            print();
+                        });
+                }).catch((error) => {
+                    this.displayErrorOrRefreshToken(error, () => this.getReady(quittance))
+                })
         },
         closeModal() {
             this.quantite = ''

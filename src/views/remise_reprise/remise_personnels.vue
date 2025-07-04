@@ -4,27 +4,26 @@
         <form class="form" @submit.prevent="nouveauxRemiseOuReprise">
             <span class="title">Nouveaux {{ action }}.</span>
             <div class="content">
-                <label>Action :</label>
-                <select name="" id="" v-model="action">
-                    <option value="remise">Remise</option>
-                    <option value="reprise">Reprise</option>
-                </select>
+                <small v-if="action === 'remise'" v-for="err in data_error?.agence" :key="err.id">
+                    {{ err }}
+                </small>
                 <label>Montant :</label>
                 <input type="text" v-model="montant">
                 <small v-for="err in data_error?.montant" :key="err.id">
                     {{ err }}
                 </small>
+                
                 <label>Details :</label>
                 <input type="text" v-model="details">
                 <small v-for="err in data_error?.details" :key="err.id">
                     {{ err }}
                 </small>
-                <small v-for="err in data_error?.received_by" :key="err.id">
+                <!-- <small v-for="err in data_error?.received_by" :key="err.id">
                     {{ err }}
-                </small>
+                </small> -->
             </div>
             <button class="btn-modal">
-                {{ action }} {{ money(montant) }}
+                {{ action }} {{ money(montant || 0) }}
             </button>
         </form>
     </Modal>
@@ -56,9 +55,15 @@
         <div class="subMenu-headers">
             <div class="row">
                 <span class="btn retour" @click="$router.back()">&#10094;</span>
-                <span class="btn" @click="show_modal = true"><i class="fa-solid fa-plus"></i> &nbsp;Ajouter</span>
+                <!-- <span class="btn" @click="show_modal = true"><i class="fa-solid fa-plus"></i> &nbsp;Ajouter</span> -->
+                <span class="btn" @click="show_modal = true, action = 'remise'">
+                    <i class="fa-solid fa-arrow-down"></i> &nbsp; Remettre (+)
+                </span>
+                <span class="btn" @click="show_modal = true, action = 'reprise'">
+                    <i class="fa-solid fa-arrow-up"></i> &nbsp; Reprendre (-)
+                </span>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <span :class="['btn-switch', { btn_active: is_active === 'cree' }]"
                     @click="is_active = 'cree'">Remise/reprise creé</span>
                 <span :class="['btn-switch', { btn_active: is_active === 'recue' }]"
@@ -66,7 +71,7 @@
                 </span>
             </div>
             <span>{{ user_fullname }}</span>
-            <span class="money">Balance :{{ money(user_balance) }}</span>
+            <span class="money">Balance :{{ money(user_balance) }}</span> -->
             <PasswordValidator v-if="validate_password" @close="validate_password = false" @validate="valider" />
             <div class="row">
                 <button class="btn" @click="show_flitre = true">Filtrer</button>
@@ -77,7 +82,6 @@
             <table>
                 <tr>
                     <th>Montant</th>
-                    <th>Action</th>
                     <th>Date de création</th>
                     <th>Date de réception</th>
                     <th>Créé par</th>
@@ -87,12 +91,11 @@
                 </tr>
                 <tr v-for="remise in remises_reprises" :key="remise.id">
                     <td>{{ money(remise.montant) }}</td>
-                    <td>{{ remise.action }}</td>
                     <td>{{ datetime(remise.created_at) }}</td>
                     <td>{{ datetime(remise.received_at) }}</td>
-                    <td>{{ remise.created_by }}</td>
-                    <td>{{ remise.received_by }}</td>
-                    <td>{{ remise.agence }}</td>
+                    <td>{{ getItemName(remise.created_by) }}</td>
+                    <td>{{ getItemName(remise.received_by) }}</td>
+                    <td>{{ remise.agence.nom }}</td>
                     <!-- <td v-if="remise.created_by === user_fullname || remise.received_by === user_fullname"> -->
                     <td>
                         <span v-if="remise.received_at" class="valid">Validé</span>
@@ -110,6 +113,7 @@
     </div>
 </template>
 <script>
+import store from '@/store';
 import Navbar from '@/components/Navbar.vue';
 import Modal from '@/Overlays/Modal.vue';
 import PasswordValidator from '@/Overlays/PasswordValidator.vue';
@@ -156,8 +160,8 @@ export default {
         "$store.state.compte_active": {
             deep: true,
             handler() {
-                this.user_fullname = this.$store.state.compte_active.user.first_name + ' ' + this.$store.state.compte_active.user.last_name
-                this.user_balance = this.$store.state.compte_active.balance
+                this.user_fullname = store.state.compte_active.user.first_name + ' ' + store.state.compte_active.user.last_name
+                this.user_balance = store.state.compte_active.balance
             }
         }
     },
@@ -172,10 +176,10 @@ export default {
                         return remises_reprise
                     })
                     this.validation_action === 'remise'
-                        ? this.$store.state.user.personnel.balance += response.data.montant
-                        : this.$store.state.user.personnel.balance -= response.data.montant
+                        ? store.state.user.personnel.balance += response.data.montant
+                        : store.state.user.personnel.balance -= response.data.montant
 
-                    this.$store.state.message.success = 'Validé avec succés.'
+                    store.state.message.success = 'Validé avec succés.'
                 }).catch((error) => {
                     this.displayErrorOrRefreshToken(error, this.valider)
                 })
@@ -215,50 +219,35 @@ export default {
                 `remisereprisepersonnels/?${this.is_active === 'cree' ? 'created_by__username=' : 'received_by__username='}${this.$route.query.username}`
             ).then((response) => {
                 response.data.results.length ? this.remises_reprises = response.data.results
-                    : this.$store.state.message.error = 'Aucun remise ou reprise trouvé'
+                    : store.state.message.error = 'Aucun remise ou reprise trouvé'
             }).catch((error) => {
                 this.displayErrorOrRefreshToken(error, this.getRemises)
             })
         },
         nouveauxRemiseOuReprise() {
             const formData = new FormData();
-            formData.append('montant', this.montant);
+            formData.append('montant', this.action === 'remise' ? this.montant : -1 * this.montant);
             formData.append('details', this.details);
-            formData.append('action', this.action);
+            // formData.append('action', this.action);
             formData.append('received_by', parseInt(this.$route.query.compte));
 
             axios.post('remisereprisepersonnels/', formData)
                 .then((response) => {
                     this.remises_reprises.unshift(response.data)
-                    this.$store.state.message.success = `${this.action} effectué avec succès.`
+                    store.state.message.success = `${this.action} effectué avec succès.`
                     this.closeModal()
                 }).catch((error) => {
                     this.displayErrorOrRefreshToken(error, this.getRemises)
                     this.data_error = error.response?.data
                 })
         },
-        // async getAgences(of = 1, agences = []) {
-        //     await axios.get(`agences/?page=${of}`)
-        //         .then((response) => {
-        //             const data = response.data
-        //             if (data.next) {
-        //                 agences = agences.concat(data.results)
-        //                 this.getAgences(of + 1, agences)
-        //             } else {
-        //                 this.agences = agences.concat(data.results)
-        //                 this.$store.state.agences = this.agences
-        //             }
-        //         }).catch((error) => {
-        //             this.displayErrorOrRefreshToken(error, this.getAgences)
-        //         })
-        // },
     },
     mounted() {
         localStorage?.getItem('compte_active') ?
-            this.$store.state.compte_active = JSON.parse(localStorage?.getItem('compte_active')) : ''
+            store.state.compte_active = JSON.parse(localStorage?.getItem('compte_active')) : ''
         this.$nextTick(() => {
             this.getRemises()
-            // this.$store.state.agences.length ? this.agences = this.$store.state.agences : this.getAgences()
+            // store.state.agences.length ? this.agences = store.state.agences : this.getAgences()
         })
     }
 }

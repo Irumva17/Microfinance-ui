@@ -132,15 +132,6 @@
                 </div>
             </div>
             <div class="inputRow">
-                <!-- <div class="inputColumn">
-                    <label> Organisation:</label>
-                    <select v-model="organisation">
-                        <option value="" disabled>-------</option>
-                        <option value="individu">Individu</option>
-                        <option value="groupe">Groupe</option>
-                        <option value="societe">Societé</option>
-                    </select>
-                </div> -->
                 <div class="inputColumn">
                     <label for="proffession">Profession:</label>
                     <input type="text" id="proffession" v-model="profession" placeholder="Mettez la proffession">
@@ -321,6 +312,7 @@ export default {
         };
     },
     methods: {
+        
         async createNewAccount() {
             if(!this.checkNum()) return
             const data = new FormData();
@@ -339,31 +331,6 @@ export default {
                 'compte_personne_physique',
                 data
             )
-            // Personal data
-            // data.append('compte_personne_physique.telephone', this.telephone);
-            // data.append('compte_personne_physique.adresse', this.colline);
-            // data.append('compte_personne_physique.commune', this.commune);
-            // data.append('compte_personne_physique.province', this.province);
-            // data.append('compte_personne_physique.organisation', this.organisation);
-            // // data.append('compte_personne_physique.payante', this.payante);
-            // data.append('compte_personne_physique.document', this.document);
-            // data.append('compte_personne_physique.photo', this.photo);
-
-            // await axios.post('personne_physiques/', data)
-            // .then((response) => {
-            //         this.compte = response.data.numero
-            //         this.current_slide = 1
-            //         // this.putDatas(response.data.compte_id)
-            //         // this.$store.state.user.personnel.balance += this.prix_dun_compte
-            //         this.$store.commit(
-            //             'setSuccess', 
-            //             `Le compte de ${this.nom} a été créée avec succès.`
-            //         );
-            //         this.$emit('done')
-            //     }).catch((error) => {
-            //         this.data_error = error.response?.data
-            //         this.displayErrorOrRefreshToken(error, this.createNewAccount)
-            //     })
         }
     },
     mounted(){
