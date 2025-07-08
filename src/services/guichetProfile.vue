@@ -638,7 +638,7 @@ export default {
         },
         downloadCSV () {
             const csvContent = [
-                ['Motif', 'Numero de compte', 'Montant'],
+                ['Motif', 'No. Compte', 'Montant'],
                 // ['Virement', 'AA00001', 100],
                 // ['Virement', 'AA00002', 200],
             ].map(e => e.join(';')).join('\n');
