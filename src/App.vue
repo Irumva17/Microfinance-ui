@@ -38,6 +38,7 @@ export default {
     }
   },
   mounted() {
+    // this.$store.state.online = navigator.onLine
     let user = JSON.parse(window.localStorage.getItem('_mic_user'))
     if (!!user) {
       this.$store.state.user = user

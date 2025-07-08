@@ -8,18 +8,22 @@
     </Modal> -->
     <div class="container">
         <!-- <div class="subMenu-headers"> -->
-            <span class="title" v-if="user.agence">AGENCE : {{ user.agence.nom }}</span>
+            <div class="subMenu-headers">
+                <span class="title" v-if="user.agence">AGENCE : {{ user.agence.nom }}</span>
+            <span class="title" v-if="user.agence">Balance : {{ money(balances?.balance) }} Fbu</span>
+            </div>
+            
             <!-- <button class="btn" @click="show_modal = true">
                 <i class="fa-solid fa-filter"></i> &nbsp;
                 Filtrer
             </button>
         </div> -->
-        <div class="accounts">
+        <!-- <div class="accounts">
             <Account account_name="Balance Agence" :account_money="balances?.balance" />
             <Account account_name="Retraits Journalières" :account_money="retraits_journalier" />
             <Account account_name="Depots Journalières" :account_money="depots_journalier" />
             <Account account_name="Situations Journalière" :account_money="situation_journaliere" />
-        </div>
+        </div> -->
         <Agences />
     </div>
 </template>

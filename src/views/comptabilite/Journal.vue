@@ -24,7 +24,7 @@
       <span class="title">Ajouter</span>
       <div class="content">
         <label for="montant">Montant</label>
-        <input type="text" id="montant" placeholder="Montant" v-model="montant" />
+        <input type="number" id="montant" placeholder="Montant" v-model="montant" />
         <label for="ref_number">Numero de référence</label>
         <input type="text" id="ref_number" placeholder="Numero de référence" v-model="ref_number" />
         <small v-for="err in data_error?.ref_number" :key="err.id">

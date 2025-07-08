@@ -70,12 +70,14 @@ export default {
         getBilan() {
             let from = this.$refs.dates.from
             let to = this.$refs.dates.to
-            axios.get(`bilan/?created_at_gte=${from}&created_at_lte=${to}`)
+            axios.get(`bilans/?created_at_gte=${from}&created_at_lte=${to}`)
                 .then((response) => {
-                    this.tot_passifs = response.data.total_passifs
-                    this.tot_actifs = response.data.total_actifs
-                    this.actifs = response.data.actifs
-                    this.passifs = response.data.passifs
+                    console.log(response.data);
+                    
+                    this.tot_passifs = response.data.totaux.total_passifs
+                    this.tot_actifs = response.data.totaux.total_actifs
+                    this.actifs = response.data.bilan.actifs
+                    this.passifs = response.data.bilan.passifs
                 }).catch((error) => {
                     this.displayErrorOrRefreshToken(error, this.getBilan)
                 })

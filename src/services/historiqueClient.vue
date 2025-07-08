@@ -27,7 +27,7 @@
                         <th>Action</th>
                         <th>Débiter</th>
                         <th>Créditer</th>
-                        <th>Montant</th>
+                        <!-- <th>Montant</th> -->
                         <th>Balance</th>
                         <th>Details</th>
                         <th>Acteur</th>
@@ -35,9 +35,10 @@
                     <tr v-for="(history, index) in histories" :key="history.id">
                         <td>{{ datetime(history.created_at) }}</td>
                         <td>{{ history.action }}</td>
-                        <td>{{ money(history.debit) ||'-'}}</td>
-                        <td>{{ money(history.credit) || '-'}}</td>
-                        <td :class="getMontantClass(index, history.balance)">{{ money(history.montant)}}</td>
+                        <!-- <td>{{ history.montant }}</td> -->
+                        <td>{{ history.montant < 0 ? money(history.montant) : '-' }}</td>
+                        <td>{{ history.montant > 0 ? money(history.montant) : '-' }}</td>
+                        <!-- <td :class="getMontantClass(index, history.balance)">{{ money(history.montant)}}</td> -->
                         <td>{{ money(history.balance) }}</td>
                         <td>{{ history.details }}</td>
                         <td>{{ history.created_by }}</td>
@@ -170,17 +171,16 @@ export default {
                     this.displayErrorOrRefreshToken(error, this.goToPrinter)
                 })
         },
-        getMontantClass(index, balance) {
-            const PreviousBalance = this.histories[index + 1]?.balance;
-            const ecart =  balance - PreviousBalance
-            if (ecart < 0) {
-                this.histories[index].debit = ecart
+        // getMontantClass(index, balance) {
+        //     const PreviousBalance = this.histories[index + 1]?.balance;
+        //     const ecart =  balance - PreviousBalance
+        //     if (ecart < 0) {
+        //         this.histories[index].debit = ecart
 
-            } else if (ecart > 0) {
-                this.histories[index].credit = ecart
-
-            }
-        },
+        //     } else if (ecart > 0) {
+        //         this.histories[index].credit = ecart
+        //     }
+        // },
     },
     mounted() {
         localStorage?.getItem('compte_active') ? 

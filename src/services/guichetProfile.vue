@@ -129,10 +129,21 @@
             </div>
             <button class="btn-modal" @click="handleVirement(action)">Virement {{ money(montant) }}</button>
         </div>
-        <div class="form" v-if="action === 'Virement Multiple'">
+        <div class="form-nini" v-if="action === 'Virement Multiple'">
             <span class="title">Virement Multiple</span>
             <div class="content">
-                <input type="file" accept="csv" @change="e => prepareData(e)"> <br> <br>
+                <div class="row">
+                    <label for="uploadCsv">
+                        <i class="fa-solid fa-file-csv"></i>
+                        {{ to_accounts.length > 0 ? 'Recharger' : 'Charger' }} un fichier CSV
+                    </label>
+                    <input type="file" accept="csv" @change="e => prepareData(e)" id="uploadCsv" />
+                    <button class="btn" @click="downloadCSV">
+                        <i class="fa-solid fa-download"></i>
+                        Télécharger un exemplaire
+                    </button>
+                </div>
+                <br>
                 <section class="table" v-if="to_accounts.length > 0">
                     <table>
                         <thead>
@@ -162,7 +173,7 @@
                 </small>
             </div>
             <button class="btn-modal" @click="handleVirementMultiple" :disabled="!isCsvfile">
-                Virement Multiple {{ mymontant }}
+                Virement Multiple {{ money(mymontant) }}
             </button>
         </div>
     </Modal>
@@ -235,20 +246,20 @@
                     <div class="action" :class="{ active: action === 'Depot' }" @click="setAction('Depot')">
                         Depot
                     </div>
-                    <div class="action" :class="{ active: action === 'Retrait' }"
-                        @click="setAction(checkId('Retrait'))">
+                    <div v-if="checkId('Retrait')" class="action" :class="{ active: action === 'Retrait' }"
+                        @click="setAction('Retrait')">
                         Retrait
                     </div>
-                    <div class="action" :class="{ active: action === 'Virement' }"
-                        @click="setAction(checkId('Virement'))">
+                    <div v-if="checkId('Virement')" class="action" :class="{ active: action === 'Virement' }"
+                        @click="setAction('Virement')">
                         Virement interne
                     </div>
-                    <div class="action" :class="{ active: action === 'Virement Multiple' }"
-                        @click="setAction(checkId('Virement Multiple'))">
+                    <div v-if="checkId('Virement Multiple')" class="action" :class="{ active: action === 'Virement Multiple' }"
+                        @click="setAction('Virement Multiple')">
                         Virement interne Multiple
                     </div>
-                    <div class="action" :class="{ active: action === 'Virement Externe' }"
-                        @click="setAction(checkId('Virement Externe'))">
+                    <div v-if="checkId('Virement Externe')" class="action" :class="{ active: action === 'Virement Externe' }"
+                        @click="setAction('Virement Externe')">
                         Virement Externe
                     </div>
                     <div class="action" :class="{ active: action === 'Virement Permanent' }"
@@ -378,29 +389,29 @@ export default {
             this.showFullImage = !this.showFullImage;
         },
         setAction(action) {
-            if (action) {
+            // if (action) {
                 this.action = action;
                 this.showModal = true;
-            } else return
+            // } else return
         },
         checkId(action) {
             if (action === 'Virement' || action === 'Virement Multiple') {
-                let for_virement_id = this.$store.state.compte_active.deblocages
+                let for_virement_id = this.$store.state.compte_active?.deblocages
                     .filter(deblocage => deblocage.unblock_for === "ordre de virement interne")
                     .pop();
 
                 if (!for_virement_id) {
-                    for_virement_id = this.$store.state.compte_active.deblocages
+                    for_virement_id = this.$store.state.compte_active?.deblocages
                         .filter(deblocage => deblocage.unblock_for === "cheque")
                         .pop();
                 }
 
                 if (!for_virement_id) {
-                    this.displayError('Le compte doit d\'abord être débloqué pour un virement.')
-                    return null;
+                    // this.displayError('Le compte doit d\'abord être débloqué pour un virement.')
+                    return false;
                 } else {
                     this.deblocage_id = for_virement_id.id;
-                    return action;
+                    return true;
                 }
             } else if (action === 'Retrait') {
                 let deb = this.$store.state.compte_active?.deblocages
@@ -411,24 +422,24 @@ export default {
                     ).pop();
 
                 if (!deb) {
-                    this.displayError(`Le compte doit d'abord être débloqué.`)
-                    return null;
+                    // this.displayError(`Le compte doit d'abord être débloqué.`)
+                    return false;
                 } else {
                     this.deblocage_id = deb.id
-                    return action;
+                    return true;
                 }
             } else if(action === 'Virement Externe') {
-                let deb = this.$store.state.compte_active.deblocages
+                let deb = this.$store.state.compte_active?.deblocages
                     .filter(deblocage =>
                         deblocage.unblock_for === 'ordre de virement externe'
                     ).pop();
 
                 if (!deb) {
-                    this.displayError(`Le compte doit d'abord être débloqué pour cette opération.`)
-                    return null;
+                    // this.displayError(`Le compte doit d'abord être débloqué pour cette opération.`)
+                    return false;
                 } else {
                     this.deblocage_id = deb.id
-                    return action;
+                    return true;
                 }
             }
         },
@@ -570,17 +581,18 @@ export default {
                 reader.onload = (event) => {
                     const file = event.target.result;
                     const lines = file.split(/\r\n|\n/);
-                    let i = 0;
-                    for (i; i < lines.length - 1; i++) {
-                        const array_line = lines[i].split(/,|;/);
-                        if (array_line.length > 0) {
+                    for (let i = 1; i < lines.length - 1; i++) {
+                        const array_row = lines[i].split(/,|;/);
+                        if (array_row.length > 0) {
                             this.to_accounts.push({
-                                "motif": array_line[0],
-                                "compte_arrivee": array_line[1],
-                                "montant": array_line[2]
+                                "motif": array_row[0],
+                                "compte_arrivee": array_row[1],
+                                "montant": Number(array_row[2])
                             });
-                            this.comptes.push(array_line[1])
-                            this.mymontant += parseInt(array_line[2]);
+                            this.comptes.push(array_row[1])
+                            if (array_row[2]) {
+                                this.mymontant += Number(array_row[2]);
+                            }
                         }
                     }
                     this.getAcounts(this.comptes)
@@ -624,6 +636,23 @@ export default {
                     this.displayErrorOrRefreshToken(error, () => this.getAcounts(array));
                 });
         },
+        downloadCSV () {
+            const csvContent = [
+                ['Motif', 'Numero de compte', 'Montant'],
+                // ['Virement', 'AA00001', 100],
+                // ['Virement', 'AA00002', 200],
+            ].map(e => e.join(';')).join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'VirementMultiple.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }   
     },
     mounted() {
         localStorage?.getItem('compte_active') ? this.$store.state.compte_active = JSON.parse(localStorage?.getItem('compte_active')) : ''

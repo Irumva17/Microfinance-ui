@@ -288,12 +288,5 @@ export default {
           this.displayErrorOrRefreshToken(error, ()=> this.handleAccountCreation(url, type, data))
         })
     }
-  },
-  // mounted() {
-  //   if (!navigator.onLine) {
-  //     this.$store.state.online = false;
-  //   } else {
-  //     this.$store.state.online = true;
-  //   }
-  // },
+  }
 };

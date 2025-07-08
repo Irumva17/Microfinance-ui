@@ -1,7 +1,7 @@
 <template>
     <Navbar />
     <div class="container">
-        <div class="btns">
+        <!-- <div class="btns">
             <span class="btn retour" @click="$router.back()">&#10094;</span>
             <button :class="['btn-switch', { btn_active: selected === 'utilisateurs' }]"
                 @click="setSelected('utilisateurs')">
@@ -10,9 +10,9 @@
             <button :class="['btn-switch', { btn_active: selected === 'groups' }]"
                 @click="setSelected('groups')">Groupes
             </button>
-        </div>
+        </div> -->
         <Users v-if="selected === 'utilisateurs'" />
-        <Groups v-if="selected === 'groups'" />
+        <!-- <Groups v-if="selected === 'groups'" /> -->
     </div>
 </template>
 

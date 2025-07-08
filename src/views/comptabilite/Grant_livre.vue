@@ -61,7 +61,7 @@
                 </tr>
             </table>
         </section>
-        <span class="empty" v-if="!grand_livre.length">Pas de results</span>
+        <span class="empty" v-if="!grand_livre.length">Vide</span>
         <br><br>
     </div>
 </template>
@@ -150,7 +150,7 @@ export default {
         border: 2px solid rgb(223, 221, 255);
     }
     .empty{
-        padding: 40px;
+        padding:20px 40px;
         display: block;
         margin: auto;
         background: rgba(0, 0, 0, 0.1);
