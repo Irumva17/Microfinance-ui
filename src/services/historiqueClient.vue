@@ -102,7 +102,7 @@ export default {
             handler(){
                 const compte = this.$store.state.compte_active;
                 if (compte.personne_physique) {
-                    this.full_name = `${compte.personne_physique.last_name} ${compte.personne_physique.first_name}`;
+                    this.full_name = `${compte.personne_physique.Last_name} ${compte.personne_physique.First_name}`;
                 } else if (compte.personne_morale) {
                     this.full_name = compte.personne_morale.nom
                 }

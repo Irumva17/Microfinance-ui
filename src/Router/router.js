@@ -50,6 +50,9 @@ import RetraitMicrofinance from '@/views/menu/Microfinance/RetraitMicrofinance.v
 import VirementPermanent from '@/views/VirementPermanent.vue';
 import Investissement from '@/views/menu/Microfinance/Investissement.vue';
 
+import Depots from '@/views/menu/more/Depots.vue';
+import Retraits from '@/views/menu/more/Retraits.vue';
+
 const routes = [
 
   { path: '/', name: 'Acueil', component: HomePage, meta: { requiresAuth: true } },
@@ -108,7 +111,10 @@ const routes = [
   { path: '/retraitmicrofinance/:id', name: 'retraitmicrofinance', component: RetraitMicrofinance }, 
 
   { path: '/virementpermanent/:id', name: 'virementpermanent', component: VirementPermanent },  
-  { path: '/Investissement/:id', name: 'Investissement', component: Investissement },  
+  { path: '/Investissement/:id', name: 'Investissement', component: Investissement }, 
+
+  { path: '/depots/:compte', name: 'Depots', component: Depots },  
+  { path: '/retraits/:compte', name: 'retraits', component: Retraits },  
 
 ];
 

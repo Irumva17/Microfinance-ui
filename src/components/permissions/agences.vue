@@ -5,7 +5,7 @@
             <div class="content">
                 <label>Nom</label>
                 <input type="text" v-model="nom">
-                <small v-for="err in data_error?.nom" :key="err.id">
+                <small v-for="(err, index) in data_error?.nom" :key="index">
                     {{ err }}
                 </small>
                 <label>Adresse</label>
@@ -31,8 +31,8 @@
                 <th>Date</th>
                 <th>Adresse</th>
                 <th>Balance</th>
-                <th>Depots</th>
-                <th>Retraits</th>
+                <!-- <th>Depots</th>
+                <th>Retraits</th> -->
                 <!-- <th>Microfinance</th> -->
                 <th>Options</th>
             </tr>
@@ -41,13 +41,14 @@
                 <td>{{ datetime(agence.created_at) }}</td>
                 <td>{{ agence.adresse }}</td>
                 <td>{{ money(agence.balance) }}</td>
-                <td>{{ money(agence.depots) }}</td>
-                <td>{{ money(agence.retraits) }}</td>
+                <!-- <td>{{ money(agence.depots) }}</td>
+                <td>{{ money(agence.retraits) }}</td> -->
+
                 <!-- <td>{{ agence.microfinance }}</td> -->
                 <td>
                     <i class="btn fa fa-ellipsis-v" @click="toggleOptions(agence.id)"></i>
                     <div v-if="selected_agency === agence.id" :class="`menu_options`">
-                        <button class="btn" @click="handelAgence(agence.id, agence)"> <i class="fa-solid fa-pencil"></i> Modifier</button>
+                        <!-- <button class="btn" @click="handelAgence(agence.id, agence)"> <i class="fa-solid fa-pencil"></i> Modifier</button> -->
                         <button class="btn" @click="gotToHistory(agence.id)"> <i class="fa-solid fa-clock-rotate-left"></i> Historique</button>
                         <button class="btn" @click="gotremise(agence.nom, agence.id)"><i class="fa-solid fa-hand-holding-dollar"></i> Remettre/Reprendre </button>
                         <div class="menu_arrow">‣</div>
@@ -134,7 +135,7 @@ export default {
             data.append('nom', this.nom)
             data.append('adresse', this.adresse)
             data.append('details', this.details)
-            data.append('microfinance', this.$store.state.user.agence.microfinance.id)
+            // data.append('microfinance', this.$store.state.user.agence.microfinance.id)
             try {
                 const response = await axios.put(`agences/${this.selected_agency}/`, data)
                 this.agences = this.agences.map((agence) => {

@@ -23,7 +23,7 @@
             <select v-model="organisation">
                 <option value="" disabled>-------</option>
                 <!-- <option value="individu">Indivudu</option> -->
-                <option value="groupe">Groupement</option>
+                <option value="groupe">Groupe</option>
                 <option value="societe">Societé</option>
             </select>
             <label for="genre">Institution:</label>
@@ -130,11 +130,11 @@
                         <input type="tel" v-model="telephone" id="Telephone">
                     </div> -->
                     <div class="inputColumn">
-                        <label for="payant">Peyante</label>
+                        <label for="payant">Payante</label>
                         <select id="payant" v-model="payante">
                             <option value="" disabled>-------</option>
-                            <option :value="true">Peyante</option>
-                            <option :value="false">Non peyante</option>
+                            <option :value="true">Payante</option>
+                            <option :value="false">Non payante</option>
                         </select>
                     </div>
                     <div class="inputColumn">

@@ -44,7 +44,7 @@
                 <div class="payer">
                     <div>
                         <p>PAYABLE A /DRAWN ON</p>
-                        <p>Compte No {{ account }} </p>
+                        <p>Compte No {{ account }} de {{ full_name }}</p>
                         <p>Cheque Numero {{ num }}</p>
                     </div>
                     <div>
@@ -65,6 +65,10 @@ export default {
             required : true
         },
         account : {
+            type : String,
+            required : true
+        }, 
+        full_name : {
             type : String,
             required : true
         }  

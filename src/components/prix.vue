@@ -27,7 +27,7 @@
     </Modal>
     <div class="prix_container">
         <div class="btn retour" @click="goBack">&#10094;</div>
-        <form class="form" @submit.prevent="handleCreatePrix">
+        <form class="form" @submit.prevent="handleCreatePrix" v-if="options.length">
             <span class="title" v-if="!edit">Nouveau Prix</span>
             <span class="title" v-else>Modifier le Prix</span>
             <div class="prix_content" v-if="step == 1">

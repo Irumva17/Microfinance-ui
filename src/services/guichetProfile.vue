@@ -183,8 +183,8 @@
             <div class="content">
                 <div class="affichage-profile"><strong>Nom et Prenom :</strong>
                     <div v-if="compte_active.personne_physique">
-                        {{ compte_active.personne_physique.last_name + ' ' +
-                            compte_active.personne_physique.first_name
+                        {{ compte_active.personne_physique.Last_name + ' ' +
+                            compte_active.personne_physique.First_name
                         }}
                     </div>
                     <div v-else-if="compte_active.personne_morale">
@@ -262,10 +262,10 @@
                         @click="setAction('Virement Externe')">
                         Virement Externe
                     </div>
-                    <div class="action" :class="{ active: action === 'Virement Permanent' }"
+                    <!-- <div class="action" :class="{ active: action === 'Virement Permanent' }"
                         @click="$router.push(`/virementpermanent/${compte_active.id}`)">
                         Virement Permanent
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="right">
@@ -502,6 +502,7 @@ export default {
                 const response = await axios.post('depots/', data);
                 this.$store.state.message.success = `Vous avez deposé ${data.montant}Fbu avec success`;
                 this.$store.state.compte_active.solde += response.data.montant
+                this.$router.push(`/depots/${this.$store.state.compte_active.id}?name=${this.getAccountOwnerName(this.$store.state.compte_active)}&number=${this.$store.state.compte_active.numero}`)
                 // this.$store.state.user.personnel.balance += response.data.montant
                 this.closeModal();
             } catch (error) {

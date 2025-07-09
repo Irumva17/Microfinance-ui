@@ -4,7 +4,7 @@
     <div class="links">
         <div class="submenuLink l" @click="$emit('createAccount', 'physique')">
             <span>&#9656;</span>
-            Compte personnel
+            Compte d'une personne
         </div>
         <div class="submenuLink l"  @click="$emit('createAccount', 'morale')">
             <span>&#9656;</span>

@@ -15,7 +15,7 @@
         <label v-if="pour" for="peyant">Deloquer avec:</label>
         <select v-if="pour" name="peyant" id="peyant" v-model="peyant" required>
           <option value="" disabled>--------</option>
-          <option v-if="pour == 'retrait'" value="cahier">Cahier</option>
+          <!-- <option v-if="pour == 'retrait'" value="cahier">Cahier</option> -->
           <option value="cheque">Chèque</option>
           <option v-if="pour === 'retrait'" value="quittance">Quittance</option>
           <option v-if="pour === 'virement'" value="ordre de virement interne">Virement interne</option>
@@ -354,7 +354,7 @@
     <div class="accounts">
       <div class="aCont">
         <span>COMPTE:</span>
-        <span>{{ clients.count }}</span>
+        <span>{{ clients?.results?.length || 0 }}</span>
       </div>
       <Account account_name='SOLDE TOTAL:' :account_money="clients.compte_solde_total" />
     </div>
@@ -374,18 +374,7 @@
         <tr v-for="client in clients.results" :key="client.id" @dblclick="goToProfile(client)" class="clickable-row">
           <td>{{ client.id }}</td>
           <td>{{ client.numero }}</td>
-          <td>
-            <span v-if="client.personne_physique">
-              {{
-                client.personne_physique.Last_name +
-                " " +
-                client.personne_physique.First_name
-              }}
-            </span>
-            <span v-else-if="client.personne_morale">
-              {{ client.personne_morale.nom }}
-            </span>
-          </td>
+          <td>{{ getAccountOwnerName(client) }}</td>
           <!-- <td>
             <span v-if="client.personne_physique">
               {{ client.personne_physique.sexe === "M" ? "Masculin" : "Feminin" }}
@@ -410,8 +399,8 @@
                 <div v-if="selectedClient === client.id" class="option-links">
                   <div v-if="client.is_active">
                     <!-- <i class="fa-solid fa-money-bill-transfer"></i> -->
-                    <!-- <i class="option-link fa-solid fa-money-bill-transfer"
-                      @click="goToProfile(client)"><span>Transactions</span></i> -->
+                    <i class="option-link fa-solid fa-money-bill-transfer"
+                      @click="goToProfile(client)"><span>Transactions</span></i>
                     <i class="option-link fa-solid fa-clock-rotate-left"
                       @click="goToHistory(client)"><span>Historique</span></i>
                     <!-- <i class="option-link fa-solid fa-clone" @click="modalDupliquer(client)"><span>SousCompte</span></i> -->
@@ -419,13 +408,31 @@
                     <i class="option-link fa-solid fa-lock" @click="setStore(client)"><span>Deblocage</span></i>
                     <i class="option-link fa-solid fa-pencil" @click="modifier(client)"><span>Modifier</span></i>
                     <i class="option-link fa-solid fa-users" @click="goToMandataire(client)"><span>Mandataire</span></i>
+                    <i class="option-link fa-brands fa-buromobelexperte">
+                      <span>Operations</span>
+                      <div class="actions">
+                        <i 
+                          @click="navigateToRoute(
+                            `/depots/${client.id}?name=${getAccountOwnerName(client)}&number=${client.numero}`
+                          )" class="option-link fa-solid fa-arrow-down"
+                        >
+                          <span>Depots</span>
+                        </i>
+                        <i @click="navigateToRoute(`/retraits/${client.id}`)" class="option-link fa-solid fa-arrow-up">
+                          <span>Retraits</span>
+                        </i>
+                        <i class="option-link fa-solid fa-arrows-turn-right">
+                          <span>Virements</span>
+                        </i>
+                      </div>
+                    </i>
                   </div>
                   <i v-else class="option-link fa-solid fa-power-off" @click="getActivation('activer_compte', client.id)">
                     <span>Activer</span>
                   </i>
-                  <i v-if="client.is_active" class="desactiver fa-solid fa-power-off" @click="getActivation('desactiver_compte', client.id)">
+                  <!-- <i v-if="client.is_active" class="desactiver fa-solid fa-power-off" @click="getActivation('desactiver_compte', client.id)">
                     <span>Désactiver</span>
-                  </i>
+                  </i> -->
                 </div>
               </i>
             </div>
@@ -534,7 +541,6 @@ export default {
   },
   methods: {
     appendNewAccount(account) {
-      
       this.clients.results.unshift(account);
       this.$store.state.clients = this.clients;
       this.closeModal();
@@ -751,7 +757,9 @@ export default {
           this.displayErrorOrRefreshToken(error, () => this.getActivation(action, id));
         })
     },
-
+    navigateToRoute(link){
+      this.$router.push(link)
+    }
   },
   mounted() {
     // this.getMicrofinance();
@@ -767,5 +775,29 @@ export default {
 <style scoped>
 .clickable-row {
   cursor: pointer;
+}
+
+.fa-buromobelexperte {
+  position: relative;
+}
+
+.fa-buromobelexperte div {
+  display: none;
+  position: absolute;
+  background: var(--primary);
+  border: 1px solid #eee;
+  z-index: 1000;
+  left: -100%;
+  top: 0;
+  padding: 5px;
+  border-radius: 10px;
+
+  i{
+    padding: 10px;
+  }
+}
+
+.fa-buromobelexperte:hover div {
+  display: block;
 }
 </style>

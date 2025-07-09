@@ -1,6 +1,6 @@
 <template>
     <div class="cheque_container" v-if="cheque_nums.length">
-        <Print_cheques :account="account" :cheque_nums="cheque_nums" class="printable" />
+        <Print_cheques :account="account" :cheque_nums="cheque_nums" :full_name="full_name" class="printable" />
     </div>
     <div class="not_printable">
         <Navbar />
@@ -326,7 +326,8 @@ export default {
             delivrer: '',
             imprimer: '',
             data_error: {},
-            index : null
+            index : null,
+            full_name : ''
         }
     },
     watch: {
@@ -410,7 +411,8 @@ export default {
             axios.get(`cheques/${cheque.id}/cheque-${action}/`)
             .then((response)=>{
                 if(action === 'printed'){
-                    this.account = cheque.compte.numero
+                    this.account = cheque.compte?.numero
+                    this.full_name =  cheque.compte?.fullname
                     this.cheque_nums = cheque?.cheque_restant.split(",").map(Number)
                     this.$nextTick(() => print())
                 }

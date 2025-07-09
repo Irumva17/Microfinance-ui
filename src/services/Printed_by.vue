@@ -8,7 +8,7 @@
 export default {
     computed: {
         user_name() {
-            return this.$store.state.user.fullname != " " ? this.$store.state.user.fullname : this.$store.state.user.username;
+            return this.$store.state.user.fullname != "" ? this.$store.state.user.fullname : this.$store.state.user.username;
         }
     },
 }

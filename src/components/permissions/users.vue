@@ -273,7 +273,7 @@
     </Modal>
     <div class="btns">
         <span class="btn retour" @click="$router.back()">&#10094;</span>
-        <!-- <button class="depot btn" @click="show_modal_user = true"><i class="fa-solid fa-plus"></i> Utilisateur</button> -->
+        <button class="depot btn" @click="show_modal_user = true"><i class="fa-solid fa-plus"></i> Utilisateur</button>
     </div>
     <section class="table">
         <table>
@@ -287,7 +287,10 @@
             </tr>
             <tr v-for="(user, index) in users" :key="index" @dblclick="gotoRemise(user)">
                 <td>{{ user.id }}</td>
-                <td>{{ user.user.first_name }} {{ user.user.last_name }}</td>
+                <td>
+                    <span v-if="!user.user.first_name && !user.user.last_name">{{  user.user.username }}</span>
+                    <span>{{ user.user.first_name }} {{ user.user.last_name }}</span>
+                </td>
                 <td>{{ user.agence?.nom }}</td>
                 <td>{{ user.telephone }}</td>
                 <td>{{ money(user.balance) }}</td>

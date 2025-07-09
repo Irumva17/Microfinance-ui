@@ -6,7 +6,7 @@
             <Account account_name="Balance Microfinance" :account_money="microfinance[0]?.balance || 0" />
             <Account account_name="Banque" :account_money="microfinance[0]?.banque || 0" />
             <Account account_name="Placements" :account_money="microfinance[0]?.placements || 0" />
-            <Account account_name="Caisses des agences" :account_money="caisses" />
+            <!-- <Account account_name="Caisses des agences" :account_money="caisses" /> -->
         </div>
         <section class="table">
             <table>
@@ -17,7 +17,7 @@
                     <th>Adresse</th>
                     <th>Detail</th>
                     <th>Date de création</th>
-                    <th>Options</th>
+                    <!-- <th>Options</th> -->
                 </tr>
                 <tr v-for="item in microfinance" :key="item.id" @dblclick="gotremise(item.nom)">
                     <td>{{ item.nom }}</td>
@@ -26,15 +26,15 @@
                     <td>{{ item.adresse }}</td>
                     <td>{{ item.details }}</td>
                     <td>{{ datetime(item.created_at) }}</td>
-                    <td>
-                        <!-- <div class="btns">
-                            <button class="depot btn" @click="$router.push({name: 'depotmicrofinance', params: {id: item.id}})">
-                                <i class="fa-solid fa-arrow-down"></i> &nbsp; Depot
-                            </button>
-                            <button class="retrait btn" @click="$router.push({name: 'retraitmicrofinance', params: {id: item.id}})"> 
-                                <i class="fa-solid fa-arrow-up"></i> &nbsp; Retrait
-                            </button>
-                        </div> -->
+                    <!-- <div class="btns">
+                        <button class="depot btn" @click="$router.push({name: 'depotmicrofinance', params: {id: item.id}})">
+                            <i class="fa-solid fa-arrow-down"></i> &nbsp; Depot
+                        </button>
+                        <button class="retrait btn" @click="$router.push({name: 'retraitmicrofinance', params: {id: item.id}})"> 
+                            <i class="fa-solid fa-arrow-up"></i> &nbsp; Retrait
+                        </button>
+                    </div> -->
+                    <!-- <td>
                         <i class="btn fa fa-ellipsis-v" @click="toggleOptions(item.id)"></i>
                         <div v-if="selected === item.id" class="menu_options" @mouseleave="toggleOptions(item.id)">
                             <button class="for_mic btn" @click="$router.push({name: 'depotmicrofinance', params: {id: item.id}})"> <i class="fa-solid fa-arrow-down"></i> &nbsp; Depot </button>
@@ -42,7 +42,7 @@
                             <button class="btn"  @click="$router.push({name: 'Investissement', params: {id: item.id}})"> <i class="fa-solid fa-sack-dollar"></i>&nbsp; Investissement </button>
                             <div class="menu_arrow">‣</div>
                         </div>
-                    </td>
+                    </td> -->
                 </tr>
             </table>
         </section>

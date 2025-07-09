@@ -4,18 +4,20 @@
     <Modal :isVisible="imported_plans?.length ? true : false" @close="closing">
       <div class="form-nini">
         <span class="title">Plans comptables importé</span>
-        <table class="imported_plans">
-          <tr>
-            <th>Id</th>
-            <th>Numero</th>
-            <th>Nom</th>
-          </tr>
-          <tr v-for="item in imported_plans" :key="item.id">
-            <td>{{ item.id }}</td>
-            <td>{{ item.numero }}</td>
-            <td>{{ item.nom }}</td>
-          </tr>
-        </table>
+        <div class="content">
+          <table class="imported_plans">
+            <tr>
+              <th>Id</th>
+              <th>Numero</th>
+              <th>Nom</th>
+            </tr>
+            <tr v-for="item in imported_plans" :key="item.id">
+              <td>{{ item.id }}</td>
+              <td>{{ item.numero }}</td>
+              <td>{{ item.nom }}</td>
+            </tr>
+          </table>
+        </div>
         <button class="btn save_btn" @click="saveImportedPlans">Sauvegarder</button>
       </div>
     </Modal>

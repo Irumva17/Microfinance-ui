@@ -709,7 +709,7 @@ export default {
     this.$store.state.credits?.length
       ? this.credits = this.$store.state.credits
       : this.getCredits();
-    this.getConf()
+    // this.getConf()
   },
 
 };

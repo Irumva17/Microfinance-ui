@@ -225,6 +225,21 @@ export default {
           }
         }).catch((error) => this.displayErrorOrRefreshToken(error, this.getAccountCreationPrice));
     },
+
+    getAccountOwnerName(client) {
+      if (client.personne_physique) {
+        return (
+          client.personne_physique.Last_name +
+          " " +
+          client.personne_physique.First_name
+        );
+      } else if (client.personne_morale) {
+        return client.personne_morale.nom;
+      } else {
+        return "Nom inconnu";
+      }
+    },
+
     // async putDatas(id) {
     //   this.isSucces = false;
     //   const formData = new FormData();

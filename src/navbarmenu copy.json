@@ -15,14 +15,30 @@
                 "link": "/menu/cheques"
             },
             {
+                "name": "Epargne",
+                "link": "/menu/epargne"
+            },
+            {
+                "name": "Salarier",
+                "link": "/menu/salarier"
+            },
+            {
                 "name": "Quittances",
                 "link": "/menu/quittances"
+            },
+            {
+                "name": "Depense",
+                "link": "/menu/depense"
             }
         ]
     },
     {
         "name": "Crédit",
         "link": "/menu/credit"
+    },
+    {
+        "name": "Placement",
+        "link": "/menu/placement"
     },
     {
         "name": "Comptabilité",
