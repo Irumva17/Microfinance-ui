@@ -43,16 +43,9 @@ export default {
         Navbar
     },
     methods: {
-        printDepot(depot){
-            this.itemToPrint = depot;
-            this.$nextTick(() => {
-                window.print();
-                this.itemToPrint = null;
-            });
-        },
         getItems() {
-            const account = parseInt(this.$route.params.compte)
-            axios.get(`retraits/?compte=${account}`)
+            const account = this.$route.query.number
+            axios.get(`retraits/?compte__numero=${account}`)
                 .then((reponse) => {
                     this.list = reponse.data.results
                 }).catch((error) => {

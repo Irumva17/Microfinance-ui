@@ -414,16 +414,16 @@
                         <i 
                           @click="navigateToRoute(
                             `/depots/${client.id}?name=${getAccountOwnerName(client)}&number=${client.numero}`
-                          )" class="option-link fa-solid fa-arrow-down"
+                          )" class="option-link fa-solid fa-arrow-up"
                         >
                           <span>Depots</span>
                         </i>
-                        <i @click="navigateToRoute(`/retraits/${client.id}`)" class="option-link fa-solid fa-arrow-up">
+                        <i @click="navigateToRoute(`/retraits/${client.id}?number=${client.numero}`)" class="option-link fa-solid fa-arrow-down">
                           <span>Retraits</span>
                         </i>
-                        <i class="option-link fa-solid fa-arrows-turn-right">
+                        <!-- <i class="option-link fa-solid fa-arrows-turn-right">
                           <span>Virements</span>
-                        </i>
+                        </i> -->
                       </div>
                     </i>
                   </div>
@@ -787,7 +787,7 @@ export default {
   background: var(--primary);
   border: 1px solid #eee;
   z-index: 1000;
-  left: -100%;
+  left: -80%;
   top: 0;
   padding: 5px;
   border-radius: 10px;
