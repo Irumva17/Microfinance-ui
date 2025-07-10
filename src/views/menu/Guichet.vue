@@ -436,7 +436,7 @@
                     </i>
                     <i v-else class="option-link fa-solid fa-sack-dollar" @click="allow2Mmore(client.id)">
                       <span>
-                        Allow 2M+ 
+                        Autoriser 2M+ 
                       </span>
                     </i>
                   </div>
@@ -805,6 +805,10 @@ export default {
   cursor: pointer;
 }
 
+.option-link.fa-solid.fa-sack-dollar {
+  min-width: 120px;
+}
+
 .fa-buromobelexperte {
   position: relative;
 }
@@ -815,7 +819,7 @@ export default {
   background: var(--primary);
   border: 1px solid #eee;
   z-index: 1000;
-  left: -80%;
+  left: -60%;
   top: 0;
   padding: 5px;
   border-radius: 10px;
