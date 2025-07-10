@@ -174,10 +174,10 @@ export default {
         getMontantClass(index, balance) {
             const PreviousBalance = this.histories[index + 1]?.balance;
             const ecart =  balance - PreviousBalance
-            if (ecart < 0) {
+            if (ecart > 0) {
                 this.histories[index].debit = ecart
 
-            } else if (ecart > 0) {
+            } else if (ecart < 0) {
                 this.histories[index].credit = ecart
             }
         },

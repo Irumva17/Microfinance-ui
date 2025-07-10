@@ -381,7 +381,7 @@
             </span>
             <span v-else> - </span>
           </td> -->
-          <!-- <td>
+          <!-- <td>a
             <span v-if="client.personne_physique">
               {{ client.personne_physique.CNI }}
             </span>
@@ -427,7 +427,7 @@
                       </div>
                     </i>
                     
-                    <i v-if="client?.is_allowed" class="option-link fa-solid fa-sack-dollar">
+                    <i v-if="client?.allowed_by" class="option-link fa-solid fa-sack-dollar">
                       <span>
                         2M+ 
                         <!-- <span>Permettre</span> -->  
