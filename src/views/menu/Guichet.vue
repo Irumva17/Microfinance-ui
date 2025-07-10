@@ -375,21 +375,6 @@
           <td>{{ client.id }}</td>
           <td>{{ client.numero }}</td>
           <td>{{ getAccountOwnerName(client) }}</td>
-          <!-- <td>
-            <span v-if="client.personne_physique">
-              {{ client.personne_physique.sexe === "M" ? "Masculin" : "Feminin" }}
-            </span>
-            <span v-else> - </span>
-          </td> -->
-          <!-- <td>a
-            <span v-if="client.personne_physique">
-              {{ client.personne_physique.CNI }}
-            </span>
-            <span v-else-if="client.personne_morale">
-              {{ client.personne_morale.NIF }}
-            </span>
-            <span v-else> - </span>
-          </td> -->
           <td>{{ money(client.balance) }}</td>
           <td>{{ client.telephone }}</td>
           <!-- <td>{{ client.last_activity }}</td> -->
@@ -430,7 +415,6 @@
                     <i v-if="client?.allowed_by" class="option-link fa-solid fa-sack-dollar">
                       <span>
                         2M+ 
-                        <!-- <span>Permettre</span> -->  
                         <span class="valid"></span>
                       </span>
                     </i>
