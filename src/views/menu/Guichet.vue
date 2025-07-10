@@ -434,7 +434,7 @@
                         <span class="valid"></span>
                       </span>
                     </i>
-                    <i v-else class="option-link fa-solid fa-sack-dollar" @click="allow2Mmore(client)">
+                    <i v-else class="option-link fa-solid fa-sack-dollar" @click="allow2Mmore(client.id)">
                       <span>
                         Allow 2M+ 
                       </span>
