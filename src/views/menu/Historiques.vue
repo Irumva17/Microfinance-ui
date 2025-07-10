@@ -23,16 +23,18 @@
                     <th>Action</th>
                     <th>Débiter</th>
                     <th>Créditer</th>
-                    <th>Montant</th>
+                    <!-- <th>Montant</th> -->
                     <th>Balance</th>
                 </tr>
                 <tr v-for="(history,index) in historiques" :key="history.id">
                     <td>{{ history.id }}</td>
                     <td>{{ datetime(history.date) }}</td>
                     <td>{{ history.action }}</td>
-                    <td>{{ money(history?.debit) || '-' }}</td>
-                    <td>{{ money(history?.credit) || '-'}}</td>
-                    <td :class="getMontantClass(index , history.balance)">{{ money(history.montant) }}</td>
+                    <!-- <td>{{ money(history?.debit) || '-' }}</td>
+                    <td>{{ money(history?.credit) || '-'}}</td> -->
+                    <td>{{ history.montant < 0 ? money(history.montant * -1) : '-' }}</td>
+                    <td>{{ history.montant > 0 ? money(history.montant) : '-' }}</td>
+                    <!-- <td :class="getMontantClass(index , history.balance)">{{ money(history.montant) }}</td> -->
                     <td>{{ money(history.balance) }}</td>
                 </tr>
             </table>
