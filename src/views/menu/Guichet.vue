@@ -356,7 +356,7 @@
         <span>COMPTE:</span>
         <span>{{ clients?.results?.length || 0 }}</span>
       </div>
-      <Account account_name='SOLDE TOTAL:' :account_money="clients.compte_solde_total" />
+      <Account account_name='SOLDE TOTAL:' :account_money="clients?.totals?.balance" />
     </div>
     <section class="table">
       <table>
@@ -426,11 +426,24 @@
                         </i> -->
                       </div>
                     </i>
+                    
+                    <i v-if="client?.is_allowed" class="option-link fa-solid fa-sack-dollar">
+                      <span>
+                        2M+ 
+                        <!-- <span>Permettre</span> -->  
+                        <span class="valid"></span>
+                      </span>
+                    </i>
+                    <i v-else class="option-link fa-solid fa-sack-dollar" @click="allow2Mmore(client)">
+                      <span>
+                        Allow 2M+ 
+                      </span>
+                    </i>
                   </div>
-                  <i v-else class="option-link fa-solid fa-power-off" @click="getActivation('activer_compte', client.id)">
+                  <!-- <i v-else class="option-link fa-solid fa-power-off" @click="getActivation('activer_compte', client.id)">
                     <span>Activer</span>
                   </i>
-                  <!-- <i v-if="client.is_active" class="desactiver fa-solid fa-power-off" @click="getActivation('desactiver_compte', client.id)">
+                  <i v-if="client.is_active" class="desactiver fa-solid fa-power-off" @click="getActivation('desactiver_compte', client.id)">
                     <span>Désactiver</span>
                   </i> -->
                 </div>
@@ -747,6 +760,21 @@ export default {
         if (cli.id === data.id) return { ...cli, ...data }
         return cli
       })
+    },
+    allow2Mmore(id) {
+      axios.get(`comptes/${id}/autoriser_retrait/`)
+        .then((reponse) => {
+          this.$store.commit(
+            'setSuccess', 
+            reponse?.data?.status
+          )
+          const itemIndex = this.clients.results.findIndex((item)=> item.id === id)
+          if(itemIndex !== -1) {
+            this.clients.results[itemIndex].is_allowed = true
+          }
+        }).catch((error) => {
+          this.displayErrorOrRefreshToken(error, () => this.allow2Mmore(id));
+        })
     },
     getActivation(action, id) {
       axios.get(`comptes/${id}/${action}/`)
