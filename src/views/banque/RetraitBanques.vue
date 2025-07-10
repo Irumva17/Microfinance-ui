@@ -135,8 +135,6 @@ export default {
         getChoices() {
             axios.options('retraitbanques/')
                 .then((response) => {
-                    console.log("Réponse complète :", response.data);
-
                     if (response.data?.actions?.POST?.Banque?.choices) {
                         this.comptes = response.data.actions.POST.Banque.choices;
                         this.getRetraitBanques();

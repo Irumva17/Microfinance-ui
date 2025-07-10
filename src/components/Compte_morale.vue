@@ -40,6 +40,7 @@
                 <option value="COMMERCANT">Commercant</option>
                 <option value="INDUSTRIEL">Industriel</option>
                 <option value="SANS">Sans</option>
+                <option value="AUTRES">Autres</option>
             </select>
         </div>
         <div class="content" v-if="current_slide === 2">

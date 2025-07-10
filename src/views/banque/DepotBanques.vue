@@ -14,7 +14,7 @@
                 <input type="number" placeholder="Montant" v-model="montant">
                 <label>Motif:</label>
                 <input type="text" placeholder="explication de l'action" v-model="motif">
-                <label for="source_type">Type de source</label>
+                <!-- <label for="source_type">Type de source</label>
                 <input type="text" placeholder="explication de l'action" v-model="source_type">
                 <label>Débiteur</label>
                 <select v-model="debit">
@@ -29,7 +29,7 @@
                     <option v-for="debit in plans" :key="debit.id" :value="debit.id">
                         {{ debit.numero }} {{ debit.nom }}
                     </option>
-                </select>
+                </select> -->
                 <label for="document">Document</label>
                 <input type="file" id="document" @change="handleFileUpload($event, 'document')" required>
             </div>
@@ -111,15 +111,15 @@ export default {
             document: null,
             list: [],
             subvention_type: '',
-            source_type: '',
+            // source_type: '',
             ref_number: '',
             choosed_account: parseInt(this.$route.query.id) || '',
             comptes: [],
             comptebancaires: [],
             options: [],
             plans: [],
-            debit: '',
-            credit: '',
+            // debit: '',
+            // credit: '',
             date_fin: '',
             date_debut: '',
             Banq: '',
@@ -190,8 +190,8 @@ export default {
             data.append("document", this.document);
             data.append("compte", this.choosed_account);
             data.append("subvention_type", this.subvention_type);
-            data.append("debiteur", this.debit);
-            data.append("crediteur", this.credit);
+            // data.append("debiteur", this.debit);
+            // data.append("crediteur", this.credit);
             axios
                 .post('depotbanques/', data)
                 .then((reponse) => {

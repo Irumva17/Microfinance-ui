@@ -406,9 +406,11 @@
                         <i @click="navigateToRoute(`/retraits/${client.id}?number=${client.numero}`)" class="option-link fa-solid fa-arrow-down">
                           <span>Retraits</span>
                         </i>
-                        <!-- <i class="option-link fa-solid fa-arrows-turn-right">
+                        <i 
+                          @click="navigateToRoute(`/virements/${client.id}?number=${client.numero}`)"
+                          class="option-link fa-solid fa-arrows-turn-right">
                           <span>Virements</span>
-                        </i> -->
+                        </i>
                       </div>
                     </i>
                     

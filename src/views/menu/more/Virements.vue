@@ -1,8 +1,5 @@
 <template>
     <Navbar class="not_printable" />
-    <div class="printable" v-if="itemToPrint">
-        <PrintDepot :item="itemToPrint" class="printable" />
-    </div>
     <div class="container not_printable" >
         <div class="btns">
             <button class="btn retour" @click="goBack">&#10094;</button>
@@ -11,24 +8,21 @@
             <table>
                 <tr>
                     <th>Id</th>
+                    <th>Numero</th>
                     <th>Montant</th>
                     <th>Motif</th>
+                    <th>Compte arrivee</th>
                     <th>Date</th>
                     <th>Fait par</th>
-                    <th>Options</th>
                 </tr>
                 <tr v-for="(item, index) in list" :key="index">
                     <td>{{ item.id }}</td>
+                    <td>{{ item.numero }}</td>
                     <td>{{ money(item.montant) }}</td>
-                    <td>{{ item.details }}</td>
+                    <td>{{ item.motif }}</td>
+                    <td>{{ item.compte_arrivee?.numero }}</td>
                     <td>{{ datetime(item.created_at) }}</td>
                     <td>{{ item.created_by }}</td>
-                    <td>
-                        <button class="btn" @click="printDepot(item)">
-                            <i class="fa-solid fa-print"></i>
-                            Imprimer
-                        </button>
-                    </td>
                 </tr>
             </table>
         </section>
@@ -38,28 +32,19 @@
 
 <script>
 import Navbar from '@/components/Navbar.vue';
-import PrintDepot from '@/services/PrintDepot.vue';
 export default {
     data() {
         return {
             list: [],
-            itemToPrint: null,
         }
     },
     components: {
-        Navbar, PrintDepot
+        Navbar
     },
     methods: {
-        printDepot(depot){
-            this.itemToPrint = depot;
-            this.$nextTick(() => {
-                window.print();
-                this.itemToPrint = null;
-            });
-        },
         getItems() {
-            const account = parseInt(this.$route.params.compte)
-            axios.get(`depots/?compte=${account}`)
+            const account = this.$route.query.number
+            axios.get(`virementinternedetails/?virement_interne__compte_depart__numero=${account}`)
                 .then((reponse) => {
                     this.list = reponse.data.results
                 }).catch((error) => {

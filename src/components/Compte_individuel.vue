@@ -57,6 +57,7 @@
                         <option value="SALARIE">Salarie</option>
                         <option value="INDUSTRIEL">Industriel</option>
                         <option value="SANS">Sans</option>
+                        <option value="AUTRES">Autres</option>
                     </select>
                 </div>
                 <div class="inputColumn">

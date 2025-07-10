@@ -254,14 +254,14 @@
       <table>
         <tr>
           <th>Id</th>
-          <th>N° de Compte</th>
-          <th>Nom et Prenom</th>
+          <th>Compte</th>
+          <th>Nom</th>
           <th>Date</th>
-          <th>Jours de paiement</th>
-          <th>Taux d'interet</th>
+          <th>Jours</th>
+          <th>Taux </th>
           <th>Period</th>
           <th>Montant</th>
-          <th>Mensualiter</th>
+          <th>Mensualites</th>
           <th>Aprouver par</th>
           <th>Options</th>
         </tr>
@@ -289,20 +289,25 @@
           <td>{{ credit.echeance }}</td>
           <td>{{ money(credit.montant) }}</td>
           <td>{{ money(credit.reste) }}</td>
-          <td>{{ credit.approved_by }}</td>
+          <td>
+            <span v-if="!credit.approved_by?.first_name && !credit.approved_by?.last_name">
+              {{ credit.approved_by?.username }}
+            </span>
+            <span v-else>{{ credit.approved_by?.first_name }} {{ credit.approved_by?.last_name }}</span>
+          </td>
           <td>
             <div class="btns">
-              <button v-if="!credit.approved" @click="(showSelect = true), (amId = credit.id)" class="btn">
+              <button v-if="!credit.approved_by" @click="(showSelect = true), (amId = credit.id)" class="btn">
                 Valider
               </button>
               <!-- <button v-if="!credit.approved" @click="handleDelete(credit.id)" class="btn delete">
                 <i class="fa-solid fa-trash"></i>
               </button> -->
-              <span v-else-if="credit.done && credit.approved" class="valid">Crédit déjà terminer</span>
+              <span v-else-if="credit.done && credit.approved_by" class="valid">Crédit déjà terminer</span>
             </div>
-            <i class="btn fa fa-ellipsis-v" v-show="!credit.done && credit.approved" @click="toggleOptions(credit.id)">
+            <i class="btn fa fa-ellipsis-v" v-show="!credit.done && credit.approved_by" @click="toggleOptions(credit.id)">
               <div class="option-links" v-show="selectedItemId === credit.id">
-                <span class="option-link" v-if="!credit.done && credit.approved" @click="getLiquidation(credit.id)">
+                <span class="option-link" v-if="!credit.done && credit.approved_by" @click="getLiquidation(credit.id)">
                   <span>&#9656;</span> Liquidation</span>
                 <span class="option-link" @click="Decalage(credit)"> <span>&#9656;</span> Décalage</span>
                 <span class="option-link" @click="Reecholer(credit)"> <span>&#9656;</span> Réechelonnement</span>

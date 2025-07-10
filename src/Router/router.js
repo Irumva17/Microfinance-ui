@@ -52,6 +52,7 @@ import Investissement from '@/views/menu/Microfinance/Investissement.vue';
 
 import Depots from '@/views/menu/more/Depots.vue';
 import Retraits from '@/views/menu/more/Retraits.vue';
+import Virements from '@/views/menu/more/Virements.vue';
 
 const routes = [
 
@@ -115,6 +116,7 @@ const routes = [
 
   { path: '/depots/:compte', name: 'Depots', component: Depots },  
   { path: '/retraits/:compte', name: 'retraits', component: Retraits },  
+  { path: '/virements/:compte', name: 'virements', component: Virements },  
 
 ];
 

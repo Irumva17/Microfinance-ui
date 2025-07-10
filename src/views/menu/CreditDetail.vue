@@ -102,9 +102,9 @@ export default {
         .get(`credits/${this.$route.params.id}/`)
         .then((response) => {
           this.credit = response.data;
-          if (this.credit.approved === true) {
+          if (this.credit.approved_by !== null) {
             this.getCreditData('amortissementcredits')
-          } else if (this.credit.approved === false) {
+          } else if (this.credit.approved_by === null) {
             if (this.choose === "degressif") {
               this.getCreditData('amortissementdegressive')
             } else if (this.choose === "lineaire") {
