@@ -259,7 +259,7 @@
           <th>Date</th>
           <th>Jours</th>
           <th>Taux </th>
-          <th>Period</th>
+          <th>Periode</th>
           <th>Montant</th>
           <th>Mensualites</th>
           <th>Aprouver par</th>
