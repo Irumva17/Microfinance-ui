@@ -55,15 +55,15 @@
                         <th>Action</th>
                         <th>Débiter</th>
                         <th>Créditer</th>
-                        <th>Montant</th>
+                        <!-- <th>Montant</th> -->
                         <th>Balance</th>
                     </tr>
                     <tr v-for="(history , index) in histories" :key="history.id">
                         <td>{{ datetime(history.date) }}</td>
                         <td>{{ history.action }}</td>
-                        <td>{{ money(history.debit) ||'-'}}</td>
-                        <td>{{ money(history.credit) || '-'}}</td>
-                        <td :class="getMontantClass(index, history.balance)">{{ money(history.montant)}}</td>
+                        <td>{{ history.montant < 0 ? money(history.montant * -1) : '-' }}</td>
+                        <td>{{ history.montant > 0 ? money(history.montant) : '-' }}</td>
+                        <!-- <td>{{ money(history.montant)}}</td> -->
                         <td>{{ money(history.balance) }}</td>
                     </tr>
                 </table>
@@ -171,16 +171,20 @@ export default {
                     this.displayErrorOrRefreshToken(error, this.goToPrinter)
                 })
         },
-        getMontantClass(index, balance) {
-            const PreviousBalance = this.histories[index + 1]?.balance;
-            const ecart =  balance - PreviousBalance
-            if (ecart > 0) {
-                this.histories[index].debit = ecart
+        // getMontantClass(index, balance) {
 
-            } else if (ecart < 0) {
-                this.histories[index].credit = ecart
-            }
-        },
+        //     console.log(index);
+            
+
+        //     const PreviousBalance = this.histories[index + 1]?.balance;
+        //     const ecart =  balance - PreviousBalance
+        //     if (ecart > 0) {
+        //         this.histories[index].debit = ecart
+
+        //     } else if (ecart < 0) {
+        //         this.histories[index].credit = ecart
+        //     }
+        // },
     },
     mounted() {
         localStorage?.getItem('compte_active') ? 

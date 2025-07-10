@@ -415,7 +415,7 @@
                     <i v-if="client?.allowed_by" class="option-link fa-solid fa-sack-dollar">
                       <span>
                         2M+ 
-                        <span class="valid"></span>
+                        <span class="valid">{{ client?.allowed_by }}</span>
                       </span>
                     </i>
                     <i v-else class="option-link fa-solid fa-sack-dollar" @click="allow2Mmore(client.id)">
@@ -754,7 +754,7 @@ export default {
           )
           const itemIndex = this.clients.results.findIndex((item)=> item.id === id)
           if(itemIndex !== -1) {
-            this.clients.results[itemIndex].is_allowed = true
+            this.clients.results[itemIndex].allowed_by = this.$store.state.user.user.username
           }
         }).catch((error) => {
           this.displayErrorOrRefreshToken(error, () => this.allow2Mmore(id));
