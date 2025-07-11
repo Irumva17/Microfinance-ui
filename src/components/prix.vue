@@ -27,7 +27,7 @@
     </Modal>
     <div class="prix_container">
         <div class="btn retour" @click="goBack">&#10094;</div>
-        <form class="form" @submit.prevent="handleCreatePrix" v-if="options.length">
+        <form class="form" @submit.prevent="handleCreatePrix">
             <span class="title" v-if="!edit">Nouveau Prix</span>
             <span class="title" v-else>Modifier le Prix</span>
             <div class="prix_content" v-if="step == 1">
@@ -104,9 +104,13 @@
                     <!-- <td>{{ price.table }}</td> -->
                     <!-- <td>{{ price.microfinance }}</td> -->
                     <td>
-                        <button v-if="!price.classe_comptable" class="btn "
-                            @click="prepareData(price.id, price), show_modal = true"><i class="fa-solid fa-plus"></i>
-                            &nbsp;Classe </button>
+                        <button 
+                            v-if="!price.classe_comptable" class="btn "
+                            @click="prepareData(price.id, price), show_modal = true"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            &nbsp;Classe 
+                        </button>
                         <span v-else>{{ price.classe_comptable.numero }}</span>
                     </td>
                     <td>
