@@ -309,13 +309,13 @@
               <div class="option-links" v-show="selectedItemId === credit.id">
                 <span class="option-link" v-if="!credit.done && credit.approved_by" @click="getLiquidation(credit.id)">
                   <span>&#9656;</span> Liquidation</span>
-                <span class="option-link" @click="Decalage(credit)"> <span>&#9656;</span> Décalage</span>
+                <!-- <span class="option-link" @click="Decalage(credit)"> <span>&#9656;</span> Décalage</span> -->
                 <span class="option-link" @click="Reecholer(credit)"> <span>&#9656;</span> Réechelonnement</span>
-                <span class="option-link" @click="getReecholer_impayer(credit.id)"> <span>&#9656;</span> Réechelonnement
+                <!-- <span class="option-link" @click="getReecholer_impayer(credit.id)"> <span>&#9656;</span> Réechelonnement
                   en cas d'impayer
-                </span>
+                </span> -->
 
-                <span class="option-link" @click="getDifferer(credit.id)"> <span>&#9656;</span>Differer </span>
+                <!-- <span class="option-link" @click="getDifferer(credit.id)"> <span>&#9656;</span>Differer </span> -->
                 <span class="option-link" @click="getPayerAnticipation(credit.id)"> <span>&#9656;</span>Payer anticiper</span>
                 <span class="option-link" @click="navigateToCredit(credit)"> <span>&#9656;</span>Plus d'information</span>
               </div>
