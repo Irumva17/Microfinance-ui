@@ -463,7 +463,7 @@ export default {
     },
     getReecholer_impayer(id) {
       this.show_reecholer_impayer = true;
-      axios.get(`credits/${id}/reechelonner_impaye/`)
+      axios.get(`credits/${id}/reechelonner/`)
         .then((reponse) => {
           this.impayer = reponse.data.results
         }).catch((error) => {

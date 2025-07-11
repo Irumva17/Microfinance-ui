@@ -12,10 +12,10 @@
         <strong>Montant:</strong>
         {{ money(credit.montant) }}
       </p>
-      <p class="detail">
+      <!-- <p class="detail">
         <strong>Amortissement:</strong>
         {{ credit.amortissement || 'N/A' }}
-      </p>
+      </p> -->
       <select v-show="!this.credit.approved_by" v-model="choose" @change="getCredit" class="select-amortissement">
         <option value="" disabled>Type d'amortissement</option>
         <option value="lineaire">Amortissement lineaire</option>
@@ -29,7 +29,7 @@
     <section class="table">
       <table>
         <tr>
-          <th>Crédit restant</th>
+          <!-- <th>Crédit restant</th> -->
           <th>Interet</th>
           <th>Cap en cours</th>
           <th>Mensualite</th>
@@ -38,10 +38,10 @@
           <th>Date</th>
           <th>Date de fin</th>
           <th>Echeance</th>
-          <!-- <th>Action</th> -->
+          <th v-if="this.credit.approved_by">Action</th>
         </tr>
         <tr v-for="item in credite" :key="item.id">
-          <td>{{ money(item.reste) }}</td>
+          <!-- <td>{{ money(item.reste) }}</td> -->
           <td>{{ money(item.interet) }}</td>
           <td>{{ money(item.capital) }}</td>
           <td>{{ money(item.mensualite) }}</td>
@@ -50,8 +50,8 @@
           <td>{{ datetime(item.date) }}</td>
           <td>{{ datetime(item.date_fin) }}</td>
           <td>{{ money(item.echeance) }}</td>
-          <!-- <td><span v-if="item.done " class="valid">Mensualiter terminer</span>
-          <span v-if="!item.done ">Mensualiter non terminer</span></td> -->
+          <td><span v-if="this.credit.approved_by" class="valid">Mensualiter terminer</span>
+          <span v-if="!this.credit.approved_by">Mensualiter non terminer</span></td>
         
         </tr>
       </table>
