@@ -255,7 +255,7 @@
         <tr>
           <th>Id</th>
           <th>Compte</th>
-          <th>Nom</th>
+          <!-- <th>Nom</th> -->
           <th>Date</th>
           <th>Jours</th>
           <th>Taux </th>
@@ -268,7 +268,7 @@
         <tr v-for="credit in credits.results" :key="credit.id" @dblclick="navigateToCredit(credit)">
           <td>{{ credit.id }}</td>
           <td>{{ credit.compte?.numero }}</td>
-          <td>{{ (credit.compte?.first_name || '') + " " + (credit.compte?.last_name || '') }}</td>
+          <!-- <td>{{ (credit.compte?.first_name || '') + " " + (credit.compte?.last_name || '') }}</td> -->
           <td>{{ datetime(credit?.created_at) }}</td>
           <td v-if="credit.done && credit.approved">-</td>
           <td v-else :class="{ 'text-red': daysRemaining(credit?.payment_date) < 0 }">
@@ -514,7 +514,7 @@ export default {
     postReecholer(id) {
       const formData = new FormData();
       formData.append("nouvelle_mensualite", this.mensualiter);
-      axios.post(`credits/${id}/reechelonner_capacite_reduite/`, formData)
+      axios.post(`credits/${id}/reechelonner/`, formData)
         .then((response) => {
           this.$store.state.message.success = "Décalage enregistrer avec succées.";
           this.update(response.data)

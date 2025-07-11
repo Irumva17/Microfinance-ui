@@ -47,7 +47,7 @@
                     <th>Date de creation</th>
                     <th>Debiteur</th>
                     <th>Crediteur</th>
-                    <th>Creé par</th>
+                    <th>Cumil</th>
                 </tr>
                 <tr v-for="operation in compte.details" :key="index">
                     <td>{{ operation.id }}</td>
@@ -55,9 +55,22 @@
                     <td>{{ operation.ref_number }}</td>
                     <td>{{ operation.motif }}</td>
                     <td>{{ datetime(operation.created_at) }}</td>
-                    <td>{{ operation.debiteur?.nom }}</td>
-                    <td>{{ operation.crediteur?.nom }}</td>
-                    <td>{{ operation.created_by?.nom }}</td>
+                    <td>
+                        {{
+                            operation.debiteur?.nom.slice(
+                                0, compte.classe.length
+                            ) === compte.classe ? money(operation.montant) : 0
+                        }}
+                    </td>
+                    <td>
+                        {{ 
+                            operation.crediteur?.nom.slice(
+                                0, compte.classe.length
+                            ) === compte.classe ? money(operation.montant) : 0
+                        }}
+                        
+                    </td>
+                    <td>{{ money(operation.cumil) }}</td>
                 </tr>
             </table>
         </section>
@@ -94,7 +107,32 @@ export default {
         getGrandLivre() {
             axios.get(`grand-livre/?created_at__gte=${this.start}&created_at__lt=${this.end}`)
                 .then((response) => {
+
+                    response.data.forEach(compte => {
+                        let cumil = 0; 
+
+                        compte.details = compte.details.map(operation => {
+                            const isDebit = operation.debiteur?.nom.slice(0, compte.classe.length) === compte.classe;
+                            const isCredit = operation.crediteur?.nom.slice(0, compte.classe.length) === compte.classe;
+
+                            if (isDebit) {
+                                cumil += operation.montant;
+                            }
+
+                            if (isCredit) {
+                                cumil += operation.montant;
+                            }
+
+                            return {
+                                ...operation,
+                                cumil
+                            };
+                        });
+                    });
+
                     this.grand_livre = response.data
+
+                    
                     this.$store.state.grand_livre = this.grand_livre
                     this.show_modal = false
                 }).catch((error) => {
