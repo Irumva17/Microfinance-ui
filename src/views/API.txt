@@ -1,6 +1,2 @@
-activite lors de la creation d'une compte + Autres
+modification compte
 
-depot bancaire remove crediteur and debiteur
-
-
-aike aike257_

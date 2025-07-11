@@ -31,7 +31,7 @@
         <tr>
           <!-- <th>Crédit restant</th> -->
           <th>Interet</th>
-          <th>Cap en cours</th>
+          <th>Capital</th>
           <th>Mensualite</th>
           <th>Mensualite à payer</th>
           <th>Retard</th>
@@ -50,8 +50,10 @@
           <td>{{ datetime(item.date) }}</td>
           <td>{{ datetime(item.date_fin) }}</td>
           <td>{{ money(item.echeance) }}</td>
-          <td><span v-if="this.credit.approved_by" class="valid">Mensualiter terminer</span>
-          <span v-if="!this.credit.approved_by">Mensualiter non terminer</span></td>
+          <td v-if="this.credit.approved_by">
+            <span v-if="this.credit.done" class="valid">Mensualite terminé</span>
+            <span v-if="!this.credit.done">Mensualiter non terminé</span>
+          </td>
         
         </tr>
       </table>

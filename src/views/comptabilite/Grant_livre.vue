@@ -116,11 +116,11 @@ export default {
                             const isCredit = operation.crediteur?.nom.slice(0, compte.classe.length) === compte.classe;
 
                             if (isDebit) {
-                                cumil += operation.montant;
+                                cumil -= operation.montant;
                             }
 
                             if (isCredit) {
-                                cumil -= operation.montant;
+                                cumil += operation.montant;
                             }
 
                             return {

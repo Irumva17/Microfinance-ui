@@ -331,6 +331,7 @@ div.container.printable {
     /* color: black; */
   }
 
+
   .not_printable {
     visibility: hidden
   }
