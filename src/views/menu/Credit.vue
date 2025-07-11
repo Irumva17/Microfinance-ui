@@ -259,7 +259,7 @@
           <th>Date</th>
           <th>Jours</th>
           <th>Taux </th>
-          <th>Periode</th>
+          <th>Periode (Mois)</th>
           <th>Montant</th>
           <!-- <th>Mensualites</th> -->
           <th>Aprouver par</th>
@@ -566,7 +566,7 @@ export default {
       })
     },
     async getCredits() {
-      await axios.get('credits/')
+      await axios.get('credits/?is_active=true')
         .then((response) => {
           this.credits = response.data;
           this.totals = response.data.totals
@@ -574,14 +574,14 @@ export default {
           this.displayErrorOrRefreshToken(error, this.getCredits);
         })
     },
-    async getConf() {
-      await axios.get("creditconfiguration/")
-        .then((response) => {
-          this.config = response.data;
-        }).catch((error) => {
-          this.displayErrorOrRefreshToken(error, this.getCredits);
-        })
-    },
+    // async getConf() {
+    //   await axios.get("creditconfiguration/")
+    //     .then((response) => {
+    //       this.config = response.data;
+    //     }).catch((error) => {
+    //       this.displayErrorOrRefreshToken(error, this.getCredits);
+    //     })
+    // },
     navigateToCredit(credit) {
       this.$store.state.compte_active = credit
       this.$router.push({

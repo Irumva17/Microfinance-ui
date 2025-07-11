@@ -45,8 +45,8 @@
                     <th>Reference</th>
                     <th>Motif</th>
                     <th>Date de creation</th>
-                    <th>Debiteur</th>
-                    <th>Crediteur</th>
+                    <th>Debit</th>
+                    <th>Crédit</th>
                     <th>Cumil</th>
                 </tr>
                 <tr v-for="operation in compte.details" :key="index">
@@ -109,7 +109,7 @@ export default {
                 .then((response) => {
 
                     response.data.forEach(compte => {
-                        let cumil = 0; 
+                        let cumil = compte.solde_initial; 
 
                         compte.details = compte.details.map(operation => {
                             const isDebit = operation.debiteur?.nom.slice(0, compte.classe.length) === compte.classe;
@@ -120,7 +120,7 @@ export default {
                             }
 
                             if (isCredit) {
-                                cumil += operation.montant;
+                                cumil -= operation.montant;
                             }
 
                             return {

@@ -211,7 +211,7 @@ export default {
                         this.getCompteBancaires(of + 1, comptebancaires)
                     } else {
                         this.comptebancaires = comptebancaires.concat(data.results)
-                        this.$store.state.comptebancaires = this.comptebancaires
+                        // this.$store.state.comptebancaires = this.comptebancaires
                     }
                 }).catch((error) => {
                     this.displayErrorOrRefreshToken(error, this.getCompteBancaires)
