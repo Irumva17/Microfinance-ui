@@ -513,7 +513,7 @@ export default {
     },
     postReecholer(id) {
       const formData = new FormData();
-      formData.append("nouvelle_mensualite", this.mensualiter);
+      formData.append("echeance", this.mensualiter);
       axios.post(`credits/${id}/reechelonner/`, formData)
         .then((response) => {
           this.$store.state.message.success = "Décalage enregistrer avec succées.";
