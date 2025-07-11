@@ -38,7 +38,7 @@
           <th>Date</th>
           <th>Date de fin</th>
           <th>Echeance</th>
-          <th>Action</th>
+          <!-- <th>Action</th> -->
         </tr>
         <tr v-for="item in credite" :key="item.id">
           <td>{{ money(item.reste) }}</td>
@@ -50,8 +50,8 @@
           <td>{{ datetime(item.date) }}</td>
           <td>{{ datetime(item.date_fin) }}</td>
           <td>{{ money(item.echeance) }}</td>
-          <td><span v-if="item.done " class="valid">Mensualiter terminer</span>
-          <span v-if="!item.done ">Mensualiter non terminer</span></td>
+          <!-- <td><span v-if="item.done " class="valid">Mensualiter terminer</span>
+          <span v-if="!item.done ">Mensualiter non terminer</span></td> -->
         
         </tr>
       </table>
