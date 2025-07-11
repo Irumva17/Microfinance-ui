@@ -25,8 +25,8 @@
                     <tr>
                         <th>Date et Heure</th>
                         <th>Action</th>
-                        <th>Débiter</th>
-                        <th>Créditer</th>
+                        <th>Débit</th>
+                        <th>Crédit</th>
                         <!-- <th>Montant</th> -->
                         <th>Balance</th>
                         <th>Details</th>
@@ -53,8 +53,8 @@
                     <tr>
                         <th>Date</th>
                         <th>Action</th>
-                        <th>Débiter</th>
-                        <th>Créditer</th>
+                        <th>Débit</th>
+                        <th>Crédit</th>
                         <!-- <th>Montant</th> -->
                         <th>Balance</th>
                     </tr>
