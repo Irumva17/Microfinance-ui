@@ -261,7 +261,7 @@
           <th>Taux </th>
           <th>Periode</th>
           <th>Montant</th>
-          <th>Mensualites</th>
+          <!-- <th>Mensualites</th> -->
           <th>Aprouver par</th>
           <th>Options</th>
         </tr>
@@ -288,7 +288,7 @@
           <td>{{ money(credit.interet) }}</td>
           <td>{{ credit.echeance }}</td>
           <td>{{ money(credit.montant) }}</td>
-          <td>{{ money(credit.reste) }}</td>
+          <!-- <td>{{ money(credit.reste) }}</td> -->
           <td>
             <span v-if="!credit.approved_by?.first_name && !credit.approved_by?.last_name">
               {{ credit.approved_by?.username }}

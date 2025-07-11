@@ -6,7 +6,7 @@
       <div class="btn retour" @click="goBack">&#10094;</div>
       <p class="detail">
         <strong>Type de Crédit:</strong>
-        {{ credit.type_credit }}
+        {{ credit.type_credit || 'N/A' }}
       </p>
       <p class="detail">
         <strong>Montant:</strong>
@@ -14,9 +14,9 @@
       </p>
       <p class="detail">
         <strong>Amortissement:</strong>
-        {{ credit.amortissement }}
+        {{ credit.amortissement || 'N/A' }}
       </p>
-      <select v-show="this.credit.approved === false" v-model="choose" @change="getCredit" class="select-amortissement">
+      <select v-show="!this.credit.approved_by" v-model="choose" @change="getCredit" class="select-amortissement">
         <option value="" disabled>Type d'amortissement</option>
         <option value="lineaire">Amortissement lineaire</option>
         <option value="degressif">Amortissement degressif</option>
@@ -33,7 +33,7 @@
           <th>Interet</th>
           <th>Cap en cours</th>
           <th>Mensualite</th>
-          <th>Cap restant dû</th>
+          <th>Mensualite à payer</th>
           <th>Retard</th>
           <th>Date</th>
           <th>Date de fin</th>
@@ -45,7 +45,7 @@
           <td>{{ money(item.interet) }}</td>
           <td>{{ money(item.capital) }}</td>
           <td>{{ money(item.mensualite) }}</td>
-          <td>{{ money(0) }}</td>
+          <td>{{ money(item?.mensualite_a_payer) }}</td>
           <td>{{ datetime(item.retard) }}</td>
           <td>{{ datetime(item.date) }}</td>
           <td>{{ datetime(item.date_fin) }}</td>
@@ -102,9 +102,12 @@ export default {
         .get(`credits/${this.$route.params.id}/`)
         .then((response) => {
           this.credit = response.data;
-          if (this.credit.approved_by !== null) {
+
+
+          
+          if (this.credit.approved_by) {
             this.getCreditData('amortissementcredits')
-          } else if (this.credit.approved_by === null) {
+          } else if (!this.credit.approved_by) {
             if (this.choose === "degressif") {
               this.getCreditData('amortissementdegressive')
             } else if (this.choose === "lineaire") {
