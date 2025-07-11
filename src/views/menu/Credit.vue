@@ -566,7 +566,8 @@ export default {
       })
     },
     async getCredits() {
-      await axios.get('credits/?is_active=true')
+      // await axios.get('credits/?is_active=true')
+      await axios.get('credits/')
         .then((response) => {
           this.credits = response.data;
           this.totals = response.data.totals
