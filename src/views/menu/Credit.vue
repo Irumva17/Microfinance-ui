@@ -633,7 +633,7 @@ export default {
       }
       const data = {
         amortissement: this.amortissement,
-        frais_dossie: this.checkdossier,
+        frais_dossier: this.checkdossier,
         frais_nantissement: this.checknantissement,
         frais_assurance: this.checkassurance,
         commission_credit: this.commission
