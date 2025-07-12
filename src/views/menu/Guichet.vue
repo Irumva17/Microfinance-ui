@@ -209,103 +209,47 @@
       <div class="content">
         <div class="inputRow">
           <div class="inputColomn">
-            <label>Province:</label>
-            <!-- <select v-model="province">
-              <option value="" disabled>-------</option>
-              <option value="Bujumbura">Bujumbura</option>
-              <option value="Buhumuza">Buhumuza</option>
-              <option value="Burunga">Burunga</option>
-              <option value="Butanyerera">Butanyerera</option>
-              <option value="Gitega">Gitega</option>
-            </select> -->
-            <input type="text" v-model="province">
-            <label for="commune">Commune:</label>
-            <!-- <select v-model="commune">
-              <option value="" disabled>-------</option>
-              <option v-if="province === ''" value="" disabled>Province d'abord</option>
-              <option v-if="province === 'Buhumuza'" value="Butaganzwa">Butaganzwa</option>
-              <option v-if="province === 'Buhumuza'" value="Butihinda">Butihinda</option>
-              <option v-if="province === 'Buhumuza'" value="Cankuzo">Cankuzo</option>
-              <option v-if="province === 'Buhumuza'" value="Gisagara">Gisagara</option>
-              <option v-if="province === 'Buhumuza'" value="Gisuru">Gisuru</option>
-              <option v-if="province === 'Buhumuza'" value="Muyinga">Muyinga</option>
-              <option v-if="province === 'Buhumuza'" value="Ruyigi">Ruyigi</option>
-
-              <option v-if="province === 'Bujumbura'" value="Bubanza">Bubanza</option>
-              <option v-if="province === 'Bujumbura'" value="Bukinanyana">Bukinanyana</option>
-              <option v-if="province === 'Bujumbura'" value="Cibitoke">Cibitoke</option>
-              <option v-if="province === 'Bujumbura'" value="Isare">Isare</option>
-              <option v-if="province === 'Bujumbura'" value="Mpanda">Mpanda</option>
-              <option v-if="province === 'Bujumbura'" value="Mugere">Mugere</option>
-              <option v-if="province === 'Bujumbura'" value="Mugina">Mugina</option>
-              <option v-if="province === 'Bujumbura'" value="Muhuta">Muhuta</option>
-              <option v-if="province === 'Bujumbura'" value="Mukaza">Mukaza</option>
-              <option v-if="province === 'Bujumbura'" value="Ntahangwa">Ntahangwa</option>
-              <option v-if="province === 'Bujumbura'" value="Rwibaga">Rwibaga</option>
-
-              <option v-if="province === 'Burunga'" value="Bururi">Bururi</option>
-              <option v-if="province === 'Burunga'" value="Makamba">Makamba</option>
-              <option v-if="province === 'Burunga'" value="Matana">Matana</option>
-              <option v-if="province === 'Burunga'" value="Musongati">Musongati</option>
-              <option v-if="province === 'Burunga'" value="Nyanza">Nyanza</option>
-              <option v-if="province === 'Burunga'" value="Rumonge">Rumonge</option>
-              <option v-if="province === 'Burunga'" value="Rutana">Rutana</option>
-
-              <option v-if="province === 'Butanyerera'" value="Busoni">Busoni</option>
-              <option v-if="province === 'Butanyerera'" value="Kayanza">Kayanza</option>
-              <option v-if="province === 'Butanyerera'" value="Kiremba">Kiremba</option>
-              <option v-if="province === 'Butanyerera'" value="Kirundo">Kirundo</option>
-              <option v-if="province === 'Butanyerera'" value="Matongo">Matongo</option>
-              <option v-if="province === 'Butanyerera'" value="Muhanga">Muhanga</option>
-              <option v-if="province === 'Butanyerera'" value="Ngozi">Ngozi</option>
-              <option v-if="province === 'Butanyerera'" value="Tangara">Tangara</option>
-
-              <option v-if="province === 'Gitega'" value="Bugendana">Bugendana</option>
-              <option v-if="province === 'Gitega'" value="Gishubi">Gishubi</option>
-              <option v-if="province === 'Gitega'" value="Gitega">Gitega</option>
-              <option v-if="province === 'Gitega'" value="Karusi">Karusi</option>
-              <option v-if="province === 'Gitega'" value="Kiganda">Kiganda</option>
-              <option v-if="province === 'Gitega'" value="Muramvya">Muramvya</option>
-              <option v-if="province === 'Gitega'" value="Mwaro">Mwaro</option>
-              <option v-if="province === 'Gitega'" value="Nyabihanga">Nyabihanga</option>
-              <option v-if="province === 'Gitega'" value="Shombo">Shombo</option>
-            </select> -->
-            <input type="text" v-model="commune">
+            <label>Nom:</label>
+            <input type="text" v-model="editingAccount.First_name">
+            <label for="commune">Prenom:</label>
+            <input type="text" v-model="editingAccount.Last_name">
           </div>
         </div>
-        <div class="inputRow">
+        <!-- <div class="inputRow"> -->
           <div class="inputColomn">
-            <label for="colline">Colline/Quartier:</label>
-            <input type="text" v-model="colline" id="colline">
-            <label for="telephone">Telephone:</label>
-            <input type="text" v-model="telephone" id="Telephone">
+            <label for="colline">CNI:</label>
+            <input type="text" v-model="editingAccount.CNI" id="colline">
+            <!-- <label for="telephone">Telephone:</label>
+            <input type="text" v-model="telephone" id="Telephone"> -->
           </div>
-        </div>
+        <!-- </div> -->
         <div class="inputRow">
           <div class="inputColomn">
-            <label>Organisation:</label>
-            <select v-model="organisation">
-              <option value="" disabled>-------</option>
-              <option value="individu">Indivudu</option>
-              <option value="groupe">Groupe</option>
-              <option value="societe">Societé</option>
+            <label for="activite">Activite:</label>
+            <select name="activite" v-model="activite">
+              <option value="AGRO-ELEVEUR">Agro Eleveur</option>
+              <option value="COMMERCANT">Commercant</option>
+              <option value="SALARIE">Salarie</option>
+              <option value="INDUSTRIEL">Industriel</option>
+              <option value="SANS">Sans</option>
+              <option value="AUTRES">Autres</option>
             </select>
-            <label for="payant">Payante</label>
-            <select id="payant" v-model="payante">
-              <option value="" disabled>-------</option>
-              <option :value="true">Payante</option>
-              <option :value="false">Non payante</option>
+            <label for="Residence">Residence:</label>
+            <select name="Residence" v-model="residence">
+              <option value="" disabled selected>-------</option>
+              <option value="RESIDENT">Resident</option>
+              <option value="NON RESIDENT">Non Resident</option>
             </select>
           </div>
         </div>
-        <div class="inputRow">
+        <!-- <div class="inputRow">
           <div class="inputColomn">
             <label>Document:</label>
             <input type="file" @change="handlePdfUpload" accept="application/pdf" />
             <label>Image:</label>
             <input type="file" @change="handleImageUpload" accept="image/*" />
           </div>
-        </div>
+        </div> -->
       </div>
       <button v-if="modifier" class="btn-modal" type="submit">
         Modifier le compte &#10003;
@@ -478,6 +422,15 @@ export default {
       personne_morale__activite: "",
       clean: "",
       personne_physique__isnull: '',
+
+      //Editing account
+      first_name: '',
+      last_name:'',
+      activite:'',
+      residence:'',
+
+      editingAccount:'',
+
       phone: '',
       adresse: '',
       telephone: '',
@@ -687,22 +640,32 @@ export default {
     modifier(compte) {
       const comfirmation = confirm(`Vous voulez vraiment modifier le ${compte.numero} compte?`);
       if (comfirmation) {
-        this.show_edit = true
-        this.telephone = compte.telephone || '';
-        this.colline = compte.adresse || '';
-        this.commune = compte.commune || '';
-        this.province = compte.province || '';
-        this.organisation = compte.organisation || '';
-        this.payante = compte.payante || '';
-        this.$store.state.compte_active = compte
-        this.id = compte.id
-        if (compte.personne_physique) {
-          this.client = compte.personne_physique.last_name + ' ' + compte.personne_physique.first_name
-        } else if (compte.personne_morale) {
-          this.client = compte.personne_morale.nom
-        } else {
-          this.client = '-'
-        }
+        axios.get(`comptes/${id}/`)
+        .then((response) => {
+          this.editingAccount = response.data
+          this.show_edit = true
+        }).catch((error) => {
+          this.displayErrorOrRefreshToken(error, () => this.getActivation(action, id));
+        })
+        
+        // this.$store.state.compte_active = compte
+        
+        // this.telephone = compte.telephone || '';
+        // this.colline = compte.adresse || '';
+        // this.commune = compte.commune || '';
+        // this.province = compte.province || '';
+        // this.organisation = compte.organisation || '';
+        // this.payante = compte.payante || '';
+        // this.id = compte.id
+        // if (compte.personne_physique) {
+        //   this.client = compte.personne_physique.last_name + ' ' + compte.personne_physique.first_name
+        // } else if (compte.personne_morale) {
+        //   this.client = compte.personne_morale.nom
+        // } else {
+        //   this.client = '-'
+        // }
+
+        this.editingAccount = compte.personne_physique
       }
     },
     handlePdfUpload(event) {
@@ -773,7 +736,7 @@ export default {
     },
     navigateToRoute(link){
       this.$router.push(link)
-    }
+    },
   },
   mounted() {
     // this.getMicrofinance();

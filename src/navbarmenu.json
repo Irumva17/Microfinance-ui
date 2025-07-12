@@ -11,6 +11,10 @@
                 "link": "/menu/guichet/guichet"
             },
             {
+                "name": "Epargne",
+                "link": "/menu/epargne"
+            },
+            {
                 "name": "Chèques",
                 "link": "/menu/cheques"
             },
