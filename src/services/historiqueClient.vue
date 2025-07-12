@@ -121,8 +121,9 @@ export default {
             this.from = this.$refs.filterDates.from;
             this.to = this.$refs.filterDates.to;
             this.numero = compte;
+            let allHistories = [];
             try {
-                let allHistories = [];
+                // let allHistories = [];
                 let nextPage = `historiqueclients/?compte__numero=${compte}&created_at__gte=${this.from}&created_at__lte=${this.to}`;
                 while (nextPage) {
                     const url = nextPage.startsWith('http') ? nextPage : nextPage;

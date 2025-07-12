@@ -163,7 +163,7 @@
             </div>
           </div>
           <div v-show="physique === 'true'">
-            <label>Mettre le genre :</label>
+            <label>Genre :</label>
             <select v-model="sexe">
               <option value="">------</option>
               <option value="F">Femme</option>
@@ -173,7 +173,7 @@
             </select>
           </div>
           <div>
-            <label>Sorte de crédit :</label>
+            <label>Type de crédit :</label>
             <select v-model="credite">
               <option value="">------</option>
               <option value="CREDIT+AGRO+PASTORAL">Credit agro pastoral</option>
@@ -183,6 +183,13 @@
               <option value="LES+DECOUVERTS">Les decouverts</option>
               <option value="CREDITS+AUX+EMPLOYES">Credit aux employes</option>
               <option value="AUTRES">Autres</option>
+            </select>
+          </div>
+          <div>
+            <label>Etat :</label>
+            <select v-model="is_active">
+              <option :value="true">Pas encore terminé</option>
+              <option :value="false">Terminé</option>
             </select>
           </div>
         </div>
@@ -305,7 +312,7 @@
               </button> -->
               <span v-else-if="credit.done && credit.approved_by" class="valid">Crédit déjà terminer</span>
             </div>
-            <i class="btn fa fa-ellipsis-v" v-show="!credit.done && credit.approved_by" @click="toggleOptions(credit.id)">
+            <i class="btn fa fa-ellipsis-v" v-if="credit.is_active && credit.approved_by" @click="toggleOptions(credit.id)">
               <div class="option-links" v-show="selectedItemId === credit.id">
                 <span class="option-link" v-if="!credit.done && credit.approved_by" @click="getLiquidation(credit.id)">
                   <span>&#9656;</span> Liquidation</span>
@@ -320,6 +327,7 @@
                 <span class="option-link" @click="navigateToCredit(credit)"> <span>&#9656;</span>Plus d'information</span>
               </div>
             </i>
+            <span v-if="!credit.is_active" class="valid">Terminé</span>
           </td>
         </tr>
       </table>
@@ -404,7 +412,8 @@ export default {
       checkdossier: false,
       checkassurance: false,
       commission: false,
-      validate_password: false
+      validate_password: false,
+      is_active: true,
     };
   },
   components: {
@@ -557,7 +566,7 @@ export default {
     searchLasta(text) {
       axios.get(
         text ? `credits/?search=${text}` :
-          `/credits/?compte__commune__icontains=${this.compte}&compte__numero=&compte__personne_physique__date_naissance__gte=${this.age_superieur}&compte__personne_physique__date_naissance__lte=${this.age_inferieur}&compte__personne_physique__sexe=${this.sexe}&type_credit=${this.credite}&approved_at__gte=${this.approved_superieur}&approved_at__lte=${this.approved_inferieur}&payment_date__gte=${this.paiement_superieur}&payment_date__lte=${this.paiement_inferieur}&montant__gte=${this.montant_maximal}&montant__lte=${this.montant_minimal}&compte__personne_physique__isnull=${this.physique}`
+          `/credits/?compte__commune__icontains=${this.compte}&is_active=${this.is_active}&compte__numero=&compte__personne_physique__date_naissance__gte=${this.age_superieur}&compte__personne_physique__date_naissance__lte=${this.age_inferieur}&compte__personne_physique__sexe=${this.sexe}&type_credit=${this.credite}&approved_at__gte=${this.approved_superieur}&approved_at__lte=${this.approved_inferieur}&payment_date__gte=${this.paiement_superieur}&payment_date__lte=${this.paiement_inferieur}&montant__gte=${this.montant_maximal}&montant__lte=${this.montant_minimal}&compte__personne_physique__isnull=${this.physique}`
       ).then((reponse) => {
         this.credits = reponse.data;
         this.closeModal()
@@ -566,8 +575,7 @@ export default {
       })
     },
     async getCredits() {
-      // await axios.get('credits/?is_active=true')
-      await axios.get('credits/')
+      await axios.get('credits/?is_active=true')
         .then((response) => {
           this.credits = response.data;
           this.totals = response.data.totals
