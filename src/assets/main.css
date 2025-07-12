@@ -584,5 +584,6 @@ section.table:has(.fa.fa-ellipsis-v) {
   display: flex;
   justify-content: end;
   padding: 10px;
+  gap: 20px;
 }
 

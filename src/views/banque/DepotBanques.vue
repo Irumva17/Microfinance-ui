@@ -6,30 +6,12 @@
             <div class="content">
                 <label>Nom du client:</label>
                 <input type="text" placeholder="Nom du client" v-model="nom_du_client">
-                <label>Compte du client:</label>
-                <input type="text" placeholder="Compte du client" v-model="compte_du_client">
                 <label>Numero de référence:</label>
                 <input type="text" placeholder="Numero de référence" v-model="ref_number">
                 <label>Montant:</label>
                 <input type="number" placeholder="Montant" v-model="montant">
                 <label>Motif:</label>
                 <input type="text" placeholder="explication de l'action" v-model="motif">
-                <!-- <label for="source_type">Type de source</label>
-                <input type="text" placeholder="explication de l'action" v-model="source_type">
-                <label>Débiteur</label>
-                <select v-model="debit">
-                    <option value="">-------</option>
-                    <option v-for="debit in plans" :key="debit.id" :value="debit.id">
-                        {{ debit.numero }} {{ debit.nom }}
-                    </option>
-                </select>
-                <label>Créditeur</label>
-                <select v-model="credit">
-                    <option value="">-------</option>
-                    <option v-for="debit in plans" :key="debit.id" :value="debit.id">
-                        {{ debit.numero }} {{ debit.nom }}
-                    </option>
-                </select> -->
                 <label for="document">Document</label>
                 <input type="file" id="document" @change="handleFileUpload($event, 'document')" required>
             </div>
@@ -182,8 +164,8 @@ export default {
         postdepot() {
             const data = new FormData();
             data.append("nom_client", this.nom_du_client);
-            data.append("compte_source", this.compte_du_client);
-            data.append("compte_source", this.source_type);
+            // data.append("compte_source", this.compte_du_client);
+            // data.append("compte_source", this.source_type);
             data.append("ref_number", this.ref_number);
             data.append("montant", this.montant);
             data.append("motif", this.motif);

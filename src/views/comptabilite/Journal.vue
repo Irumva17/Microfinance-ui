@@ -155,11 +155,9 @@ export default {
         });
     },
     getJournals(url) {
-      // const container = this.$refs.dataContainer
       axios
       .get(url ? url : "journalcaisse/")
       .then((response) => {
-          // container.scrollY(0)
           this.journals = response.data;
           this.$nextTick(() => {
             this.$refs.dataContainer.scrollTop = 0

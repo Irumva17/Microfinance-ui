@@ -207,22 +207,20 @@
     <form @submit.prevent="updateAccount" class="form">
       <span class="title">Modifier le compte</span>
       <div class="content">
-        <div class="inputRow">
-          <div class="inputColomn">
-            <label>Nom:</label>
-            <input type="text" v-model="editingAccount.First_name">
-            <label for="commune">Prenom:</label>
-            <input type="text" v-model="editingAccount.Last_name">
-          </div>
+        <div v-if="editingAccount.type === 'physique'" class="inputColomn">
+          <label>Nom:</label>
+          <input type="text" v-model="editingAccount.First_name">
+          <label for="commune">Prenom:</label>
+          <input type="text" v-model="editingAccount.Last_name">
         </div>
-        <!-- <div class="inputRow"> -->
-          <div class="inputColomn">
-            <label for="colline">CNI:</label>
-            <input type="text" v-model="editingAccount.CNI" id="colline">
-            <!-- <label for="telephone">Telephone:</label>
-            <input type="text" v-model="telephone" id="Telephone"> -->
-          </div>
-        <!-- </div> -->
+        <div v-else class="inputColomn">
+          <label>Nom:</label>
+          <input type="text" v-model="editingAccount.nom">
+        </div>
+        <div class="inputColomn">
+          <label for="cni">CNI:</label>
+          <input type="text" v-model="editingAccount.CNI" id="cni">
+        </div>
         <div class="inputRow">
           <div class="inputColomn">
             <label for="activite">Activite:</label>
@@ -242,14 +240,6 @@
             </select>
           </div>
         </div>
-        <!-- <div class="inputRow">
-          <div class="inputColomn">
-            <label>Document:</label>
-            <input type="file" @change="handlePdfUpload" accept="application/pdf" />
-            <label>Image:</label>
-            <input type="file" @change="handleImageUpload" accept="image/*" />
-          </div>
-        </div> -->
       </div>
       <button v-if="modifier" class="btn-modal" type="submit">
         Modifier le compte &#10003;
@@ -638,11 +628,15 @@ export default {
       this.personne_physique__activite = ''
     },
     modifier(compte) {
-      const comfirmation = confirm(`Vous voulez vraiment modifier le ${compte.numero} compte?`);
+      const comfirmation = confirm(`Vous voulez vraiment modifier le compte ${compte.numero}?`);
       if (comfirmation) {
-        axios.get(`comptes/${id}/`)
+        const url = compte.personne_physique ? 'personne_physiques' : 'personne_morales'
+        axios.get(`${url}/?=compte${compte.id}`)
         .then((response) => {
-          this.editingAccount = response.data
+          this.editingAccount = { 
+            ...response.data, 
+            type : compte.personne_physique ? 'physique' : 'morale'
+          }
           this.show_edit = true
         }).catch((error) => {
           this.displayErrorOrRefreshToken(error, () => this.getActivation(action, id));

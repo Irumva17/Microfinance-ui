@@ -32,7 +32,7 @@
                         <th>Details</th>
                         <th>Acteur</th>
                     </tr>
-                    <tr v-for="(history, index) in histories" :key="history.id">
+                    <tr v-for="(history, index) in histories.results" :key="history.id">
                         <td>{{ datetime(history.created_at) }}</td>
                         <td>{{ history.action }}</td>
                         <!-- <td>{{ history.montant }}</td> -->
@@ -48,9 +48,10 @@
                     Aucun historique disponible.
                 </div>
             </section>
-            <section v-else class="table">
+            <section v-else class="table" ref="dataContainer">
                 <table>
                     <tr>
+                        <th>ID</th>
                         <th>Date</th>
                         <th>Action</th>
                         <th>Débit</th>
@@ -58,7 +59,8 @@
                         <!-- <th>Montant</th> -->
                         <th>Balance</th>
                     </tr>
-                    <tr v-for="(history , index) in histories" :key="history.id">
+                    <tr v-for="(history , index) in histories.results" :key="history.id">
+                        <td>{{ history.id }}</td>
                         <td>{{ datetime(history.date) }}</td>
                         <td>{{ history.action }}</td>
                         <td>{{ history.montant < 0 ? money(history.montant * -1) : '-' }}</td>
@@ -69,6 +71,14 @@
                 </table>
                 <div v-if="empty" class="empty-message">
                     Aucun historique disponible.
+                </div>
+                <div class="nextPaginator">
+                    <button v-if="histories.previous" class="btn" @click="getUserHistory(histories.previous, this.numero)">
+                        &#10094;  &nbsp; Page précédente
+                    </button>
+                    <button v-if="histories.next" class="btn" @click="getUserHistory(histories.next, this.numero)">
+                        Page suivante &nbsp; &#10095;
+                    </button>
                 </div>
             </section>
             <Printed_by />
@@ -117,11 +127,11 @@ export default {
         Printed_by
     },
     methods: {
-        async getHistory(compte) {
+        async getHistory(compte, allHistories = []) {
             this.from = this.$refs.filterDates.from;
             this.to = this.$refs.filterDates.to;
             this.numero = compte;
-            let allHistories = [];
+
             try {
                 // let allHistories = [];
                 let nextPage = `historiqueclients/?compte__numero=${compte}&created_at__gte=${this.from}&created_at__lte=${this.to}`;
@@ -136,18 +146,21 @@ export default {
                 this.displayErrorOrRefreshToken(error,()=> this.getHistory(compte));
             }
         },
-        getUserHistory(compte, page = 1, userHistory = []) {
+        getUserHistory(url = '', compte) {
             this.numero = compte;
             this.from = this.$refs.filterDates.from
             this.to = this.$refs.filterDates.to
-            axios.get(`historiquepersonnels/?created_by=${compte}&date__gte=${this.to}&date__lte=${this.from}&page=${page}`)
+            axios.get(url ? url : `historiquepersonnels/?created_by=${compte}&date__gte=${this.to}&date__lte=${this.from}`)
             .then((response)=>{
                 if(!response.data?.results.length){
                     this.$store.state.message.error = "Aucun historique trouvé"
                     this.empty = true
                 } else {
-                    this.histories = response.data.results
+                    this.histories = response.data
                 }
+                this.$nextTick(() => {
+                    this.$refs.dataContainer.scrollTop = 0
+                });
             }).catch ((error)=>{
                 this.displayErrorOrRefreshToken(error, () => this.getUserHistory(compte));
             })
@@ -192,7 +205,7 @@ export default {
         this.$store.state.compte_active = JSON.parse(localStorage?.getItem('compte_active')) : ''
         this.$nextTick(()=>{ 
             this.$store.state.compte_active?.user ?
-            this.getUserHistory(this.$store.state.compte_active.id) : this.getHistory(this.$route.query.numero) 
+            this.getUserHistory('', this.$store.state.compte_active.id) : this.getHistory(this.$route.query.numero) 
         })
     }
 }

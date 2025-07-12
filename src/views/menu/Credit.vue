@@ -527,6 +527,8 @@ export default {
         .then((response) => {
           this.$store.state.message.success = "Décalage enregistrer avec succées.";
           this.update(response.data)
+          this.mensualiter = 0 
+          this.show_reecholer = false;
         }).catch((error) => {
           this.data_error = error.response?.data
           this.displayErrorOrRefreshToken(error, () => this.postReecholer(id))
