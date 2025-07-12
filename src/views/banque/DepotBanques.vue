@@ -12,6 +12,13 @@
                 <input type="number" placeholder="Montant" v-model="montant">
                 <label>Motif:</label>
                 <input type="text" placeholder="explication de l'action" v-model="motif">
+                <label for="debiteur">Debiteur</label>
+                <select id="debiteur" v-model="debiteur">
+                    <option value="" disabled>--------</option>
+                    <option v-for="plan in plan_comptables" :key="plan.id" :value="plan.id">
+                        {{ plan.numero + '-' + plan.nom }}
+                    </option>
+                </select>
                 <label for="document">Document</label>
                 <input type="file" id="document" @change="handleFileUpload($event, 'document')" required>
             </div>
@@ -100,8 +107,9 @@ export default {
             comptebancaires: [],
             options: [],
             plans: [],
-            // debit: '',
-            // credit: '',
+            plan_comptables: [],
+            debiteur: '',
+            // crediteur: '',
             date_fin: '',
             date_debut: '',
             Banq: '',
@@ -172,8 +180,8 @@ export default {
             data.append("document", this.document);
             data.append("compte", this.choosed_account);
             data.append("subvention_type", this.subvention_type);
-            // data.append("debiteur", this.debit);
-            // data.append("crediteur", this.credit);
+            data.append("debiteur", this.debiteur);
+            // data.append("crediteur", this.crediteur);
             axios
                 .post('depotbanques/', data)
                 .then((reponse) => {
@@ -207,6 +215,11 @@ export default {
         this.getPrix()
         // this.getBanque()
         // this.getcompte();
+        if (this.$store.state.plan_comptables.length) {
+            this.plan_comptables = this.$store.state.plan_comptables
+        } else {
+            this.getPlans();
+        }
     }
 }
 </script>

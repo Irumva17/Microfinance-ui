@@ -20,8 +20,7 @@
                     <label> Details:</label>
                     <input type="text" placeholder="Details" v-model="detail">
                 </div>
-                <button class="btn-modal" @click="blackLister(printable[0]?.id)"
-                    style="margin-top: 20px;">Envoyer</button>
+                <button class="btn-modal" @click="blackLister(printable[0]?.id)">Deposer {{ money(montant) }}</button>
             </div>
         </Modal>
         <Modal  :isVisible="show_etat" @close="closeModal">

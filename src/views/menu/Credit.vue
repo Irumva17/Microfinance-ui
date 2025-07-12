@@ -561,6 +561,7 @@ export default {
         .then((reponse) => {
           this.update(reponse.data)
           this.closeModal()
+          this.$store.commit('setSuccess', 'Liquidé avec succès.')
         }).catch((error) => {
           this.displayErrorOrRefreshToken(error, this.getLiquider);
         })

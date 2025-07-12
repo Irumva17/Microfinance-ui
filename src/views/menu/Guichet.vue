@@ -218,8 +218,14 @@
           <input type="text" v-model="editingAccount.nom">
         </div>
         <div class="inputColomn">
-          <label for="cni">CNI:</label>
-          <input type="text" v-model="editingAccount.CNI" id="cni">
+          <div v-if="editingAccount.type === 'physique'" class="inputColomn">
+            <label for="proffesion">Proffesion:</label>
+            <input type="text" v-model="editingAccount.proffesion" id="proffesion">
+          </div>
+          <div class="inputColomn">
+            <label for="cni">CNI:</label>
+            <input type="text" v-model="editingAccount.CNI" id="cni">
+          </div>
         </div>
         <div class="inputRow">
           <div class="inputColomn">

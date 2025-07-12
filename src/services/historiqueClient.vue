@@ -1,5 +1,5 @@
 <template>
-    <PrintableHistory v-if="triger === 'client'" :account_name="full_name" :account_number="this.$route.query.numero" :histories="histories" :from="from" :to="to" class="printable" />
+    <PrintableHistory v-if="triger === 'client'" :account_name="full_name" :account_number="this.$route.query.numero" :histories="histories.results" :from="from" :to="to" class="printable" />
     <div class="not_printable">
         <Navbar />
         <div class="container">
@@ -23,6 +23,7 @@
             <section v-if="triger === 'client'" class="table">
                 <table>
                     <tr>
+                        <!-- <th>ID</th> -->
                         <th>Date et Heure</th>
                         <th>Action</th>
                         <th>Débit</th>
@@ -33,6 +34,7 @@
                         <th>Acteur</th>
                     </tr>
                     <tr v-for="(history, index) in histories.results" :key="history.id">
+                        <!-- <td>{{ history.id }}</td> -->
                         <td>{{ datetime(history.created_at) }}</td>
                         <td>{{ history.action }}</td>
                         <!-- <td>{{ history.montant }}</td> -->
@@ -46,6 +48,15 @@
                 </table>
                 <div v-if="empty" class="empty-message">
                     Aucun historique disponible.
+
+                </div>
+                <div class="nextPaginator">
+                    <button v-if="histories.previous" class="btn" @click="getUserHistory(histories.previous, this.numero)">
+                        &#10094;  &nbsp; Page précédente
+                    </button>
+                    <button v-if="histories.next" class="btn" @click="getUserHistory(histories.next, this.numero)">
+                        Page suivante &nbsp; &#10095;
+                    </button>
                 </div>
             </section>
             <section v-else class="table" ref="dataContainer">
@@ -141,11 +152,12 @@ export default {
                     allHistories.push(...response.data.results);
                     nextPage = response.data.next;
                 }
-                this.histories = allHistories;
+                this.histories.results = allHistories;
             } catch (error) {
                 this.displayErrorOrRefreshToken(error,()=> this.getHistory(compte));
             }
         },
+
         getUserHistory(url = '', compte) {
             this.numero = compte;
             this.from = this.$refs.filterDates.from
@@ -179,7 +191,7 @@ export default {
             };
             axios.post('historiqueclients/impression_historique/', data)
                 .then((response) => {
-                    this.histories = response.data.historique
+                    this.histories.results = response.data.historique
                     this.$nextTick(()=> print())
                 }).catch(error => {
                     this.displayErrorOrRefreshToken(error, this.goToPrinter)

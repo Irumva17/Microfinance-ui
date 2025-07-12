@@ -1,3 +1,5 @@
 modification compte
 
 viremnet message, undefined
+
+impression du bilan

@@ -542,10 +542,11 @@ input[type="checkbox"] {
     color: white !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    font-size: 12px;
+    padding:0 5px !important;
   }
   tr:nth-child(odd){
     background-color: rgba(220, 216, 216, 0.363)!important;
-    /* color: white !important; */
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
