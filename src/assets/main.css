@@ -578,3 +578,11 @@ section.table:has(.fa.fa-ellipsis-v) {
 .salarier_mul{
   margin: 15px 0;
 }
+
+
+.nextPaginator {
+  display: flex;
+  justify-content: end;
+  padding: 10px;
+}
+

@@ -51,8 +51,8 @@
           <td>{{ datetime(item.date_fin) }}</td>
           <td>{{ money(item.echeance) }}</td>
           <td v-if="this.credit.approved_by">
-            <span v-if="this.credit.done" class="valid">Mensualite terminé</span>
-            <span v-if="!this.credit.done">Mensualiter non terminé</span>
+            <span v-if="item.done" class="valid">Mensualite terminé</span>
+            <span v-if="!item.done">Mensualiter non terminé</span>
           </td>
         
         </tr>

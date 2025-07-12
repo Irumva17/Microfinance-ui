@@ -66,7 +66,7 @@
         <SearchComponent :searchFunction="rechercher" />
       </div>
     </div>
-    <section class="table">
+    <section class="table" ref="dataContainer">
       <table>
         <tr>
           <th rowspan="2">Id</th>
@@ -80,7 +80,7 @@
           <th>Débiteur</th>
           <th>Créditeur</th>
         </tr>
-        <tr v-for="journal in journals" :key="journal.id">
+        <tr v-for="journal in journals.results" :key="journal.id">
           <td>{{ journal.id }}</td>
           <td>{{ datetime(journal.created_at) }}</td>
           <td>{{ journal.ref_number }}</td>
@@ -90,6 +90,11 @@
           <td>{{ money(journal.montant) }}</td>
         </tr>
       </table>
+      <div v-if="journals.next" class="nextPaginator">
+        <button class="btn" @click="getJournals(journals.next)">
+          Page suivante &nbsp; &#10095;
+        </button>
+      </div>
     </section>
   </div>
 </template>
@@ -149,11 +154,16 @@ export default {
           this.show_modo = false;
         });
     },
-    getJournals() {
+    getJournals(url) {
+      // const container = this.$refs.dataContainer
       axios
-        .get("journalcaisse/")
-        .then((response) => {
-          this.journals = response.data.results;
+      .get(url ? url : "journalcaisse/")
+      .then((response) => {
+          // container.scrollY(0)
+          this.journals = response.data;
+          this.$nextTick(() => {
+            this.$refs.dataContainer.scrollTop = 0
+          });
         }).catch((error) => {
           this.displayErrorOrRefreshToken(error, this.getJournals);
         });

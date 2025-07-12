@@ -16,9 +16,9 @@
                 <span class="title">Depot sur l'epargne de {{ printable[0]?.compte }}</span>
                 <div class="content">
                     <label> Montant:</label>
-                    <input type="number" placeholder="Mettez le montant" v-model="montant">
+                    <input type="number" placeholder="Montant" v-model="montant">
                     <label> Details:</label>
-                    <input type="text" placeholder="Mettez le montant" v-model="detail">
+                    <input type="text" placeholder="Details" v-model="detail">
                 </div>
                 <button class="btn-modal" @click="blackLister(printable[0]?.id)"
                     style="margin-top: 20px;">Envoyer</button>
