@@ -112,8 +112,7 @@
                                 <span class="option-link" @click="getEpargneEtat(cheque.id)">Etat</span>
                             </div>
                         </i>
-                        <span v-else>L'épargne est déjà cloturer</span>
-
+                        <span v-else class="valid">L'épargne est déjà cloturer</span>
                     </td>
                 </tr>
             </table>
