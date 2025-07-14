@@ -48,6 +48,7 @@
                 </tr>
             </table>
         </section>
+        <PrintedBy />
     </div>
 </template>
 
@@ -57,6 +58,7 @@ import Account from '@/components/account.vue';
 import DateFilter from '@/components/dateFilter.vue';
 import Navbar from '@/components/Navbar.vue';
 import PrintHeader from '@/services/print_header.vue';
+import PrintedBy from '@/services/Printed_by.vue';
 
 export default {
     data() {
@@ -73,7 +75,8 @@ export default {
         Navbar,
         Account,
         DateFilter,
-        PrintHeader
+        PrintHeader,
+        PrintedBy
     },
     methods: {
         printer(){

@@ -552,7 +552,7 @@ input[type="checkbox"] {
   }
 
   td {
-    font-size: 11px;
+    font-size: 10px;
     padding: 3px !important;
   }
 }
@@ -588,3 +588,7 @@ section.table:has(.fa.fa-ellipsis-v) {
   gap: 20px;
 }
 
+
+.clickable-row {
+  cursor: pointer;
+}

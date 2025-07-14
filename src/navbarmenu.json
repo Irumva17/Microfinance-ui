@@ -8,7 +8,7 @@
         "subLinks": [
             {
                 "name": "Guichet",
-                "link": "/menu/guichet/guichet"
+                "link": "/menu/guichet"
             },
             {
                 "name": "Epargne",

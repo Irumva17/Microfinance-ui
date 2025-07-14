@@ -19,7 +19,7 @@
                     <th>Date de création</th>
                     <!-- <th>Options</th> -->
                 </tr>
-                <tr v-for="item in microfinance" :key="item.id" @dblclick="gotremise(item.nom)">
+                <tr v-for="item in microfinance" :key="item.id">
                     <td>{{ item.nom }}</td>
                     <td>{{ item.NIF }}</td>
                     <td>{{ item.RC }}</td>

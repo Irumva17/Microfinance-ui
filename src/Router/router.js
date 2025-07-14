@@ -66,7 +66,7 @@ const routes = [
   { path: '/menu/guichet/historique', name: 'HistoriqueClient', component: HistoriqueClient },
 
   // -------------------------------------------MENU LINKS
-  { path: '/menu/guichet/guichet', name: 'Guichet', component: Guichet },
+  { path: '/menu/guichet', name: 'Guichet', component: Guichet },
   { path: '/menu/mandataire/', name: 'mandataire', component: mandataire },
   // { path: '/menu/Guichet/GuichetCompteIndividuel', name: 'Physique', component: GuichetCompteIndividuel },
   // { path: '/menu/Guichet/GuichetCompteMorale', name: 'Morale', component: GuichetCompteMorale },

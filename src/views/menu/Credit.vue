@@ -272,7 +272,7 @@
           <th>Aprouver par</th>
           <th>Options</th>
         </tr>
-        <tr v-for="credit in credits.results" :key="credit.id" @dblclick="navigateToCredit(credit)">
+        <tr v-for="credit in credits.results" :key="credit.id" @dblclick="navigateToCredit(credit)" class="clickable-row">
           <td>{{ credit.id }}</td>
           <td>{{ credit.compte?.numero }}</td>
           <!-- <td>{{ (credit.compte?.first_name || '') + " " + (credit.compte?.last_name || '') }}</td> -->

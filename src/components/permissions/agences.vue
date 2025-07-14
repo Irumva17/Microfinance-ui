@@ -36,7 +36,7 @@
                 <!-- <th>Microfinance</th> -->
                 <th>Options</th>
             </tr>
-            <tr v-for="agence in agences" :key="agence.id" @dblclick="gotremise(agence.nom, agence.id)">
+            <tr v-for="agence in agences" :key="agence.id" @dblclick="gotremise(agence.nom, agence.id)" class="clickable-row">
                 <td>{{ agence.nom }}</td>
                 <td>{{ datetime(agence.created_at) }}</td>
                 <td>{{ agence.adresse }}</td>

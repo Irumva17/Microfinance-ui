@@ -25,105 +25,109 @@
             <button class="btn-modal" @click="putClasse(prix_id, price)">Ajouter</button>
         </div>
     </Modal>
-    <div class="prix_container">
-        <div class="btn retour" @click="goBack">&#10094;</div>
-        <form class="form" @submit.prevent="handleCreatePrix">
-            <span class="title" v-if="!edit">Nouveau Prix</span>
-            <span class="title" v-else>Modifier le Prix</span>
-            <div class="prix_content" v-if="step == 1">
-                <!-- <label for="motif">Motif: *</label>
-                <input type="text" id="motif" v-model="motif" placeholder="Motif">
-                <small v-for="err in data_error?.motif" :key="err.id">
-                    {{ err }}
-                </small> -->
-                <label for="table">Opération: *</label>
-                <select name="table" id="table" v-model="table">
-                    <option value="" disabled>--------</option>
-                    <option v-for="option in options" :key="option" :value="option.value">{{ option.display_name }}
-                    </option>
-                </select>
-                <small v-for="err in data_error?.table" :key="err.id">
-                    {{ err }}
-                </small>
-                <label for="selector"> Prix/Pourcentage *
-                    <select id="selector" v-model="par">
-                        <option value="">--------</option>
-                        <option value="prix">Prix</option>
-                        <option value="pourcentage">Pourcentage</option>
+    <div class="container">
+        <div class="btns">
+            <div class="btn retour" @click="goBack">&#10094;</div>
+        </div>
+        <div class="prix_container">
+            <form class="form" @submit.prevent="handleCreatePrix">
+                <span class="title" v-if="!edit">Nouveau Prix</span>
+                <span class="title" v-else>Modifier le Prix</span>
+                <div class="prix_content" v-if="step == 1">
+                    <!-- <label for="motif">Motif: *</label>
+                    <input type="text" id="motif" v-model="motif" placeholder="Motif">
+                    <small v-for="err in data_error?.motif" :key="err.id">
+                        {{ err }}
+                    </small> -->
+                    <label for="table">Opération: *</label>
+                    <select name="table" id="table" v-model="table">
+                        <option value="" disabled>--------</option>
+                        <option v-for="option in options" :key="option" :value="option.value">{{ option.display_name }}
+                        </option>
                     </select>
-                </label>
-                <label v-if="par === 'prix'" for="prix">Prix: *</label>
-                <label v-else for="pourcentage"> Pourcentage: *</label>
-                <input v-if="par === 'prix'" type="number" id="prix" v-model="prix" placeholder="Prix">
-                <input v-else type="text" id="pourcentage" v-model="pourcentage" placeholder="Pourcentage">
-                <small v-for="err in data_error?.prix" :key="err.id">
-                    {{ err }}
-                </small>
-                <div class="" v-if="table === 'commande chequier'">
-                    <label for="minimum">Minimum:</label>
-                    <input type="text" id="minimum" v-model="minimum" placeholder="Minimum">
-                    <small v-for="err in data_error?.minimum" :key="err.id">
+                    <small v-for="err in data_error?.table" :key="err.id">
                         {{ err }}
                     </small>
-                    <label for="maximum">Maximum:</label>
-                    <input type="text" id="maximum" v-model="maximum" placeholder="Maximum">
-                    <small v-for="err in data_error?.maximum" :key="err.id">
+                    <label for="selector"> Prix/Pourcentage *
+                        <select id="selector" v-model="par">
+                            <option value="">--------</option>
+                            <option value="prix">Prix</option>
+                            <option value="pourcentage">Pourcentage</option>
+                        </select>
+                    </label>
+                    <label v-if="par === 'prix'" for="prix">Prix: *</label>
+                    <label v-else for="pourcentage"> Pourcentage: *</label>
+                    <input v-if="par === 'prix'" type="number" id="prix" v-model="prix" placeholder="Prix">
+                    <input v-else type="text" id="pourcentage" v-model="pourcentage" placeholder="Pourcentage">
+                    <small v-for="err in data_error?.prix" :key="err.id">
                         {{ err }}
                     </small>
+                    <div class="" v-if="table === 'commande chequier'">
+                        <label for="minimum">Minimum:</label>
+                        <input type="text" id="minimum" v-model="minimum" placeholder="Minimum">
+                        <small v-for="err in data_error?.minimum" :key="err.id">
+                            {{ err }}
+                        </small>
+                        <label for="maximum">Maximum:</label>
+                        <input type="text" id="maximum" v-model="maximum" placeholder="Maximum">
+                        <small v-for="err in data_error?.maximum" :key="err.id">
+                            {{ err }}
+                        </small>
+                    </div>
                 </div>
-            </div>
-            <div class="btns">
-                <button v-if="!edit" class="btn-modal">Ajouter</button>
-                <div v-else class="row">
-                    <button class="btn btn-modal" @click="clearForm"><i class="fa-solid fa-plus"></i> Ajouter </button>
-                    <button class="btn-modal">Modifier</button>
+                <div class="btns">
+                    <button v-if="!edit" class="btn-modal">Ajouter</button>
+                    <div v-else class="row">
+                        <button class="btn btn-modal" @click="clearForm"><i class="fa-solid fa-plus"></i> Ajouter </button>
+                        <button class="btn-modal">Modifier</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
 
-        <div v-if="show_arrow" class="left_arrow">&larr;</div>
-        <section class="table">
-            <table>
-                <tr>
-                    <th>Options</th>
-                    <!-- <th>Motif</th> -->
-                    <th>Prix</th>
-                    <th>Minimum</th>
-                    <th>Maximum</th>
-                    <th>Pourcentage</th>
-                    <th>Opération</th>
-                    <!-- <th>Microfinance</th> -->
-                    <th>Classe Comptable</th>
-                </tr>
-                <tr v-for="price in prices" :key="price.id">
-                    <td>{{ price.table }}</td>
-                    <td>{{ money(price.prix) || '-' }}</td>
-                    <td>{{ money(price.minimum) }}</td>
-                    <td>{{ money(price.maximum) }}</td>
-                    <td>{{ price.pourcentage ? price.pourcentage + '%' : '-' }}</td>
-                    <!-- <td>{{ price.table }}</td> -->
-                    <!-- <td>{{ price.microfinance }}</td> -->
-                    <td>
-                        <button 
-                            v-if="!price.classe_comptable" class="btn "
-                            @click="prepareData(price.id, price), show_modal = true"
-                        >
-                            <i class="fa-solid fa-plus"></i>
-                            &nbsp;Classe 
-                        </button>
-                        <span v-else>{{ price.classe_comptable.numero }}</span>
-                    </td>
-                    <td>
-                        <div class="btns">
-                            <button class="btn" v-if="price.classe_comptable" @click="editPrix(price)"><i
-                                    class="fa-solid fa-pencil"></i></button>
-                            <!-- <button class="btn delete" @click="deletePrix(price)">
-                                <i class="fa-solid fa-trash"></i></button> -->
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </section>
+            <div v-if="show_arrow" class="left_arrow">&larr;</div>
+            <section class="table">
+                <table>
+                    <tr>
+                        <th>Options</th>
+                        <!-- <th>Motif</th> -->
+                        <th>Prix</th>
+                        <th>Minimum</th>
+                        <th>Maximum</th>
+                        <th>Pourcentage</th>
+                        <th>Opération</th>
+                        <!-- <th>Microfinance</th> -->
+                        <th>Classe Comptable</th>
+                    </tr>
+                    <tr v-for="price in prices" :key="price.id">
+                        <td>{{ price.table }}</td>
+                        <td>{{ money(price.prix) || '-' }}</td>
+                        <td>{{ money(price.minimum) }}</td>
+                        <td>{{ money(price.maximum) }}</td>
+                        <td>{{ price.pourcentage ? price.pourcentage + '%' : '-' }}</td>
+                        <!-- <td>{{ price.table }}</td> -->
+                        <!-- <td>{{ price.microfinance }}</td> -->
+                        <td>
+                            <button 
+                                v-if="!price.classe_comptable" class="btn "
+                                @click="prepareData(price.id, price), show_modal = true"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                                &nbsp;Classe 
+                            </button>
+                            <span v-else>{{ price.classe_comptable.numero }}</span>
+                        </td>
+                        <td>
+                            <div class="btns">
+                                <button class="btn" v-if="price.classe_comptable" @click="editPrix(price)"><i
+                                        class="fa-solid fa-pencil"></i></button>
+                                <!-- <button class="btn delete" @click="deletePrix(price)">
+                                    <i class="fa-solid fa-trash"></i></button> -->
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </section>
+        </div>
     </div>
 </template>
 
@@ -354,15 +358,19 @@ export default {
 <style scoped>
 .prix_container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: start;
     gap: 20px;
-    padding: 70px 30px 0 30px;
+    /* padding: 70px 30px 0 30px; */
 }
 
 .prix_container .form {
     box-shadow: 0 1px 2px;
     width: 290px;
+}
+
+section.table {
+    flex: 1;
 }
 
 .prix_content {

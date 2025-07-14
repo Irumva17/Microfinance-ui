@@ -209,37 +209,51 @@
       <div class="content">
         <div v-if="editingAccount.type === 'physique'" class="inputColomn">
           <label>Nom:</label>
-          <input type="text" v-model="editingAccount.First_name">
+          <input type="text" v-model="editingAccount.first_name">
           <label for="commune">Prenom:</label>
-          <input type="text" v-model="editingAccount.Last_name">
+          <input type="text" v-model="editingAccount.last_name">
         </div>
         <div v-else class="inputColomn">
           <label>Nom:</label>
           <input type="text" v-model="editingAccount.nom">
         </div>
-        <div class="inputColomn">
-          <div v-if="editingAccount.type === 'physique'" class="inputColomn">
+        <div v-if="editingAccount.type === 'physique'" class="inputColomn">
+          <div  class="inputColomn">
             <label for="proffesion">Proffesion:</label>
-            <input type="text" v-model="editingAccount.proffesion" id="proffesion">
+            <input type="text" v-model="editingAccount.profession" id="proffesion">
           </div>
           <div class="inputColomn">
             <label for="cni">CNI:</label>
             <input type="text" v-model="editingAccount.CNI" id="cni">
           </div>
         </div>
-        <div class="inputRow">
+        <div v-if="editingAccount.type === 'morale'" class="inputColomn">
+          <label for="genre">Institution:</label>
+          <select name="genre" id="genre" v-model="editingAccount.institution">
+              <option value="" disabled>------</option>
+              <option value="1">Banque centrale</option>
+              <option value="2">Banques commerciales</option>
+              <option value="3">Institution de microfinance</option>
+              <option value="4">Autres sociétés financières</option>
+          </select>
           <div class="inputColomn">
-            <label for="activite">Activite:</label>
-            <select name="activite" v-model="activite">
-              <option value="AGRO-ELEVEUR">Agro Eleveur</option>
-              <option value="COMMERCANT">Commercant</option>
-              <option value="SALARIE">Salarie</option>
-              <option value="INDUSTRIEL">Industriel</option>
-              <option value="SANS">Sans</option>
-              <option value="AUTRES">Autres</option>
-            </select>
-            <label for="Residence">Residence:</label>
-            <select name="Residence" v-model="residence">
+            <label for="cni">NIF:</label>
+            <input type="text" v-model="editingAccount.NIF" id="cni">
+          </div>
+        </div>
+        <div class="">
+          <label for="activite">Activite:</label>
+          <select name="activite" v-model="editingAccount.activite">
+            <option value="AGRO-ELEVEUR">Agro Eleveur</option>
+            <option value="COMMERCANT">Commercant</option>
+            <option value="SALARIE">Salarie</option>
+            <option value="INDUSTRIEL">Industriel</option>
+            <option value="SANS">Sans</option>
+            <option value="AUTRES">Autres</option>
+          </select>
+          <div v-if="editingAccount.type === 'physique'" >
+            <label  for="Residence">Residence:</label>
+            <select name="Residence" v-model="editingAccount.residence">
               <option value="" disabled selected>-------</option>
               <option value="RESIDENT">Resident</option>
               <option value="NON RESIDENT">Non Resident</option>
@@ -636,34 +650,23 @@ export default {
     modifier(compte) {
       const comfirmation = confirm(`Vous voulez vraiment modifier le compte ${compte.numero}?`);
       if (comfirmation) {
+        const type = compte.personne_physique ? 'physique' : 'morale'
+        const accID = type === 'physique' ? compte.personne_physique.id : compte.personne_morale.id
         const url = compte.personne_physique ? 'personne_physiques' : 'personne_morales'
-        axios.get(`${url}/?=compte${compte.id}`)
+
+        axios.get(`${url}/${accID}/`)
         .then((response) => {
           this.editingAccount = { 
             ...response.data, 
-            type : compte.personne_physique ? 'physique' : 'morale'
+            type : type,
+            numero : compte.numero,
+            compte_id : compte.id,
+            url : `${url}/${accID}/`
           }
           this.show_edit = true
         }).catch((error) => {
           this.displayErrorOrRefreshToken(error, () => this.getActivation(action, id));
         })
-        
-        // this.$store.state.compte_active = compte
-        
-        // this.telephone = compte.telephone || '';
-        // this.colline = compte.adresse || '';
-        // this.commune = compte.commune || '';
-        // this.province = compte.province || '';
-        // this.organisation = compte.organisation || '';
-        // this.payante = compte.payante || '';
-        // this.id = compte.id
-        // if (compte.personne_physique) {
-        //   this.client = compte.personne_physique.last_name + ' ' + compte.personne_physique.first_name
-        // } else if (compte.personne_morale) {
-        //   this.client = compte.personne_morale.nom
-        // } else {
-        //   this.client = '-'
-        // }
 
         this.editingAccount = compte.personne_physique
       }
@@ -675,31 +678,16 @@ export default {
       this.photo = event.target.files[0];
     },
     async updateAccount() {
-      let id = this.id
-      const formData = new FormData();
-      this.checkNum()
-      formData.append('telephone', this.telephone);
-      formData.append('adresse', this.colline);
-      formData.append('commune', this.commune);
-      formData.append('province', this.province);
-      formData.append('organisation', this.organisation);
-      formData.append('payante', this.payante);
-      this.document != null
-        ? (formData.append('document', this.document))
-        : (this.$store.state.compte_active.document != null
-          ? (formData.append('document', this.$store.state.compte_active.document))
-          : '')
-      this.photo != null
-        ? (formData.append('photo', this.photo))
-        : (this.$store.state.compte_active.photo != null
-          ? (formData.append('photo', this.$store.state.compte_active.photo))
-          : '')
       try {
-        const response = await axios.put(`comptes/${id}/`, formData)
-        this.compte = response.data.numero
-        this.$store.state.message.success = `Le compte ${this.compte} de ${this.client} a été modifié avec succès.`
+        await axios.put(
+          this.editingAccount.url, 
+          this.editingAccount
+        )
+        this.$store.state.message.success = `Le compte ${this.editingAccount.numero} a été modifié avec succès.`
+        
+        this.editingAccount = null
         this.closeModal()
-        this.update(response.data)
+        this.getClients()
       } catch (error) {
         this.displayErrorOrRefreshToken(error, this.updateAccount)
       }
@@ -750,10 +738,6 @@ export default {
 </script>
 
 <style scoped>
-.clickable-row {
-  cursor: pointer;
-}
-
 .option-link.fa-solid.fa-sack-dollar {
   min-width: 120px;
 }

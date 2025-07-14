@@ -285,7 +285,7 @@
                 <th>Balance</th>
                 <th>Options</th>
             </tr>
-            <tr v-for="(user, index) in users" :key="index" @dblclick="gotoRemise(user)">
+            <tr v-for="(user, index) in users" :key="index" @dblclick="gotoRemise(user)" class="clickable-row">
                 <td>{{ user.id }}</td>
                 <td>
                     <span v-if="!user.user.first_name && !user.user.last_name">{{  user.user.username }}</span>
