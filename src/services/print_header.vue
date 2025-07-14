@@ -9,9 +9,9 @@
                 <h3>SIEGE : BUJUMBURA, MUKAZA, ROHERO</h3>
                 <h3>TEL : +257 62626268</h3>
             </div>
-            <div class="info_container">
+            <div v-if="showInfo" class="info_container">
                 <h3>Numero : {{ infos.compte?.numero }}</h3>
-                <h3>Nom & prenom : {{ infos.compte?.First_name }} {{ infos.compte?.Fast_name }}</h3>
+                <h3>Nom & prenom : {{ infos.compte?.First_name }} {{ infos.compte?.Last_name }}</h3>
                 <!-- <h3>Agence {{ this.$store.state.user.agence.nom }}</h3> -->
             </div>
         </div>
@@ -33,6 +33,10 @@ export default {
             type: [String, Number], 
             required: true,
         },
+        showInfo: {
+            type: Boolean,
+            default: true
+        }
     },
     computed: {
         date_time() {

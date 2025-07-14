@@ -1,6 +1,6 @@
 <template>
     <Navbar class="not_printable"/>
-    <PrintHeader title="Bilan" />
+    <PrintHeader title="Bilan" :showInfo="false" />
     <div class="container">
         <div class="btn-headers not_printable">
             <button class="btn retour" @click="goBack">&#10094;</button>
