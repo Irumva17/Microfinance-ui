@@ -38,7 +38,10 @@ export default {
                 }).catch(error => {
                     error.response && error.response.status === 401 ?
                         (this.$store.state.message.error = "Mot de passe incorrect.")
-                        : this.displayErrorOrRefreshToken(error, () => this.verifyPasswordBeforeValidation(password, validator))
+                    : this.displayErrorOrRefreshToken(
+                        error, 
+                        () => this.verifyPasswordBeforeValidation(password, validator)
+                    )
                 })
         }
     }

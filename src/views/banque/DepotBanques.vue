@@ -142,16 +142,6 @@ export default {
                     this.displayErrorOrRefreshToken(error, this.getdepot)
                 })
         },
-        // getOptions() {
-        //     axios
-        //         .options(`depotbanques/`)
-        //         .then((reponse) => {
-        //             this.options = reponse.data
-        //             console.log('OPTIONS', this.options.actions.POST.source_type.choices)
-        //         }).catch((error) => {
-        //             this.displayErrorOrRefreshToken(error, this.getdepot)
-        //         })
-        // },
         async getPrix() {
             await axios.get('plancomptable/')
                 .then((rep) => {

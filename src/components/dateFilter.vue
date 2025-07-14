@@ -33,11 +33,3 @@
         }
     }
 </script>
-<!-- <style scoped>
-.row {
-    display: flex;
-    justify-content: space-between;
-    flex: 1;
-    width: 100%;
-}
-</style> -->

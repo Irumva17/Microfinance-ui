@@ -133,9 +133,9 @@ export default {
     rechercher(keyword) {
       axios.get(`journalcaisse/?search=${keyword}`)
         .then((reponse) => {
-          this.journals = reponse.data.results;
+          // this.journals = reponse.data;
           if (reponse.data.results.length) {
-            this.journals = reponse.data.results;
+            this.journals = reponse.data;
           } else {
             this.$store.state.message.error = "Resultats introuvable.";
           }
@@ -146,7 +146,7 @@ export default {
     searchGet() {
       axios.get(`journalcaisse/?ref_number=${this.numero}&crediteur__numero__startswith=${this.crediteur}&debiteur__numero__startswith=${this.debiteur}&created_at__gte=${this.date_superieur}&created_at__lte=${this.date_inferieur}`)
         .then((reponse) => {
-          this.journals = reponse.data.results;
+          this.journals = reponse.data;
           this.show_modal = false;
         }).catch((error) => {
           this.displayErrorOrRefreshToken(error, this.searchGet);
@@ -176,7 +176,9 @@ export default {
 
       axios.post(`journalcaisse/`, form)
         .then((response) => {
-          this.journals.push(response.data)
+          this.journals.results.push(response.data)
+          // this.journals = [...response.data]
+          
           this.$store.state.message.success = 'Nouveaux journal a été crée avec succèss.'
           this.closing()
         }).catch((error) => {

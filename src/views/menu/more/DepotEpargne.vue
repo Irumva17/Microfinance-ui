@@ -14,18 +14,6 @@
         </form>
     </Modal>
     
-    <!-- <Modal :isVisible="show_etat" @close="closeModal">
-        <div class="form">
-            <span class="title">Etat de l'epargne {{ printable[0]?.compte }}</span>
-            <div class="content">
-                <label>Montant : {{ money(Etat.montant_epargne) }}</label>
-                <label>Interet : {{ money(Etat.interets) }}</label>
-                <label>Durée en jours : {{ Etat.duree_jours }}</label>
-                <label>Montant toatl : {{ money(Etat.montant_total) }}</label>
-            </div>
-        </div>
-    </Modal> -->
-    
     <div class="container not_printable">
         <div class="details_disp not_printable">
             <div class="btns">
@@ -144,9 +132,11 @@ export default {
                 })
         },
         closeEpargne() {
+            const comfirmation = confirm('Vous voulez vraiment cloturer cet epargne?')
+            if(!comfirmation) return
             axios.get(`epargnes/${this.epargneId}/close_epargne/`)
                 .then(() => {
-                    this.$store.state.message.success = 'Epargne cloturer.'
+                    this.$store.state.message.success = 'Epargne cloturé avec succès.'
                     this.$router.replace(`/depot_epargne/${this.epargneId}?active=false`)
                 }).catch(error => {
                     this.displayErrorOrRefreshToken(error, this.closeEpargne)

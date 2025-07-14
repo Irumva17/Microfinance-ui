@@ -3,7 +3,7 @@
         <div class="main_img_container">
             <img src="/network_error.png" alt="">
             <h3>Vous êtes actuellement hors ligne.</h3>
-            <div class="btn" @click="refresh">Reéssayer</div>
+            <button class="btn" @click="refresh">Reéssayer</button>
         </div>
     </div>
 </template>

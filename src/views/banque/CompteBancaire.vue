@@ -79,11 +79,6 @@
                     <td>{{ money(item.balance) }}</td>
                     <td>{{ item.details }}</td>
                     <td>
-                        <!-- <div class="btns">
-                            <button class="depot btn" @click="goToDepot(item)"> <i class="fa-solid fa-arrow-down"></i> &nbsp; Depot </button>
-                            <button class="retrait btn" @click="goToRetrait(item)"> <i class="fa-solid fa-arrow-up"></i> &nbsp; Retrait </button>
-                            <button class="credit btn"  @click="goToCredit(item)"> <i class="fa-solid fa-sack-dollar"></i>&nbsp; Crédit </button>
-                        </div> -->
                         <i class="btn fa fa-ellipsis-v" @click="toggleOptions(item.id)"></i>
                         <div v-if="selected === item.id" class="menu_options" @mouseleave="toggleOptions(item.id)">
                             <button class=" btn" @click="goToDepot(item)"> <i class="fa-solid fa-arrow-down"></i> &nbsp;

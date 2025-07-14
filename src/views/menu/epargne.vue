@@ -86,7 +86,7 @@
                     <th>Fin d'épargne </th>
                     <th>Etat</th>
                 </tr>
-                <tr v-for="(item, index) in printable" :key="index" @dblclick="$router.push(`/depot_epargne/${item.id}?active=${!item.date_fin}`)" class="clickable_row">
+                <tr v-for="(item, index) in printable" :key="index" @dblclick="$router.push(`/depot_epargne/${item.id}?active=${!item.date_fin}`)" class="clickable-row">
                     <td>{{ item.id }}</td>
                     <td>{{ item.compte }}</td>
                     <td>{{ item.details }}</td>

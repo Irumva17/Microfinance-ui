@@ -12,7 +12,7 @@
                     <th>Débiter</th>
                     <th>Créditer</th>
                     <th>créer par</th>
-                    <th>Microfinance</th>
+                    <!-- <th>Microfinance</th> -->
                 </tr>
                 <tr v-for="(histo , index) in historique" :key="histo.id">
                     <td>{{ histo.id }}</td>
@@ -23,7 +23,7 @@
                     <td>{{ money(histo?.debit) || '-' }}</td>
                     <td>{{ money(histo?.credit) || '-'}}</td>
                     <td>{{ histo.created_by }}</td>
-                    <td>{{ histo.microfinance }}</td>
+                    <!-- <td>{{ histo.microfinance }}</td> -->
                 </tr>
             </table>
         </section>

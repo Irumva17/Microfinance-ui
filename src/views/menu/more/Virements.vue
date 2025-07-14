@@ -17,12 +17,12 @@
                 </tr>
                 <tr v-for="(item, index) in list" :key="index">
                     <td>{{ item.id }}</td>
-                    <td>{{ item.numero }}</td>
+                    <td>{{ item.virement_interne.numero }}</td>
                     <td>{{ money(item.montant) }}</td>
                     <td>{{ item.motif }}</td>
-                    <td>{{ item.compte_arrivee?.numero }}</td>
-                    <td>{{ datetime(item.created_at) }}</td>
-                    <td>{{ item.created_by }}</td>
+                    <td>{{ item.compte_arrivee }}</td>
+                    <td>{{ datetime(item.virement_interne.created_at) }}</td>
+                    <td>{{ item.virement_interne.created_by }}</td>
                 </tr>
             </table>
         </section>

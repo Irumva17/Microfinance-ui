@@ -197,20 +197,6 @@ export default {
                     this.displayErrorOrRefreshToken(error, this.goToPrinter)
                 })
         },
-        // getMontantClass(index, balance) {
-
-        //     console.log(index);
-            
-
-        //     const PreviousBalance = this.histories[index + 1]?.balance;
-        //     const ecart =  balance - PreviousBalance
-        //     if (ecart > 0) {
-        //         this.histories[index].debit = ecart
-
-        //     } else if (ecart < 0) {
-        //         this.histories[index].credit = ecart
-        //     }
-        // },
     },
     mounted() {
         localStorage?.getItem('compte_active') ? 

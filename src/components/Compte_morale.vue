@@ -239,30 +239,6 @@ export default {
                 data
             )            
 
-            // data.append('compte_personne_morale.telephone', this.telephone);
-            // data.append('compte_personne_morale.adresse', this.colline);
-            // data.append('compte_personne_morale.commune', this.commune);
-            // data.append('compte_personne_morale.province', this.province);
-            // data.append('compte_personne_morale.organisation', this.organisation);
-            // data.append('compte_personne_morale.payante', this.payante);
-            // this.document != null
-            //     ? (data.append('compte_personne_morale.document', this.document))
-            //     : (this.$store.state.compte_active.document != null
-            //         ? (data.append('compte_personne_morale.document', this.$store.state.compte_active.document))
-            //         : '')
-            // this.photo != null
-            //     ? (data.append('compte_personne_morale.photo', this.photo))
-            //     : (this.$store.state.compte_active.photo != null
-            //         ? (data.append('compte_personne_morale.photo', this.$store.state.compte_active.photo))
-            //         : '')
-            // try {
-            //     const response = await axios.post('personne_moral', data)
-            //     this.compte = response.data.numero
-            // } catch (error) {
-            //     this.data_error = error.response?.data
-            //     this.displayErrorOrRefreshToken(error, this.createNewAccount)
-            //     this.current_slide = 1
-            // }
         },
     },
     mounted() {
