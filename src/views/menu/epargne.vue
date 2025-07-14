@@ -11,7 +11,7 @@
                 <SearchComponent :search-function="searchLasta" />
             </div>
         </div>
-        <Modal :isVisible="show_black" @close="closeModal">
+        <!-- <Modal :isVisible="show_black" @close="closeModal">
             <div class="form">
                 <span class="title">Depot sur l'epargne de {{ printable[0]?.compte }}</span>
                 <div class="content">
@@ -20,10 +20,10 @@
                     <label> Details:</label>
                     <input type="text" placeholder="Details" v-model="detail">
                 </div>
-                <button class="btn-modal" @click="blackLister(printable[0]?.id)">Deposer {{ money(montant) }}</button>
+                <button class="btn-modal" @click="blackLister(printable[0]?.id)">Deposer {{ money(montant || 0) }}</button>
             </div>
-        </Modal>
-        <Modal  :isVisible="show_etat" @close="closeModal">
+        </Modal> -->
+        <!-- <Modal  :isVisible="show_etat" @close="closeModal">
             <div class="form">
                 <span class="title">Etat de l'epargne {{ printable[0]?.compte }}</span>
                 <div class="content">
@@ -33,7 +33,8 @@
                     <label>Montant toatl : {{ money(Etat.montant_total) }}</label>
                 </div>
             </div>
-        </Modal>
+        </Modal> -->
+
         <Modal :isVisible="show_flitre" @close="closeModal">
             <div class="form">
                 <span class="title">Filtrage</span>
@@ -83,35 +84,36 @@
                     <th>interet </th>
                     <th>Debut d'épargne </th>
                     <th>Fin d'épargne </th>
-                    <th>Action</th>
+                    <th>Etat</th>
                 </tr>
-                <tr v-for="cheque in printable" :key="cheque.nocheque">
-                    <td>{{ cheque.id }}</td>
-                    <td>{{ cheque.compte }}</td>
-                    <td>{{ cheque.details }}</td>
-                    <td>{{ money(cheque.montant) }}</td>
-                    <td>{{ money(cheque.interet) }}</td>
-                    <td>{{ datetime(cheque.date_debut) }}</td>
-                    <td>{{ datetime(cheque.date_fin) }}</td>
+                <tr v-for="(item, index) in printable" :key="index" @dblclick="$router.push(`/depot_epargne/${item.id}?active=${!item.date_fin}`)" class="clickable_row">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.compte }}</td>
+                    <td>{{ item.details }}</td>
+                    <td>{{ money(item.montant) }}</td>
+                    <td>{{ money(item.interet) }}</td>
+                    <td>{{ datetime(item.date_debut) }}</td>
+                    <td>{{ datetime(item.date_fin) }}</td>
                     <!-- <td>
                         <div class="btns">
-                            <button class="depot btn" @click="depotAjour(cheque)" v-if="cheque.date_fin == null">
+                            <button class="depot btn" @click="depotAjour(item)" v-if="item.date_fin == null">
                                 <i class="fa-solid fa-arrow-down"></i> &nbsp; Depot
                             </button>
 
-                            <button class="btn delete" v-if="cheque.date_fin == null"
-                                @click="blockEpargne(cheque.id)">Cloturer l'épargne</button>
+                            <button class="btn delete" v-if="item.date_fin == null"
+                                @click="blockEpargne(item.id)">Cloturer l'épargne</button>
                             <span v-else>L'épargne est déjà cloturer</span>
                         </div>
                     </td> -->
                     <td>
-                        <i class="btn fa fa-ellipsis-v" v-if ="cheque.date_fin == null" @click="toggleOptions(cheque.id)" >
-                            <div class="option-links" v-show ="selectedItemId === cheque.id">
-                                <span  class="option-link"  @click="depotAjour(cheque)">Depot</span>
-                                <span  class="option-link"  @click="blockEpargne(cheque.id)">Cloturer</span>
-                                <span class="option-link" @click="getEpargneEtat(cheque.id)">Etat</span>
+                        <span v-if ="item.date_fin == null">En cours</span>
+                        <!-- <i class="btn fa fa-ellipsis-v" v-if ="item.date_fin == null" @click="toggleOptions(item.id)" >
+                            <div class="option-links" v-show ="selectedItemId === item.id">
+                                <span  class="option-link"  @click="depotAjour(item)">Depot</span>
+                                <span  class="option-link"  @click="blockEpargne(item.id)">Cloturer</span>
+                                <span class="option-link" @click="getEpargneEtat(item.id)">Etat</span>
                             </div>
-                        </i>
+                        </i> -->
                         <span v-else class="valid">L'épargne est déjà cloturer</span>
                     </td>
                 </tr>
@@ -185,18 +187,6 @@ export default {
         Navbar, Modal, Print_cheques, SearchCompte, SearchComponent
     },
     methods: {
-        toggleOptions(itemId) {
-            if (this.selectedItemId !== itemId) {
-                this.selectedItemId = itemId;
-                clearTimeout(this.timeoutId);
-                this.timeoutId = setTimeout(() => {
-                    this.selectedItemId = null;
-                }, 10000);
-            } else {
-                this.selectedItemId = null;
-                clearTimeout(this.timeoutId);
-            }
-        },
         depotAjour(cheque) {
             this.printable = [cheque]
             this.show_black = true
@@ -213,37 +203,6 @@ export default {
                 }).finally(() => {
                     this.show_flitre = false;
                 });
-        },
-        blackLister(compte) {
-            const data = new FormData()
-            data.append('epargne', compte)
-            data.append('montant', this.montant)
-            data.append('details', this.detail)
-            data.append('bordereau', this.bordereau)
-            console.log(data)
-            axios.post('depotepargnes/', data)
-                .then(() => {
-                    this.$store.state.message.success = 'Depot reçue.'
-                    this.closeModal()
-                    this.show_black = false
-                    this.getEpargne()
-                }).catch(error => {
-                    this.displayErrorOrRefreshToken(error, () => this.blackLister(compte))
-                })
-        },
-        blockEpargne(id) {
-            axios.get(`epargnes/${id}/close_epargne/`)
-                .then((response) => {
-                    this.$store.state.message.success = 'Epargne cloturer.'
-                    this.printable = this.printable.map((cheque) => {
-                        if (cheque.id == id) {
-                            return { ...cheque, ...response.data }
-                        }
-                        return cheque
-                    })
-                }).catch(error => {
-                    this.displayErrorOrRefreshToken(error, () => this.blockEpargne(id))
-                })
         },
         async getEpargne() {
             await axios.get('epargnes/')
