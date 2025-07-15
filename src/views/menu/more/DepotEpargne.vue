@@ -42,7 +42,7 @@
                 </p>
                 <p class="detail">
                     <strong>Montant total:</strong>
-                    {{ money(state.montant_epargne) }} Fbu
+                    {{ money(state.montant_total) }} Fbu
                 </p>
             </div>
         </div>
