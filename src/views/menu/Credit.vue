@@ -131,32 +131,68 @@
       <span class="title">Filtrage</span>
       <div class="content">
         <div>
+          <label>Etat :</label>
+          <select v-model="is_active">
+            <option :value="true">Pas encore terminé</option>
+            <option :value="false">Terminé</option>
+          </select>
+        </div>
+        <div>
           <label>Est-il une Personne physique :</label>
           <select v-model="physique">
-            <option value="">Rien</option>
+            <option value="">------</option>
             <option value="true">Oui</option>
             <option value="false">Non</option>
           </select>
         </div>
+        <div v-show="physique === 'false'" class="inputColumn">
+          <label for="activite">Personne morale activite:</label>
+          <select name="activite" id="activite" v-model="personne_morale__activite">
+            <option value="AGRO-ELEVEUR">Agro Eleveur</option>
+            <option value="COMMERCANT">Commercant</option>
+            <option value="INDUSTRIEL">Industriel</option>
+            <option value="SANS">Sans</option>
+            <option value="AUTRES">Autres</option>
+          </select>
+        </div>
         <div>
           <label>Commune :</label>
-          <input type="text" placeholder="numero de votre compte" v-model="compte" />
+          <input type="text" placeholder="Commune" v-model="compte" />
           <label>Montant maximal :</label>
-          <input type="text" placeholder="montant maximal" v-model="montant_maximal" />
+          <input type="number" placeholder="Montant Maximal" v-model="montant_maximal" />
           <label>Montant minimal :</label>
-          <input type="text" placeholder="montant minimal" v-model="montant_minimal" />
+          <input type="number" placeholder="Montant minimal" v-model="montant_minimal" />
+          <div>
+            <label>Type de crédit :</label>
+            <select v-model="credite">
+              <option value="">------</option>
+              <option value="CREDIT+AGRO+PASTORAL">Credit agro pastoral</option>
+              <option value="CREDIT+COMMERCIAL">Credit commercial</option>
+              <option value="CREDIT+A+L%27INDUSTRIE">Credit industriel</option>
+              <option value="CREDIT+AU+SECTEUR+DES+SERVICES">Credit secteur service</option>
+              <option value="LES+DECOUVERTS">Les decouverts</option>
+              <option value="CREDITS+AUX+EMPLOYES">Credit aux employes</option>
+              <option value="AUTRES">Autres</option>
+            </select>
+          </div>
           <label> Date d'approbation :</label>
           <div class="inputRow">
-            <input type="date" placeholder="numero de votre age" v-model="approved_superieur" />
-            <input type="date" placeholder="numero de votre age" v-model="approved_inferieur" />
+            <input type="date" v-model="approved_superieur" />
+            <input type="date" v-model="approved_inferieur" />
           </div>
           <label> Date de paiement :</label>
           <div class="inputRow">
-            <input type="date" placeholder="numero de votre age" v-model="paiement_superieur" />
-            <input type="date" placeholder="numero de votre age" v-model="paiement_inferieur" />
+            <input type="date" v-model="paiement_superieur" />
+            <input type="date" v-model="paiement_inferieur" />
           </div>
+          <label>Done at :</label>
+          <div class="inputRow">
+            <input type="date" v-model="done_at__lte" />
+            <input type="date" v-model="done_at__gte" />
+          </div>
+
           <div v-show="physique === 'true'">
-            <label> Mettre l'age :</label>
+            <label> Age :</label>
             <div class="inputRow">
               <input type="date" placeholder="numero de votre age" v-model="age_superieur" />
               <input type="date" placeholder="numero de votre age" v-model="age_inferieur" />
@@ -172,24 +208,12 @@
               <option value="autres">Autres</option>
             </select>
           </div>
-          <div>
-            <label>Type de crédit :</label>
-            <select v-model="credite">
-              <option value="">------</option>
-              <option value="CREDIT+AGRO+PASTORAL">Credit agro pastoral</option>
-              <option value="CREDIT+COMMERCIAL">Credit commercial</option>
-              <option value="CREDIT+A+L%27INDUSTRIE">Credit industriel</option>
-              <option value="CREDIT+AU+SECTEUR+DES+SERVICES">Credit secteur service</option>
-              <option value="LES+DECOUVERTS">Les decouverts</option>
-              <option value="CREDITS+AUX+EMPLOYES">Credit aux employes</option>
-              <option value="AUTRES">Autres</option>
-            </select>
-          </div>
-          <div>
-            <label>Etat :</label>
-            <select v-model="is_active">
-              <option :value="true">Pas encore terminé</option>
-              <option :value="false">Terminé</option>
+          <div v-show="physique === 'true'" class="inputColumn">
+            <label for="Residence">Residence:</label>
+            <select name="Residence" v-model="compte__personne_physique__residence">
+                <option value="" disabled selected>-------</option>
+                <option value="RESIDENT">Resident</option>
+                <option value="NON RESIDENT">Non Resident</option>
             </select>
           </div>
         </div>
@@ -365,7 +389,6 @@ export default {
       avaliseur: "",
       type: "",
       close: false,
-      compte: "",
       searchQuery: "",
       search: "",
       id: "",
@@ -414,6 +437,11 @@ export default {
       commission: false,
       validate_password: false,
       is_active: true,
+      done_at__gte: '',
+      done_at__lte: '',
+      compte__personne_physique__residence:'',
+      personne_morale__activite:''
+
     };
   },
   components: {
@@ -566,10 +594,12 @@ export default {
           this.displayErrorOrRefreshToken(error, this.getLiquider);
         })
     },
-    searchLasta(text) {
+    searchLasta(keyword) {
       axios.get(
-        text ? `credits/?search=${text}` :
-          `/credits/?compte__commune__icontains=${this.compte}&is_active=${this.is_active}&compte__numero=&compte__personne_physique__date_naissance__gte=${this.age_superieur}&compte__personne_physique__date_naissance__lte=${this.age_inferieur}&compte__personne_physique__sexe=${this.sexe}&type_credit=${this.credite}&approved_at__gte=${this.approved_superieur}&approved_at__lte=${this.approved_inferieur}&payment_date__gte=${this.paiement_superieur}&payment_date__lte=${this.paiement_inferieur}&montant__gte=${this.montant_maximal}&montant__lte=${this.montant_minimal}&compte__personne_physique__isnull=${this.physique}`
+        keyword ? `credits/?search=${keyword}` :
+          `/credits/?compte__commune__icontains=${this.compte}&is_active=${this.is_active}&compte__personne_physique__date_naissance__gte=${this.age_superieur}&compte__personne_physique__date_naissance__lte=${this.age_inferieur}&compte__personne_physique__sexe=${this.sexe}&type_credit=${this.credite}&
+          approved_at__gte=${this.approved_superieur}&approved_at__lte=${this.approved_inferieur}&payment_date__gte=${this.paiement_superieur}&payment_date__lte=${this.paiement_inferieur}&montant__gte=${this.montant_maximal}&montant__lte=${this.montant_minimal}&compte__personne_physique__isnull=${this.physique}&
+          done_at__gte=${this.done_at__gte}&done_at__lte=${this.done_at__lte}&compte__personne_physique__residence=${this.compte__personne_physique__residence}&personne_morale__activite=${this.personne_morale__activite}`
       ).then((reponse) => {
         this.credits = reponse.data;
         this.closeModal()
