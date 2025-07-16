@@ -29,6 +29,10 @@
         "link": "/menu/credit"
     },
     {
+        "name": "Placement",
+        "link": "/menu/placement"
+    },
+    {
         "name": "Comptabilité",
         "subLinks": [
             {
