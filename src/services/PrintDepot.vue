@@ -10,6 +10,7 @@
         <div class="bottom">
             <p>Montant deposé {{ money(item.montant) }} Fbu</p>
             <p>Compte {{ $route.query.number }} de {{ $route.query.name }}</p>
+            <p>Motif(Src): {{ item.motif}}</p>
             <p>Details: {{ item.details}}</p>
         </div>
     </div>

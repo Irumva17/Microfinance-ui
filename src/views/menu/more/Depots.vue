@@ -12,7 +12,8 @@
                 <tr>
                     <th>Id</th>
                     <th>Montant</th>
-                    <th>Motif</th>
+                    <th>Details</th>
+                    <th>Motif(Source)</th>
                     <th>Date</th>
                     <th>Fait par</th>
                     <th>Options</th>
@@ -21,6 +22,7 @@
                     <td>{{ item.id }}</td>
                     <td>{{ money(item.montant) }}</td>
                     <td>{{ item.details }}</td>
+                    <td>{{ item.motif }}</td>
                     <td>{{ datetime(item.created_at) }}</td>
                     <td>{{ item.created_by }}</td>
                     <td>

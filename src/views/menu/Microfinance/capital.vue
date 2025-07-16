@@ -332,10 +332,10 @@ export default {
                     //     }
                     //     return capital
                     // })
-                    let capitalIndex = this.capitals.findIndex(capital => capital.id === this.capital_id)
+                    let capitalIndex = this.capitals.results.findIndex(capital => capital.id === this.capital_id)
                     if (capitalIndex !== -1) {
-                        this.capitals[capitalIndex].total_verse += reponse.data.montant
-                        this.capitals[capitalIndex].reste_a_verser -= reponse.data.montant
+                        this.capitals.results[capitalIndex].total_verse += reponse.data.montant
+                        this.capitals.results[capitalIndex].reste_a_verser -= reponse.data.montant
                     }
                     this.closeModal()
                 }).catch((error) => {
@@ -408,7 +408,7 @@ export default {
             axios.post('capitals/', formData)
                 .then((reponse) => {
                     this.$store.state.message.success = 'Reussis.'
-                    this.capitals.unshift(reponse.data)
+                    this.capitals.results.unshift(reponse.data)
                     this.closeModal()
                 }).catch((error) => {
                     this.displayErrorOrRefreshToken(error, this.postCapitalSouscrit)
