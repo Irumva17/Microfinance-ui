@@ -25,6 +25,7 @@
         <div class="accounts not_printable">
             <Account :account_name="'Total Actifs'" :account_money="tot_actifs" />
             <Account :account_name="'Total Passifs'" :account_money="tot_passifs" />
+            <Account :account_name="'Total Passifs'" :account_money="tot_passifs" />
         </div>
         <section class="table">
             <table>
@@ -69,6 +70,7 @@ export default {
             totals : [],
             tot_actifs : 0,
             tot_passifs : 0,
+            equilibre: 0,
         }
     },
     components: {
@@ -100,6 +102,7 @@ export default {
                     this.tot_actifs = response.data.totaux.total_actifs
                     this.actifs = response.data.bilan.actifs
                     this.passifs = response.data.bilan.passifs
+                    this.equilibre = response.data.bilan.equilibre
                 }).catch((error) => {
                     this.displayErrorOrRefreshToken(error, this.getBilan)
                 })
