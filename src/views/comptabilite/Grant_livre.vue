@@ -20,7 +20,7 @@
     <div class="container">
         <div class="btn-headers">
             <div class="btn retour" @click="goBack">&#10094;</div>
-            <button class="btn" @click="show_modal = true">{{ grand_livre?.length ? 'Filtre' : 'Entreer les dates' }}</button>
+            <button class="btn" @click="show_modal = true">{{ grand_livre?.length ? 'Filtre' : 'Tapez les dates' }}</button>
         </div>
         <section class="table" v-for="(compte,index) in grand_livre" :key="index">
             <table>
@@ -41,7 +41,6 @@
                 </caption>
                 <tr>
                     <th>Id</th>
-                    <th>Montant</th>
                     <th>Reference</th>
                     <th>Motif</th>
                     <th>Date de creation</th>
@@ -51,7 +50,6 @@
                 </tr>
                 <tr v-for="operation in compte.details" :key="index">
                     <td>{{ operation.id }}</td>
-                    <td>{{ money(operation.montant) }}</td>
                     <td>{{ operation.ref_number }}</td>
                     <td>{{ operation.motif }}</td>
                     <td>{{ datetime(operation.created_at) }}</td>
@@ -146,13 +144,21 @@ export default {
 }
 </script>
 <style scoped>
+    .container{
+        gap: 30px;
+    }
     section.table{
         min-height: fit-content;
         box-shadow: 0 0 5px rgba(0,0,0,0.1);
         padding: 10px;
         background-color: white;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
         table{
             min-height: fit-content;
+
+            tr:last-child td:last-child{
+                font-weight: bolder;
+            }
         }
     }
     span.table-title{

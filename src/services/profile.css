@@ -261,3 +261,7 @@ label[for="uploadCsv"] {
 label[for="uploadCsv"] + input {
     display: none;
 }
+
+.depot_btn{
+    margin-top: 20px;
+}

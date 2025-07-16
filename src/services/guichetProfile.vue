@@ -2,7 +2,7 @@
     <Navbar />
     <Modal :isVisible="showModal" @close="closeModal">
         <div class="form-nini" v-if="action === 'Depot'">
-            <div class="bills">
+            <form @submit.prevent="depot" class="bills">
                 <div class="billets">
                     <div class="inputRow">
                         <label class="bill-label">10 000 &times;</label>
@@ -62,14 +62,16 @@
                     <div class="total">Total: <span>{{ money(sum) }}</span></div>
                 </div>
                 <div class="bordereau-details">
+                    <label>Motif</label>
+                    <input type="text" v-model="motif" placeholder="Source de l'argent" required>
                     <label>Details</label>
-                    <input type="text" v-model="details" placeholder="Details">
-                    <small v-for="err in data_error?.details" :key="err.id">
+                    <input type="text" v-model="details" placeholder="Details" required>
+                    <small v-for="err in data_error?.details" :key="err.id" >
                         {{ err }}
                     </small>
-                    <button class="btn-modal" @click="depot">Depot {{ money(sum) }}</button>
+                    <button class="btn-modal depot_btn">Depot {{ money(sum) }}</button>
                 </div>
-            </div>
+            </form>
         </div>
         <div class="form" v-if="action === 'Retrait'">
             <span class="title">Retrait</span>
@@ -496,6 +498,7 @@ export default {
                 montant: Number(this.sum),
                 bordereau: String(this.bordereau),
                 details: String(this.details),
+                motif: String(this.motif),
                 compte: this.$store.state.compte_active.id
             };
             try {

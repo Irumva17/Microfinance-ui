@@ -148,10 +148,9 @@
             </div>
         </div>
         <div class="accounts">
-            <Account account_name="Total souscrit" :account_money="capital_souscrit_tot" />
-            <Account account_name="Total liberé" :account_money="capital_souscrit_lib" />
-            <Account account_name="Total pas encore liberé" :account_money="capital_souscrit_pas_encore_lib" />
-            <Account account_name="Total non liberé" :account_money="capital_souscrit_non_lib" />
+            <Account account_name="Montant total promis" :account_money="capital_promis" />
+            <Account account_name="Montant total versé" :account_money="capital_verse" />
+            <Account account_name="Total restant" :account_money="capital_restant" />
         </div>
         <section class="table">
             <table>
@@ -166,7 +165,7 @@
                     <!-- <th>Liberé par</th> -->
                     <th>Options</th>
                 </tr>
-                <tr v-for="(capital, index) in capitals" :key="capital.id">
+                <tr v-for="(capital, index) in capitals.results" :key="capital.id">
                     <td>{{ capital.id }}</td>
                     <td>{{ capital.actionnaire.nom }}</td>
                     <td>{{ money(capital.montant_promis) }}</td>
@@ -232,17 +231,17 @@ export default {
         Navbar, Modal, SearchCompte, Account
     },
     computed: {
-        capital_souscrit_tot() {
-            return this.capitals.reduce((amount, item) => amount + (item.capital_souscrit), 0);
+        capital_promis() {
+            if(!this.capitals.results?.length) return 0
+            return this.capitals?.results.reduce((amount, item) => amount + (item.montant_promis), 0);
         },
-        capital_souscrit_lib() {
-            return this.capitals.reduce((amount, item) => amount + (item.capital_souscrit_libere_total || item.capital_souscrit_libere_partiel || 0), 0);
+        capital_verse() {
+            if(!this.capitals.results?.length) return 0
+            return this.capitals?.results.reduce((amount, item) => amount + (item.total_verse), 0);
         },
-        capital_souscrit_non_lib() {
-            return this.capitals.reduce((amount, item) => amount + (item.capital_souscrit_non_libere || 0), 0);
-        },
-        capital_souscrit_pas_encore_lib() {
-            return this.capitals.reduce((amount, item) => amount + (item.capital_souscrit - item.capital_souscrit_libere_total - item.capital_souscrit_libere_partiel - item.capital_souscrit_non_libere), 0);
+        capital_restant() {
+            if(!this.capitals.results?.length) return 0
+            return this.capitals?.results.reduce((amount, item) => amount + (item.reste_a_verser), 0);
         },
     },
     methods: {
@@ -389,7 +388,7 @@ export default {
         getCapital() {
             axios.get('capitals/')
                 .then((reponse) => {
-                    this.capitals = reponse.data.results
+                    this.capitals = reponse.data
                 }).catch((error) => {
                     this.displayErrorOrRefreshToken(error, this.getCapital);
                 })

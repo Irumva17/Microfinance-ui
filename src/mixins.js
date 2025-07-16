@@ -240,31 +240,32 @@ export default {
       }
     },
 
-    // async putDatas(id) {
-    //   this.isSucces = false;
-    //   const formData = new FormData();
-    //   formData.append('telephone', this.telephone);
-    //   formData.append('adresse', this.colline);
-    //   formData.append('commune', this.commune);
-    //   formData.append('province', this.province);
-    //   formData.append('organisation', this.organisation);
-    //   // formData.append('payante', this.payante);
-    //   formData.append('document', this.document);
-    //   formData.append('photo', this.photo);
-    //   try {
-    //       const response = await axios.put(`comptes/${id}/`, formData)
-    //       this.$store.commit('setSuccess', `Le compte de ${this.nom} a été créée avec succès.`);
-    //       this.$store.state.clients.results.unshift(response.data)
-    //       this.$nextTick(()=>{
-    //           this.$emit('done')
-    //       })
-    //       this.isSucces = true;
-    //   } catch (error) {
-    //       this.displayErrorOrRefreshToken(error,() => this.putDatas(id))
-    //   }
-    // }
+    async updateAccount(id) {
+      // this.isSucces = false;
+      const formData = new FormData();
+      formData.append('telephone', this.telephone);
+      formData.append('adresse', this.colline);
+      formData.append('commune', this.commune);
+      formData.append('province', this.province);
+      formData.append('organisation', this.organisation);
+      // formData.append('payante', this.payante);
+      formData.append('document', this.document);
+      formData.append('photo', this.photo);
+      try {
+          const response = await axios.put(`comptes/${id}/`, formData)
+          // this.$store.commit('setSuccess', `Le compte de ${this.nom} a été créée avec succès.`);
+          // this.$store.state.clients.results.unshift(response.data)
+          // this.$nextTick(()=>{
+          //     this.$emit('done')
+          // })
+          return response.data
+          // this.isSucces = true;
+      } catch (error) {
+          this.displayErrorOrRefreshToken(error,() => this.updateAccount(id))
+      }
+    },
     
-    async handleAccountCreation(url, type, data) {
+    async handleAccountCreation(updating, url, type, data) {
       data.append(type + '.telephone', this.telephone);
       data.append(type + '.adresse', this.colline);
       data.append(type + '.commune', this.commune);
@@ -276,32 +277,73 @@ export default {
       data.append('frais_commande_chequier', this.frais_commande_chequier);
 
 
-      this.document != null
+      this.document != ''
         ? (data.append(type + '.document', this.document))
-        : (this.$store.state.compte_active.document != null
-          ? (data.append(type + '.document', this.$store.state.compte_active.document))
+        : (this.$store.state?.compte_active?.document
+          ? (data.append(type + '.document', this.$store.state?.compte_active.document))
           : '')
-      this.photo != null
+      this.photo != ''
         ? (data.append(type + '.photo', this.photo))
-        : (this.$store.state.compte_active.photo != null
+        : (this.$store.state?.compte_active?.photo
           ? (data.append(type + '.photo', this.$store.state.compte_active.photo))
           : '')
       
-      await axios.post(url, data)
-        .then((response) => {
-          this.compte = response.data.numero
-          this.current_slide = 1
+      await axios[ updating ? 'put' : 'post' ](
+        updating ? url + updating.type_id + '/' : url , 
+        data
+      ).then((response) => {
+        this.compte = response.data.numero
+        this.current_slide = 1
+        
+
+        
+        if(updating) {
+          this.updateAccount(
+            updating.compte_id
+          ).then((rep)=>{
+            if(typeof rep === "object") {
+              this.$emit(
+                'done', 
+                updating , 
+                response.data?.compte
+              )
+              this.$store.commit(
+                'setSuccess',
+                `Le compte de ${this.nom} a été modifié avec succès.`
+              );
+            }
+          })
+        } else {
           this.$store.commit(
-            'setSuccess',
+          'setSuccess',
             `Le compte de ${this.nom} a été créée avec succès.`
           );
-          this.$emit('done', response.data?.compte)
-          // this.clients?.results.unshift(response.data);
-          // this.$store.state.clients.results.unshift(response.data);
-        }).catch((error) => {
-          this.data_error = error.response?.data
-          this.displayErrorOrRefreshToken(error, ()=> this.handleAccountCreation(url, type, data))
-        })
-    }
+          this.$emit(
+            'done', 
+            updating , 
+            response.data?.compte
+          )
+        }
+        // this.clients?.results.unshift(response.data);
+        // this.$store.state.clients.results.unshift(response.data);
+      }).catch((error) => {
+        this.data_error = error.response?.data
+        this.displayErrorOrRefreshToken(
+          error, 
+          ()=> this.handleAccountCreation(updating, url, type, data)
+        )
+      })
+    },
+    // async updateAccount(id, data) {
+    //   axios.put(`comptes/${id}/`, data)
+    //   .then((response) => {
+    //     return response.data
+    //   }).catch((error)=> {
+    //     this.displayErrorOrRefreshToken(
+    //       error, 
+    //       ()=> this.updateAccount(id, data)
+    //     )
+    //   })
+    // }
   }
 };

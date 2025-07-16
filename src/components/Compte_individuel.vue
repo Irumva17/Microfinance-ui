@@ -33,6 +33,9 @@
                         <option value="M">Masculin</option>
                         <option value="F">Feminin</option>
                     </select>
+                    <small v-for="err in data_error?.sexe" :key="err.id">
+                        {{ err }}
+                    </small>
                 </div>
             </div>
             <div class="inputRow">
@@ -47,6 +50,9 @@
                     <label for="birth_place">Lieu de Naissance:</label>
                     <input type="text" id="birth_place" v-model="lieu_naissance">
                 </div>
+                <small v-for="err in data_error?.lieu_naissance" :key="err.id">
+                    {{ err }}
+                </small>
             </div>
             <div class="inputRow">
                 <div class="inputColumn">
@@ -59,6 +65,9 @@
                         <option value="SANS">Sans</option>
                         <option value="AUTRES">Autres</option>
                     </select>
+                    <small v-for="err in data_error?.activite" :key="err.id">
+                        {{ err }}
+                    </small>
                 </div>
                 <div class="inputColumn">
                     <label for="Residence">Residence:</label>
@@ -67,6 +76,9 @@
                         <option value="RESIDENT">Resident</option>
                         <option value="NON RESIDENT">Non Resident</option>
                     </select>
+                    <small v-for="err in data_error?.residence" :key="err.id">
+                        {{ err }}
+                    </small>
                 </div>
             </div>
             <div class="inputRow">
@@ -82,81 +94,9 @@
                 <div class="inputColumn">
                     <label for="proffession">Profession:</label>
                     <input type="text" id="proffession" v-model="profession" placeholder="Mettez la proffession">
-                </div>
-            </div>
-        </div>
-        <div class="content" v-if="isSucces">
-            <div class="inputRow">
-                <div class="inputColumn">
-                    <label for="nom">Nom :</label>
-                    <input type="text" v-model="nom" placeholder="Nom d'utilisateur">
-                    <small v-for="err in data_error?.first_name" :key="err.id">
+                    <small v-for="err in data_error?.profession" :key="err.id">
                         {{ err }}
                     </small>
-                </div>
-                <div class="inputColumn">
-                    <label for="prenom">Prenom:</label>
-                    <input type="text" v-model="prenom" placeholder="Prenom d'utilisateur">
-                    <small v-for="err in data_error?.last_name" :key="err.id">
-                        {{ err }}
-                    </small>
-                </div>
-            </div>
-            <div class="inputRow">
-                <div class="inputColumn">
-                    <label for="cni">CNI: </label>
-                    <input type="text" v-model="cni" placeholder="Numero du CNI">
-                    <small v-for="err in data_error?.CNI" :key="err.id">
-                        {{ err }}
-                    </small>
-                </div>
-
-                <div class="inputColumn">
-                    <label for="genre">Genre:</label>
-                    <select name="genre" v-model="genre">
-                        <option value="M">Masculin</option>
-                        <option value="F">Feminin</option>
-                    </select>
-                </div>
-            </div>
-            <div class="inputRow">
-                <div class="inputColumn">
-                    <label for="anneedenaissance"> Date de naissance:</label>
-                    <input type="date" v-model="naissance" placeholder="Date de naissance">
-                    <small v-for="err in data_error?.date_naissance" :key="err.id">
-                        {{ err }}
-                    </small>
-                </div>
-                <div class="inputColumn">
-                    <label for="adresse">Lieu de Naissance:</label>
-                    <input type="text" v-model="lieu_naissance" placeholder="Lieu de Naissance">
-                </div>
-            </div>
-            <div class="inputRow">
-                <div class="inputColumn">
-                    <label for="proffession">Profession:</label>
-                    <input type="text" id="proffession" v-model="profession" placeholder="Mettez la proffession">
-                </div>
-            </div>
-            <div class="inputRow">
-                <div class="inputColumn">
-                    <label for="activite">Activite:</label>
-                    <select name="activite" v-model="activite">
-                        <option value="AGRO-ELEVEUR">Agro Eleveur</option>
-                        <option value="COMMERCANT">Commercant</option>
-                        <option value="SALARIE">Salarie</option>
-                        <option value="INDUSTRIEL">Industriel</option>
-                        <option value="SANS">Sans</option>
-                        <option value="AUTRES">Autres</option>
-                    </select>
-                </div>
-                <div class="inputColumn">
-                    <label for="Residence">Residence:</label>
-                    <select name="Residence" v-model="residence">
-                        <option value="" disabled selected>-------</option>
-                        <option value="RESIDENT">Resident</option>
-                        <option value="NON RESIDENT">Non Resident</option>
-                    </select>
                 </div>
             </div>
         </div>
@@ -171,7 +111,10 @@
                     <option value="Butanyerera">Butanyerera</option>
                     <option value="Gitega">Gitega</option>
                 </select> -->
-                <input type="text" id="province" placeholder="Mettez le nom du province" v-model="province">
+                <input type="text" id="province" placeholder="Province" v-model="province">
+                <small v-for="err in data_error?.province" :key="err.id">
+                    {{ err }}
+                </small>
             </div>
             <div class="inputColumn">
                 <label for="commune">Commune:</label>
@@ -225,11 +168,17 @@
                     <option v-if="province === 'Gitega'" value="Nyabihanga">Nyabihanga</option>
                     <option v-if="province === 'Gitega'" value="Shombo">Shombo</option>
                 </select> -->
-                <input type="text" id="commune" placeholder="Mettez le nom du commune" v-model="commune">
+                <input type="text" id="commune" placeholder="Commune" v-model="commune">
+                <small v-for="err in data_error?.commune" :key="err.id">
+                    {{ err }}
+                </small>
             </div>
             <div class="inputColumn">
                 <label for="colline">Colline/Quartier:</label>
-                <input type="text" id="colline" v-model="colline" placeholder="Mettez le nom de la colline" required>
+                <input type="text" id="colline" v-model="colline" placeholder="Colline" required>
+                <small v-for="err in data_error?.adresse" :key="err.id">
+                    {{ err }}
+                </small>    
             </div>
             <div class="inputRow">
                 <div class="inputColumn">
@@ -250,28 +199,32 @@
             </div>
             <div class="inputRow">
                 <div class="inputColumn">
-                    <label>Document(Spcen de signature):</label>
+                    <label>Document(Spcmen de signature):</label>
                     <input type="file" @change="handleFileUpload($event, 'document')" accept="application/pdf" required />
                 </div>
+                <a v-if="updating && specmen_file" class="btn" target="_blank" :href="specmen_file">
+                    <i class="fa-solid fa-eye"></i>
+                    Voir
+                </a>
                 <!-- <div class="inputColumn">
                     <label>Carte d'identite:</label>
                     <input type="file" @change="handleFileUpload($event, 'photo')" accept="image/*" required />
                 </div> -->
             </div>
-            <div class="checkboxRow">
-                        <div class="inputColumn">
-                            <label for="création_compte">Frais de création compte:</label>
-                            <input type="checkbox" v-model="frais_creation_compte" id="création_compte"  required />
-                        </div>
-                        <div class="inputColumn">
-                            <label for="d'adhésion">Frais d'adhésion:</label>
-                            <input type="checkbox" v-model="frais_adhesion" id="d'adhésion"  required />
-                        </div>
-                        <div class="inputColumn">
-                            <label for="commande_chéquier">Frais commande chéquier:</label>
-                            <input type="checkbox" v-model="frais_commande_chequier" id="commande_chéquier" required />
-                        </div>
-                    </div>
+            <div v-if="!updating" class="checkboxRow">
+                <div class="inputColumn">
+                    <label for="création_compte">Frais de création compte:</label>
+                    <input type="checkbox" v-model="frais_creation_compte" id="création_compte"  required />
+                </div>
+                <div class="inputColumn">
+                    <label for="d'adhésion">Frais d'adhésion:</label>
+                    <input type="checkbox" v-model="frais_adhesion" id="d'adhésion"  required />
+                </div>
+                <div class="inputColumn">
+                    <label for="commande_chéquier">Frais commande chéquier:</label>
+                    <input type="checkbox" v-model="frais_commande_chequier" id="commande_chéquier" required />
+                </div>
+            </div>
         </div>
         <div class="btns">
             <button type="button" v-if="current_slide == 2" class="btn-modal"
@@ -280,8 +233,9 @@
             <button type="button" v-if="current_slide == 1" class="btn-modal" @click="current_slide = 2">Suivant
                 &nbsp; &#10095;</button>
             <button type="button" v-if="current_slide == 2" class="btn-modal" @click="createNewAccount"
-                :disabled="!document">
-                Créer 
+            >
+            <!-- :disabled="updating && !document" -->
+                {{ updating ? 'Modifier' : 'Créer' }}
             </button>
         </div>
     </form>
@@ -300,7 +254,7 @@ export default {
             province: '',
             organisation: 'individu',
             payante: '',
-            document: null,
+            document: '',
             photo: '',
             isSucces: false,
             current_slide: 1,
@@ -310,7 +264,49 @@ export default {
             frais_creation_compte: false,
             frais_adhesion: false,
             frais_commande_chequier: false,
+
+            specmen_file:'',
+
+            updating : null
+
         };
+    },
+    props : {
+        updatingAccount : {
+            type: Object,
+            required: false
+        }
+    },
+    watch: {
+        updatingAccount(newVal) {
+            if(newVal) {
+                const account = JSON.parse(JSON.stringify(newVal))
+                
+                this.nom = account.first_name
+                this.prenom = account.last_name
+                this.cni = account.CNI
+                this.genre = account.sexe
+                this.naissance = account.date_naissance
+                this.lieu_naissance = account.lieu_naissance
+                this.activite = account.activite
+                this.profession = account.profession
+                this.residence = account.residence
+
+                this.province = account.compte.province
+                this.commune = account.compte.commune
+                this.colline = account.compte.adresse
+                this.telephone = account.compte.telephone
+                this.payante = account.compte.payante
+
+                this.updating = {
+                    compte_id: account.compte.id,
+                    type_id: account.id
+                }
+
+
+                this.specmen_file = account.compte.document
+            }
+        }
     },
     methods: {
         
@@ -328,10 +324,12 @@ export default {
             data.append("residence", this.residence)
 
             this.handleAccountCreation(
+                this.updating,
                 'personne_physiques/',
                 'compte_personne_physique',
                 data
             )
+
         }
     },
     mounted(){
@@ -339,3 +337,14 @@ export default {
     }
 }
 </script>
+
+<style>
+
+.inputRow:has(.fa-eye) {
+    align-items: end;
+
+    a {
+        text-decoration: none;
+    }
+}
+</style>

@@ -130,6 +130,10 @@ export default {
     SearchComponent
   },
   methods: {
+    // getJournalNumber(nom){
+    //   const match = nom.match(/^\d+(?:-\d+)?/);
+    //   return match ? match[0] : '';
+    // },
     rechercher(keyword) {
       axios.get(`journalcaisse/?search=${keyword}`)
         .then((reponse) => {

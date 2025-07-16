@@ -22,8 +22,8 @@
             <label>Organisation:</label>
             <select v-model="organisation">
                 <option value="" disabled>-------</option>
-                <!-- <option value="individu">Indivudu</option> -->
-                <option value="groupe">Groupe</option>
+                <option value="groupe">Association</option>
+                <option value="groupe">Coopérative</option>
                 <option value="societe">Societé</option>
             </select>
             <label for="genre">Institution:</label>
@@ -138,16 +138,28 @@
                             <option :value="false">Non payante</option>
                         </select>
                     </div>
-                    <div class="inputColumn">
-                        <label>Document:</label>
-                        <input type="file" @change="handleFileUpload($event, 'document')" accept="application/pdf"
-                            required />
+                    <div class="inputRow">
+                        <div class="inputColumn">
+                            <label>Document:</label>
+                            <input type="file" @change="handleFileUpload($event, 'document')" accept="application/pdf"
+                                required />
+                        </div>
+                        <a v-if="updating && specmen_file" class="btn" target="_blank" :href="specmen_file">
+                            <i class="fa-solid fa-eye"></i>
+                            Voir
+                        </a>
                     </div>
-                    <div class="inputColumn">
-                        <label>Image:</label>
-                        <input type="file" @change="handleFileUpload($event, 'photo')" accept="image/*" required />
+                    <div class="inputRow">
+                        <div class="inputColumn">
+                            <label>Image:</label>
+                            <input type="file" @change="handleFileUpload($event, 'photo')" accept="image/*" required />
+                        </div>
+                        <a v-if="updating && specmen_image" class="btn" target="_blank" :href="specmen_image">
+                            <i class="fa-solid fa-eye"></i>
+                            Voir
+                        </a>
                     </div>
-                    <div class="checkboxRow">
+                    <div v-if="!updating" class="checkboxRow">
                         <div class="inputColumn">
                             <label for="création_compte">Frais de création compte:</label>
                             <input type="checkbox" v-model="frais_creation_compte" id="création_compte"  required />
@@ -170,8 +182,10 @@
             <button type="button" v-if="current_slide == 1" class="btn-modal" @click="current_slide = 2">Suivant
                 &nbsp; &#10095;</button>
             <button type="button" v-if="current_slide == 2" class="btn-modal" @click="createNewAccount"
-                :disabled="!document">
-                Créer </button>
+            >
+            <!-- :disabled="!document"  -->
+                Créer 
+            </button>
         </div>
     </form>
 </template>
@@ -191,7 +205,7 @@ export default {
             province: '',
             organisation: '',
             payante: '',
-            document: null,
+            document: '',
             photo: '',
             current_slide: 1,
 
@@ -199,31 +213,51 @@ export default {
             frais_adhesion: false,
             frais_commande_chequier: false,
             // prix_dun_compte : 0,
-            data_error: {}
+            data_error: {},
+
+            specmen_file:'',
+            specmen_image: '',
+
+            updating : null
         };
     },
+    props : {
+        updatingAccount : {
+            type: Object,
+            required: false
+        }
+    },
+    watch: {
+        updatingAccount(newVal) {
+            if(newVal) {
+                console.log(newVal);
+                
+                const account = JSON.parse(JSON.stringify(newVal))
+                
+                this.nom = account.nom
+                this.date_creation = account.date_creation
+                this.NIF = account.NIF
+                this.institution = account.institution
+                this.activite = account.activite
+
+                this.province = account.compte.province
+                this.commune = account.compte.commune
+                this.colline = account.compte.adresse
+                this.telephone = account.compte.telephone
+                this.payante = account.compte.payante
+
+                this.updating = {
+                    compte_id: account.compte.id,
+                    type_id: account.id
+                }
+
+
+                this.specmen_file = account.compte.document
+                this.specmen_image = account.compte.image
+            }
+        }
+    },
     methods: {
-        // async createNewAccount() {
-        //     this.checkNum()
-        //     const data = {
-        //         nom: this.nom,
-        //         institution: this.institution,
-        //         NIF: this.NIF,
-        //         date_creation: this.date_creation,
-        //         activite: this.activite,
-        //     };
-        //     await axios.post('personne_morales/', data)
-        //         .then((response) => {
-        //             this.compte = response.data.numero
-        //             this.putDatas(response.data.compte_id)
-        //             // this.$store.state.user.personnel.balance += this.prix_dun_compte
-        //         }).catch((error) => {
-        //             this.data_error = error.response?.data
-        //             this.displayErrorOrRefreshToken(error, this.createNewAccount)
-        //             this.current_slide = 1
-        //         })
-        // },
-        
         async createNewAccount() {
             if(!this.checkNum()) return
             const data = new FormData();
@@ -234,12 +268,14 @@ export default {
             data.append('activite', this.activite);
 
             this.handleAccountCreation(
+                this.updating,
                 'personne_morales/',
                 'compte_personne_morale',
                 data
             )            
 
         },
+
     },
     mounted() {
         this.getAccountCreationPrice()

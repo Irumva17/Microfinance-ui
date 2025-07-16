@@ -25,6 +25,7 @@
             <button class="btn-modal" @click="putClasse(prix_id, price)">Ajouter</button>
         </div>
     </Modal>
+    
     <div class="container">
         <div class="btns">
             <div class="btn retour" @click="goBack">&#10094;</div>

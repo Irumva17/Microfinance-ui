@@ -203,7 +203,9 @@
       <button class="btn-modal" @click="sousCompte(client.id)"> Creer</button>
     </div>
   </Modal>
-  <Modal :isVisible="show_edit" @close="closeModal">
+
+
+  <!-- <Modal :isVisible="show_edit" @close="closeModal">
     <form @submit.prevent="updateAccount" class="form">
       <span class="title">Modifier le compte</span>
       <div class="content">
@@ -265,10 +267,25 @@
         Modifier le compte &#10003;
       </button>
     </form>
-  </Modal>
-  <Modal :isVisible="show_create_account" @close="closeModal">
-    <GuichetCompteIndividuel v-if="show_personne_physique" @done="appendNewAccount" @cancel="closeModal" />
-    <GuichetCompteMorale v-if="show_personne_morale" @done="appendNewAccount" @cancel="closeModal" />
+  </Modal> -->
+  
+  
+  <Modal 
+    :isVisible="show_create_account" 
+    @close="closeModal"
+  >
+    <GuichetCompteIndividuel 
+      v-if="show_personne_physique" 
+      @done="appendNewAccount" 
+      @cancel="closeModal" 
+      :updatingAccount="editingAccount"
+      />
+      <GuichetCompteMorale 
+      v-if="show_personne_morale" 
+      @done="appendNewAccount" 
+      @cancel="closeModal" 
+      :updatingAccount="editingAccount"
+    />
   </Modal>
   <Modal :isVisible="show_mandataire" @close="closeModal">
     <div class="form">
@@ -439,7 +456,7 @@ export default {
       activite:'',
       residence:'',
 
-      editingAccount:'',
+      editingAccount:null,
 
       phone: '',
       adresse: '',
@@ -502,10 +519,15 @@ export default {
     }
   },
   methods: {
-    appendNewAccount(account) {
+    appendNewAccount(updating = null, account) {
+      this.closeModal();
+      if(updating) {
+        this.getClients()
+        return
+      }
       this.clients.results.unshift(account);
       this.$store.state.clients = this.clients;
-      this.closeModal();
+      // this.closeModal();
     },
     newAccount(account) {
       account === 'morale' ? this.show_personne_morale = true : this.show_personne_physique = true
@@ -536,7 +558,8 @@ export default {
       axios
         .get(
           keyword ? `/comptes/?search=${keyword}` :
-          `/comptes/?commune__icontains=${this.commune_filtre}&solde__gte=${this.solde__gte}&solde__lte=${this.solde__lte}&created_at__gte=${this.creation_debut}&created_at__lte=${this.creation_fin}&personne_physique__date_naissance__gte=${this.personne_physique__date_naissance__gte}&personne_physique__date_naissance__lte=${this.personne_physique__date_naissance__lte}&last_activity__gte=${this.date_debut}&last_activity__lte=${this.date_fin}&adresse=${this.adresse}&personne_physique__activite=${this.personne_physique__activite}&personne_physique__residence=${this.personne_physique__residence}&personne_physique__sexe=${this.personne_physique__sexe}&personne_physique__isnull=${this.personne_physique__isnull}&personne_morale__institution=${this.personne_morale__institution}&personne_morale__activite=${this.personne_morale__activite}`
+          `/comptes/?commune__icontains=${this.commune_filtre}&balance__gte=${this.solde__gte}&balance__lte=${this.solde__lte}&created_at__gte=${this.creation_debut}&created_at__lte=${this.creation_fin}&personne_physique__date_naissance__gte=${this.personne_physique__date_naissance__gte}&personne_physique__date_naissance__lte=${this.personne_physique__date_naissance__lte}&last_activity__gte=${this.date_debut}&last_activity__lte=${this.date_fin}&adresse=${this.adresse}&personne_physique__activite=${this.personne_physique__activite}&personne_physique__residence=${this.personne_physique__residence}&personne_physique__sexe=${this.personne_physique__sexe}&personne_physique__isnull=${this.personne_physique__isnull}&personne_morale__institution=${this.personne_morale__institution}&personne_morale__activite=${this.personne_morale__activite}`
+          
         ).then((response) => {
           this.clients = response.data;
           this.closeModal()
@@ -648,28 +671,30 @@ export default {
       this.personne_physique__activite = ''
     },
     modifier(compte) {
-      const comfirmation = confirm(`Vous voulez vraiment modifier le compte ${compte.numero}?`);
-      if (comfirmation) {
+      // const comfirmation = confirm(`Vous voulez vraiment modifier le compte ${compte.numero}?`);
+      // if (comfirmation) {
         const type = compte.personne_physique ? 'physique' : 'morale'
         const accID = type === 'physique' ? compte.personne_physique.id : compte.personne_morale.id
         const url = compte.personne_physique ? 'personne_physiques' : 'personne_morales'
 
         axios.get(`${url}/${accID}/`)
         .then((response) => {
-          this.editingAccount = { 
-            ...response.data, 
-            type : type,
-            numero : compte.numero,
-            compte_id : compte.id,
-            url : `${url}/${accID}/`
-          }
-          this.show_edit = true
+          this.newAccount(type)
+          this.$nextTick(()=>{
+            this.editingAccount = { 
+              ...response.data, 
+              type : type,
+              numero : compte.numero,
+              compte_id : compte.id,
+              url : `${url}/${accID}/`
+            }
+          })
         }).catch((error) => {
           this.displayErrorOrRefreshToken(error, () => this.getActivation(action, id));
         })
 
         this.editingAccount = compte.personne_physique
-      }
+      // }
     },
     handlePdfUpload(event) {
       this.document = event.target.files[0];
@@ -677,21 +702,21 @@ export default {
     handleImageUpload(event) {
       this.photo = event.target.files[0];
     },
-    async updateAccount() {
-      try {
-        await axios.put(
-          this.editingAccount.url, 
-          this.editingAccount
-        )
-        this.$store.state.message.success = `Le compte ${this.editingAccount.numero} a été modifié avec succès.`
+    // async updateAccount() {
+    //   try {
+    //     await axios.put(
+    //       this.editingAccount.url, 
+    //       this.editingAccount
+    //     )
+    //     this.$store.state.message.success = `Le compte ${this.editingAccount.numero} a été modifié avec succès.`
         
-        this.editingAccount = null
-        this.closeModal()
-        this.getClients()
-      } catch (error) {
-        this.displayErrorOrRefreshToken(error, this.updateAccount)
-      }
-    },
+    //     this.editingAccount = null
+    //     this.closeModal()
+    //     this.getClients()
+    //   } catch (error) {
+    //     this.displayErrorOrRefreshToken(error, this.updateAccount)
+    //   }
+    // },
     update(data){
       this.clients.results = this.clients.results.map(cli => {
         if (cli.id === data.id) return { ...cli, ...data }

@@ -23,7 +23,7 @@
             <section v-if="triger === 'client'" class="table">
                 <table>
                     <tr>
-                        <!-- <th>ID</th> -->
+                        <th>ID</th>
                         <th>Date et Heure</th>
                         <th>Action</th>
                         <th>Débit</th>
@@ -34,7 +34,7 @@
                         <th>Acteur</th>
                     </tr>
                     <tr v-for="(history, index) in histories.results" :key="history.id">
-                        <!-- <td>{{ history.id }}</td> -->
+                        <td>{{ history.id }}</td>
                         <td>{{ datetime(history.created_at) }}</td>
                         <td>{{ history.action }}</td>
                         <!-- <td>{{ history.montant }}</td> -->
