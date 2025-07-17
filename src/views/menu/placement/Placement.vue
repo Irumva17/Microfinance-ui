@@ -150,7 +150,7 @@
                     <th>Validation</th>
                     <th>Options</th>
                 </tr>
-                <tr v-for="item in placements" :key="item?.id" @dblclick="goToAmmortissement(item)">
+                <tr v-for="item in placements" :key="item?.id" @dblclick="goToAmmortissement(item)" class="clickable-row">
                     <td>{{ item?.id }}</td>
                     <td>{{ item?.compte?.numero }}</td>
                     <td>{{ datetime(item?.created_at) }}</td>
