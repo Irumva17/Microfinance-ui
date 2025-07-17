@@ -1,6 +1,6 @@
 <template>
     <div class="cheque_container" v-if="cheque_nums.length">
-        <Print_cheques :account="account" :cheque_nums="cheque_nums" :full_name="full_name" class="printable" />
+        <Print_cheques :account="account" :cheque_nums="cheque_nums" class="printable" />
     </div>
     <div class="not_printable">
         <Navbar />
@@ -49,68 +49,10 @@
                     </div>
                     <div class="inputColumn">
                         <label>Province:</label>
-                        <!-- <select v-model="province">
-                            <option value="" disabled>-------</option>
-                            <option value="Bujumbura">Bujumbura</option>
-                            <option value="Buhumuza">Buhumuza</option>
-                            <option value="Burunga">Burunga</option>
-                            <option value="Butanyerera">Butanyerera</option>
-                            <option value="Gitega">Gitega</option>
-                        </select> -->
                         <input type="text" v-model="province">
                     </div>
                     <div class="inputColumn">
                         <label for="commune">Commune:</label>
-                        <!-- <select v-model="commune">
-                            <option value="" disabled>-------</option>
-                            <option v-if="province === ''" value="" disabled>Province d'abord</option>
-                            <option v-if="province === 'Buhumuza'" value="Butaganzwa">Butaganzwa</option>
-                            <option v-if="province === 'Buhumuza'" value="Butihinda">Butihinda</option>
-                            <option v-if="province === 'Buhumuza'" value="Cankuzo">Cankuzo</option>
-                            <option v-if="province === 'Buhumuza'" value="Gisagara">Gisagara</option>
-                            <option v-if="province === 'Buhumuza'" value="Gisuru">Gisuru</option>
-                            <option v-if="province === 'Buhumuza'" value="Muyinga">Muyinga</option>
-                            <option v-if="province === 'Buhumuza'" value="Ruyigi">Ruyigi</option>
-
-                            <option v-if="province === 'Bujumbura'" value="Bubanza">Bubanza</option>
-                            <option v-if="province === 'Bujumbura'" value="Bukinanyana">Bukinanyana</option>
-                            <option v-if="province === 'Bujumbura'" value="Cibitoke">Cibitoke</option>
-                            <option v-if="province === 'Bujumbura'" value="Isare">Isare</option>
-                            <option v-if="province === 'Bujumbura'" value="Mpanda">Mpanda</option>
-                            <option v-if="province === 'Bujumbura'" value="Mugere">Mugere</option>
-                            <option v-if="province === 'Bujumbura'" value="Mugina">Mugina</option>
-                            <option v-if="province === 'Bujumbura'" value="Muhuta">Muhuta</option>
-                            <option v-if="province === 'Bujumbura'" value="Mukaza">Mukaza</option>
-                            <option v-if="province === 'Bujumbura'" value="Ntahangwa">Ntahangwa</option>
-                            <option v-if="province === 'Bujumbura'" value="Rwibaga">Rwibaga</option>
-
-                            <option v-if="province === 'Burunga'" value="Bururi">Bururi</option>
-                            <option v-if="province === 'Burunga'" value="Makamba">Makamba</option>
-                            <option v-if="province === 'Burunga'" value="Matana">Matana</option>
-                            <option v-if="province === 'Burunga'" value="Musongati">Musongati</option>
-                            <option v-if="province === 'Burunga'" value="Nyanza">Nyanza</option>
-                            <option v-if="province === 'Burunga'" value="Rumonge">Rumonge</option>
-                            <option v-if="province === 'Burunga'" value="Rutana">Rutana</option>
-
-                            <option v-if="province === 'Butanyerera'" value="Busoni">Busoni</option>
-                            <option v-if="province === 'Butanyerera'" value="Kayanza">Kayanza</option>
-                            <option v-if="province === 'Butanyerera'" value="Kiremba">Kiremba</option>
-                            <option v-if="province === 'Butanyerera'" value="Kirundo">Kirundo</option>
-                            <option v-if="province === 'Butanyerera'" value="Matongo">Matongo</option>
-                            <option v-if="province === 'Butanyerera'" value="Muhanga">Muhanga</option>
-                            <option v-if="province === 'Butanyerera'" value="Ngozi">Ngozi</option>
-                            <option v-if="province === 'Butanyerera'" value="Tangara">Tangara</option>
-
-                            <option v-if="province === 'Gitega'" value="Bugendana">Bugendana</option>
-                            <option v-if="province === 'Gitega'" value="Gishubi">Gishubi</option>
-                            <option v-if="province === 'Gitega'" value="Gitega">Gitega</option>
-                            <option v-if="province === 'Gitega'" value="Karusi">Karusi</option>
-                            <option v-if="province === 'Gitega'" value="Kiganda">Kiganda</option>
-                            <option v-if="province === 'Gitega'" value="Muramvya">Muramvya</option>
-                            <option v-if="province === 'Gitega'" value="Mwaro">Mwaro</option>
-                            <option v-if="province === 'Gitega'" value="Nyabihanga">Nyabihanga</option>
-                            <option v-if="province === 'Gitega'" value="Shombo">Shombo</option>
-                        </select> -->
                         <input type="text" v-model="commune">
                     </div>
                     <label for="detail">Est-il disponible: </label>
@@ -150,15 +92,33 @@
             </div>
         </Modal>
         <Modal :isVisible="show_black" @close="closeModal">
-            <div class="form">
+            <div class="form" >
                 <span class="title">Bloquer les Chèques du compte {{ printable[index]?.compte.numero }}</span>
-                <div class="content">
-                    <span class="un">Les cheques disponible sont {{ printable[index]?.cheque_restant }}</span>
-                    <label for="cheques"> Numero des chèques à bloquer:</label>
-                    <input type="text" id="cheques" v-model="black_nums" placeholder="1,2,3">
+                <div v-if="printable[index]?.cheque_restant">
+                    <div class="content">
+                        <span class="un">
+                            <b class="title">Les cheques disponible sont: </b>
+                            {{ printable[index]?.cheque_restant }}
+                        </span>
+                        <span class="un " v-if="printable[index]?.blacklisted.length">
+                            <span class="title">Les chèques  déjà utilisé sont:</span>
+                            <span v-for="(item, index) in (printable[index]?.blacklisted)?.split(',').sort()" :key="index">
+                                {{item}} &nbsp;
+                            </span>
+                        </span>
+                        <label class="title" for="cheques"> 
+                            Numero des chèques à bloquer:
+                        </label>
+                        <input type="text" id="cheques" v-model="black_nums" placeholder="Numero separe par un virgule. Ex:1,2,3...">
+                    </div>
+                    <button class="btn-modal" 
+                        @click="blackLister(printable[index]?.compte.numero)"
+                        style="margin-top: 20px;"
+                    >
+                        Bloquer
+                    </button>
                 </div>
-                <button class="btn-modal" @click="blackLister(printable[index]?.compte.numero)"
-                    style="margin-top: 20px;">Bloquer</button>
+                <span class="valid" v-else>Tous les chèques sont déjà utilisé.</span>
             </div>
         </Modal>
         <Modal :isVisible="show_cheques" @close="closeModal">
@@ -241,8 +201,10 @@
                         <th>Id</th>
                         <th>Compte</th>
                         <th>Agence </th>
+                        <th>Details</th>
                         <th>Quantite</th>
                         <th>Numero </th>
+                        <th>Date </th>
                         <th>Action</th>
                         <th></th>
                     </tr>
@@ -250,8 +212,10 @@
                         <td>{{ cheque.id }}</td>
                         <td>{{ cheque.compte.numero }}</td>
                         <td>{{ cheque.agence }}</td>
+                        <td>{{ cheque.details }}</td>
                         <td>{{ cheque.quantite }}</td>
                         <td>{{ cheque.code_debut }} - {{ cheque.code_fin }}</td>
+                        <td>{{ datetime(cheque.created_at) }}</td>
                         <td>
                             <div class="btns">
                                 <button class="btn" v-if="cheque.is_available == true && cheque.is_delivered == false"
@@ -268,17 +232,21 @@
                                 <button class="btn" @click="getExtraAction('printed', cheque)">
                                     <i class="fa-solid fa-print"></i>
                                     {{ `${cheque.is_printed ? 'Réimprimer' : 'Imprimer'}` }}
-                                    <!-- Imprimer -->
                                 </button>
+                                
                             </div>
                         </td>
                         <td>
                             <button class="btn delete" v-if="cheque.is_done === false" @click="deleteCheque(cheque.id)">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
-                            <!-- <button class="btn delete" @click="chequeAjour(cheque.id)"
-                                v-if="cheque.is_done == true">Bloquer
-                            </button> -->
+                            <button 
+                                class="btn delete" 
+                                @click="chequeAjour(cheque.id)"
+                                v-if="cheque.is_done == true"
+                            >
+                                Bloquer
+                            </button>
                         </td>
                     </tr>
                 </table>
@@ -326,8 +294,7 @@ export default {
             delivrer: '',
             imprimer: '',
             data_error: {},
-            index : null,
-            full_name : ''
+            index : null
         }
     },
     watch: {
@@ -348,7 +315,7 @@ export default {
                     this.printable = this.printable.filter(user => user.id != id);
                     this.$store.state.message.success = 'Supprimés avec succès.'
                 } catch (error) {
-                    this.displayErrorOrRefreshToken(error,()=> this.deleteCheque(id))
+                    this.displayErrorOrRefreshToken(error, this.deleteCheque)
                 }
             }
         },
@@ -373,10 +340,11 @@ export default {
             data.append('compte_numero', numero)
             data.append('blacklist_numbers', this.black_nums)
             axios.post(`cheques/blacklist-cheques/`, data)
-                .then((response) => {
+                .then(() => {
                     this.$store.state.message.success = 'Cheques bloqués avec succée.'
                     this.closeModal()
-                    this.update(response.data)
+                    // this.update(response.data)
+                    this.getCheques()
                 }).catch(error => {
                     this.displayErrorOrRefreshToken(error, this.blackLister)
                 })
@@ -389,18 +357,16 @@ export default {
                 details: this.detail,
                 compte: this.compte,
             }
-
             axios.post(`retraitcheques/`, form)
                 .then(() => {
                     this.$store.state.message.success = 'Chèques retirés avec succès.'
-                    this.printable = this.printable.filter((cheque) => cheque.compte.id !== this.compte);
+                    this.printable = this.printable.filter((cheque) => cheque.compte.id !== this.compte)
                     this.closeModal()
                 }).catch((error) => {
                     this.displayErrorOrRefreshToken(error, this.retraitCheques)
                     this.data_error = error.response?.data
                 })
-            },
-
+        },
         update(data) {
             this.printable = this.printable.map((cheque) => {
                 if(cheque.id === data.id) return { ...cheque, ...data }
@@ -411,8 +377,7 @@ export default {
             axios.get(`cheques/${cheque.id}/cheque-${action}/`)
             .then((response)=>{
                 if(action === 'printed'){
-                    this.account = cheque.compte?.numero
-                    this.full_name =  cheque.compte?.fullname
+                    this.account = cheque.compte.numero
                     this.cheque_nums = cheque?.cheque_restant.split(",").map(Number)
                     this.$nextTick(() => print())
                 }
@@ -424,9 +389,7 @@ export default {
         },
         async getCheques() {
             await axios.get(`cheques/?${this.is_active === 'pas_encore' ? 'is_done=false' : 'is_done=true'}`)
-                .then((response) => {
-                    this.printable = response.data.results.filter((item)=> item.is_deleted !== true);
-                })
+                .then((response) => this.printable = response.data.results )
                 .catch((error) => this.displayErrorOrRefreshToken(error, this.getCheques))
         },
         closeModal() {
@@ -526,6 +489,13 @@ export default {
 }
 .un {
     max-width: 100%;
-    word-break: break-all
+    word-break: break-all;
+
+}
+.un .title, label[for="cheques"] {
+    font-size: 18px;
+    margin-bottom: 6px;
+    display: block;
+    font-weight: 600;
 }
 </style>

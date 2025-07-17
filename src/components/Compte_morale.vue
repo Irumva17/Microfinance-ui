@@ -22,8 +22,8 @@
             <label>Organisation:</label>
             <select v-model="organisation">
                 <option value="" disabled>-------</option>
-                <option value="groupe">Association</option>
-                <option value="groupe">Coopérative</option>
+                <option value="Association">Association</option>
+                <option value="coopérative">Coopérative</option>
                 <option value="societe">Societé</option>
             </select>
             <label for="genre">Institution:</label>
@@ -37,7 +37,7 @@
             <label for="activite">Activite:</label>
             <select name="activite" id="activite" v-model="activite">
                 <option value="AGRO-ELEVEUR">Agro Eleveur</option>
-                <option value="COMMERCANT">Commercant</option>
+                <option value="COMMERCANT">Commerçant</option>
                 <option value="INDUSTRIEL">Industriel</option>
                 <option value="SANS">Sans</option>
                 <option value="AUTRES">Autres</option>
@@ -230,8 +230,6 @@ export default {
     watch: {
         updatingAccount(newVal) {
             if(newVal) {
-                console.log(newVal);
-                
                 const account = JSON.parse(JSON.stringify(newVal))
                 
                 this.nom = account.nom
@@ -251,7 +249,6 @@ export default {
                     type_id: account.id
                 }
 
-
                 this.specmen_file = account.compte.document
                 this.specmen_image = account.compte.image
             }
@@ -265,6 +262,7 @@ export default {
             data.append('date_creation', this.date_creation);
             data.append('NIF', this.NIF);
             data.append('institution', this.institution);
+            data.append('organisation', this.organisation);
             data.append('activite', this.activite);
 
             this.handleAccountCreation(
@@ -275,7 +273,6 @@ export default {
             )            
 
         },
-
     },
     mounted() {
         this.getAccountCreationPrice()

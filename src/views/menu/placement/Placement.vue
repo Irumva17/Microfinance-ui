@@ -146,7 +146,7 @@
                     <th>Montant</th>
                     <th>Taux d'interet</th>
                     <th>Periode</th>
-                    <th>Situations</th>
+                    <th>Situation</th>
                     <th>Validation</th>
                     <th>Options</th>
                 </tr>
@@ -159,8 +159,8 @@
                     <td>{{ item?.periode }} Mois</td>
                     <td>
                         <span v-if="item?.is_active">En cours</span>
-                        <span v-if="!item?.is_active">Non valider</span>
-                        <span v-if="item?.done">Terminé</span>
+                        <span v-if="!item?.is_active  && !item?.done_at">Non valider</span>
+                        <span v-if="item?.done_at" class="valid">Terminé</span>
                     </td>
                     <td>
                         <span v-if="item?.validated_by != null" class="valid">Validé</span>
@@ -187,6 +187,7 @@
                                 </span>
                             </div>
                         </i>
+                        <span v-else>-</span>
                     </td>
                 </tr>
             </table>

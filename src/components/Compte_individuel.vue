@@ -59,7 +59,7 @@
                     <label for="activite">Activite:</label>
                     <select name="activite" v-model="activite">
                         <option value="AGRO-ELEVEUR">Agro Eleveur</option>
-                        <option value="COMMERCANT">Commercant</option>
+                        <option value="COMMERCANT">Commerçant(e)</option>
                         <option value="SALARIE">Salarie</option>
                         <option value="INDUSTRIEL">Industriel</option>
                         <option value="SANS">Sans</option>

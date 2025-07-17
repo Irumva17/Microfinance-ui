@@ -37,7 +37,7 @@
                 <label for="document">Document</label>
                 <input type="file" id="document" @change="handleFileUpload($event, 'document')" required>
             </div>
-            <button type="submit" class="btn-modal">creer {{ money(montant) }} </button>
+            <button type="submit" class="btn-modal">creer {{ money(montant || 0) }} </button>
         </form>
     </Modal>
     <Modal :isVisible="show_flitre" @close="closing">

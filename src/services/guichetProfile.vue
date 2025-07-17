@@ -544,7 +544,7 @@ export default {
             }
             try {
                 const response = await axios.post(`deblocages/${this.deblocage_id}/${action === 'Virement' ? 'virement_interne_details' : 'virement_externe'}/`, form);
-                this.$store.state.message.success = `Virement de ${response.data.montant} effectué avec success!`
+                this.$store.state.message.success = `Virement de ${this.montant} effectué avec success!`
                 this.$store.state.compte_active.solde -= response.data.montant
                 this.closeModal()
                 const updated_deblocages = this.$store.state.compte_active.deblocages.filter(deblocage => deblocage.id !== this.deblocage_id);

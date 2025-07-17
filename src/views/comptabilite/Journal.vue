@@ -93,7 +93,7 @@
             <button v-if="journal.created_by" class="btn delete" @click="deleteItem(journal.id)">
               <i class="fa-solid fa-trash"></i>
             </button>
-            <span v-else>N/A</span>
+            <span v-else class="fa-solid fa-ban"></span>
           </td>
         </tr>
       </table>
@@ -258,5 +258,9 @@ th:nth-child(3) {
 
 span.btn {
   font-size: 12px;
+}
+
+.fa-ban{
+  color: rgb(199, 26, 26);
 }
 </style>

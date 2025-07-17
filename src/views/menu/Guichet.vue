@@ -16,7 +16,7 @@
         <select v-if="pour" name="peyant" id="peyant" v-model="peyant" required>
           <option value="" disabled>--------</option>
           <!-- <option v-if="pour == 'retrait'" value="cahier">Cahier</option> -->
-          <option value="cheque">Chèque</option>
+          <option value="cheque">Remise chèque</option>
           <option v-if="pour === 'retrait'" value="quittance">Quittance</option>
           <option v-if="pour === 'virement'" value="ordre de virement interne">Virement interne</option>
           <option v-if="pour === 'virement'" value="ordre de virement externe">Virement externe</option>
