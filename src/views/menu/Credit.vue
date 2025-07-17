@@ -72,7 +72,7 @@
     <div class="form">
       <span class="title">Visualisation de la configuration du crédit</span>
       <div class="content">
-        <span>court terme max : {{ this.config.results[0]?.court_terme_max }}</span>
+        <span>Court terme max : {{ this.config.results[0]?.court_terme_max }}</span>
         <span>Moyen terme max : {{ this.config.results[0]?.moyen_terme_max }}</span>
         <span>Jour de soufrance : {{ this.config.results[0]?.jours_souffrance }}</span>
       </div>
@@ -91,9 +91,12 @@
   </Modal>
   <Modal :isVisible="show_reecholer" @close="closeModal">
     <div class="form">
+      <span class="title">Réechelonner</span>
       <div class="content">
-        <span class="title">Nouvelle mensualiter:</span>
-        <input type="number" v-model="mensualiter">
+        <label id="Mensualite">Nouvelle mensualite:</label>
+        <input type="number" id="Mensualite" v-model="mensualiter" placeholder="Mensualite">
+        <label id="interet">Interet:</label>
+        <input type="number" id="interet" v-model="interet" placeholder="Interet">
       </div>
       <button class="btn-modal" @click="postReecholer(compte.id)">Envoyer</button>
     </div>
@@ -548,9 +551,11 @@ export default {
         })
     },
     postReecholer(id) {
-      const formData = new FormData();
-      formData.append("echeance", this.mensualiter);
-      axios.post(`credits/${id}/reechelonner/`, formData)
+      const data = {
+        "echeance": this.mensualiter,
+        "interet": this.interet,
+      }
+      axios.post(`credits/${id}/reechelonner/`, data)
         .then((response) => {
           this.$store.state.message.success = "Décalage enregistrer avec succées.";
           this.update(response.data)
