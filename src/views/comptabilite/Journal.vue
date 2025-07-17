@@ -84,7 +84,7 @@
         <tr v-for="journal in journals.results" :key="journal.id">
           <td>{{ journal.id }}</td>
           <td>{{ datetime(journal.created_at) }}</td>
- gti git         <td>{{ journal.ref_number }}</td>
+          <td>{{ journal.ref_number }}</td>
           <td>{{ journal.debiteur.nom }}</td>
           <td>{{ journal.crediteur.nom }}</td>
           <td>{{ journal.motif }}</td>
