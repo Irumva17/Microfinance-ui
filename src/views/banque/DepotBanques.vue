@@ -4,7 +4,7 @@
         <form class="form" @submit.prevent="postdepot">
             <span class="title"> Depot Bancaire</span>
             <div class="content">
-                <label for="">Debiteur</label>
+                <label for="">Créditeur</label>
                 <div class="searchbox">
                     <input 
                         class="input-search for_grps" type="text" 
@@ -21,9 +21,6 @@
                         {{ plan.numero }} : {{ plan.nom }}
                         <br>
                     </label>
-                    <!-- <small v-for="err in data_error?.table" :key="err.id">
-                        {{ err }}
-                    </small> -->
                 </div>
 
                 <label>Nom du client:</label>
@@ -136,9 +133,6 @@ export default {
             show_modal: false
         }
     },
-    components: {
-        Navbar, Modal, SearchComponent
-    },
     computed: {
         filteredPlans() {
             const keyword = this.keyword_attributed.toLowerCase();
@@ -149,6 +143,9 @@ export default {
                 return plan.numero.toLowerCase().includes(keyword) || plan.nom.toLowerCase().includes(keyword);
             });
         },
+    },
+    components: {
+        Navbar, Modal, SearchComponent
     },
     methods: {
         closing() {
@@ -205,7 +202,7 @@ export default {
             data.append("document", this.document);
             data.append("compte", this.choosed_account);
             data.append("subvention_type", this.subvention_type);
-            data.append("debiteur", this.debiteur);
+            data.append("crediteur", this.debiteur);
             // data.append("crediteur", this.crediteur);
             axios
                 .post('depotbanques/', data)
@@ -248,6 +245,7 @@ export default {
     }
 }
 </script>
+
 
 <style scoped>
 .searchbox {

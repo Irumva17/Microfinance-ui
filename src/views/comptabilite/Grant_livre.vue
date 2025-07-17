@@ -46,7 +46,7 @@
                     <th>Date de creation</th>
                     <th>Debit</th>
                     <th>Crédit</th>
-                    <th>Cumil</th>
+                    <th>Cumul</th>
                 </tr>
                 <tr v-for="operation in compte.details" :key="index">
                     <td>{{ operation.id }}</td>
