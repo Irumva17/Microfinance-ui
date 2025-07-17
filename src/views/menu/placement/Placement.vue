@@ -119,11 +119,11 @@
             <div class="row">
                 <button class="btn retour" @click="goBack">&#10094;</button>
                 <span class="btn" @click="show_modal = true"> <i class="fa-solid fa-plus"></i> Ajouter</span>
-                <button class="btn" @click="showconf = true" v-if="this.config.count === 0">
+                <!-- <button class="btn" @click="showconf = true" v-if="this.config.count === 0">
                     <i class="fa-solid fa-gear"></i> Configuration placement </button>
 
                 <button class="btn" @click="showVisual = true" v-else>
-                    <i class="fa-solid fa-eye"></i>Configuration placement </button>
+                    <i class="fa-solid fa-eye"></i>Configuration placement </button> -->
             </div>
             <div class="row">
                 <button class="btn" @click="show_filtre = true">Filtre</button>
@@ -394,7 +394,7 @@ export default {
     },
     mounted() {
         this.getPlacement();
-        this.getConf();
+        // this.getConf();
     }
 }
 </script>

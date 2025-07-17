@@ -75,6 +75,7 @@
           <th colspan="2">Comptes</th>
           <th rowspan="2">Libellé</th>
           <th rowspan="2">Montant</th>
+          <th rowspan="2">Options</th>
         </tr>
         <tr>
           <th>Débiteur</th>
@@ -83,11 +84,17 @@
         <tr v-for="journal in journals.results" :key="journal.id">
           <td>{{ journal.id }}</td>
           <td>{{ datetime(journal.created_at) }}</td>
-          <td>{{ journal.ref_number }}</td>
+ gti git         <td>{{ journal.ref_number }}</td>
           <td>{{ journal.debiteur.nom }}</td>
           <td>{{ journal.crediteur.nom }}</td>
           <td>{{ journal.motif }}</td>
           <td>{{ money(journal.montant) }}</td>
+          <td>
+            <button v-if="journal.created_by" class="btn delete" @click="deleteItem(journal.id)">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+            <span v-else>N/A</span>
+          </td>
         </tr>
       </table>
       <div v-if="journals.next" class="nextPaginator">
@@ -133,7 +140,19 @@ export default {
     // getJournalNumber(nom){
     //   const match = nom.match(/^\d+(?:-\d+)?/);
     //   return match ? match[0] : '';
-    // },
+    // },''
+    async deleteItem(id) {
+      const confirmation = confirm(`Vous voulez vraiment supprimer ce journal?`)
+      if (confirmation) {
+        try {
+          await axios.delete(`journalcaisse/${id}/`);
+          this.journals.results = this.journals.results.filter(item => item.id != id);
+          this.$store.state.message.success = 'Supprimés avec succès.'
+        } catch (error) {
+          this.displayErrorOrRefreshToken(error,()=> this.deleteItem(id))
+        }
+      }
+    },
     rechercher(keyword) {
       axios.get(`journalcaisse/?search=${keyword}`)
         .then((reponse) => {

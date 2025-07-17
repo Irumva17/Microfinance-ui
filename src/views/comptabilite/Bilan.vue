@@ -25,7 +25,7 @@
         <div class="accounts not_printable">
             <Account account_name="Total Actifs" :account_money="tot_actifs" />
             <Account account_name="Total Passifs" :account_money="tot_passifs" />
-            <Account account_name="Equilibre" :account_money="equilibre" />
+            <!-- <Account account_name="Equilibre" :account_money="equilibre" /> -->
         </div>
         <section class="table">
             <table>

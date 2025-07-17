@@ -44,6 +44,7 @@
           </option>
           <option value="LES DECOUVERTS">Les Decouverts</option>
           <option value="CREDITS AUX EMPLOYES">Credits aux employes</option>
+          <option value="micro credit">Micro credit</option>
           <option value="AUTRES">Autres</option>
         </select>
       </div>
@@ -276,10 +277,8 @@
         <span>COMPTE:</span>
         <span>{{ credits.count }}</span>
       </div>
-      <Account :account_name="'Montant en circulation'" :account_money="totals.montant_en_circulation" />
-      <Account :account_name="'Interet credit en cours'" :account_money="totals.interet_credit_en_cours" />
-      <Account :account_name="' Total credit en cours'" :account_money="totals.mensualite_credit_en_cours" />
-      <Account :account_name="'Capital en cours'" :account_money="totals.capital_credit_en_cours" />
+      <Account account_name="Montant total" :account_money="totals.montant" />
+      <Account account_name="Interet" :account_money="totals.interet" />
     </div>
     <section class="table">
       <table>
