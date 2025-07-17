@@ -86,14 +86,6 @@
                     {
                         "name": "Hist. Depots",
                         "link": "/banque/depotbanques"
-                    },
-                    {
-                        "name": "Hist. Retraits",
-                        "link": "/banque/retraitbanques"
-                    },
-                    {
-                        "name": "Hist. Rembourssements",
-                        "link": "/banque/rembourssementbanques"
                     }
                 ]
             },
