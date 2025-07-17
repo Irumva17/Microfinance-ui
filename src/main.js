@@ -6,7 +6,6 @@ import router from './Router/router'
 import mixins from "./mixins"
 import store from './store'
 import axios from '@/axios'
-
 window.axios = axios
 
 createApp(App)

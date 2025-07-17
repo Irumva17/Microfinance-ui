@@ -2,30 +2,40 @@
     <div class="searchbox">
         <input 
             class="input-search for_grps" type="text" 
-            v-model="keyword" id="key"
+            v-model="keyword"
             placeholder="Rechercher par nom ou numero"
         >
         <span class="btn-search">
             <i class="fa-solid fa-magnifying-glass"></i>
         </span>
     </div>
-    <div class="content">
+    <div class="compte_result">
         <label v-for="plan in filteredPlans" :key="plan.id">
-            <input type="radio" v-model="debiteur" :value="plan.id" name="table" style="width: fit-content;">
-            {{ plan.numero }} : {{ plan.nom }}
+            <input type="radio" 
+                v-model="selectedItem" 
+                :value="plan.id" name="table" 
+                style="width: fit-content;"
+            >
+                {{ plan.numero }} : {{ plan.nom }}
             <br>
         </label>
     </div>
 </template>
+
 <script>
 export default {
     data() {
         return {
-            keyword: ''
+            keyword: '',
+            selectedItem: ''
         }
     },
     watch: {
-
+        selectedItem(newVal){
+            if(newVal) {
+                this.$emit('select', newVal)
+            }
+        }
     },
     computed: {
         filteredPlans() {
@@ -38,6 +48,7 @@ export default {
             });
         },
     },
+    emits : ['select'],
     mounted() {
         if (this.$store.state.plan_comptables.length) {
             this.plan_comptables = this.$store.state.plan_comptables
@@ -48,13 +59,15 @@ export default {
 }
 </script>
 
-
 <style scoped>
 .searchbox {
     width: 100%;
-
     input {
         flex: 1;
     }
+}
+.compte_result {
+    height: fit-content !important;
+    height: 50px;
 }
 </style>

@@ -146,7 +146,9 @@
                     <th>Montant</th>
                     <th>Taux d'interet</th>
                     <th>Periode</th>
-                    <th>Situation</th>
+                    <th>Intérêt versé</th>
+                    <th>Intérêt restant</th>
+                    <th>Etat</th>
                     <th>Validation</th>
                     <th>Options</th>
                 </tr>
@@ -157,6 +159,8 @@
                     <td>{{ money(item?.montant) }}</td>
                     <td>{{ item?.taux_interet }}</td>
                     <td>{{ item?.periode }} Mois</td>
+                    <td>{{ item?.interets_deja_verses }}</td>
+                    <td>{{ item?.interets_restants_a_verser }}</td>
                     <td>
                         <span v-if="item?.is_active">En cours</span>
                         <span v-if="!item?.is_active  && !item?.done_at">Non valider</span>
@@ -179,7 +183,7 @@
                                 <span @click="goToInteret(item.compte.numero)" :to="{ name: 'Interet' }"
                                     class="option-link">
                                     <span>&#9656;</span>
-                                    Interet
+                                    Intérêt
                                 </span>
                                 <span @click="goToImpots(item?.compte?.numero)" class="option-link">
                                     <span>&#9656;</span>

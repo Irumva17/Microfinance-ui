@@ -2,26 +2,13 @@
     <Navbar />
     <Modal :isVisible="show_modal" @close="closeModal">
         <div class="form">
-            <span class="title">Choisir une <br> classe comptable</span>
-            <div class="searchbox">
-                <input class="input-search for_grps" type="text" v-model="keyword_attributed" id="key"
-                    placeholder="Rechercher par nom ou numero">
-                <span class="btn-search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </span>
-            </div>
-            <div class="content">
-                <div>
-                    <label v-for="plan in filteredPlans" :key="plan.id">
-                        <input type="radio" v-model="classe" :value="plan.id" name="table" style="width: fit-content;">
-                        {{ plan.numero }} : {{ plan.nom }}
-                        <br>
-                    </label>
-                    <small v-for="err in data_error?.table" :key="err.id">
-                        {{ err }}
-                    </small>
-                </div>
-            </div>
+            <span class="title">
+                Ajouter une classe <br> comptable
+            </span>
+            <SearchClasse @select="classe = $event"/>
+            <small v-for="err in data_error?.table" :key="err.id">
+                {{ err }}
+            </small>
             <button class="btn-modal" @click="putClasse(prix_id, price)">Ajouter</button>
         </div>
     </Modal>
@@ -135,6 +122,7 @@
 <script>
 import Navbar from './Navbar.vue';
 import Modal from '@/Overlays/Modal.vue';
+import SearchClasse from './SearchClasse.vue';
 
 export default {
     data() {
@@ -166,7 +154,7 @@ export default {
         }
     },
     components: {
-        Navbar, Modal
+        Navbar, Modal, SearchClasse
     },
     computed: {
         filteredPlans() {
@@ -293,7 +281,7 @@ export default {
                 } else {
                     this.$store.state.message.success = `Le prix pour ${this.table} a été ajouté avec succès`;
                     this.prices.unshift(response.data);
-                    this.plansGetter()
+                    // this.plansGetter()
                 }
                 this.clearForm()
                 this.edit = false
@@ -334,7 +322,7 @@ export default {
                     const allDontHaveClasses = rep.data.results.some(
                         element => element.classe_comptable === null
                     )
-                    allDontHaveClasses && this.plansGetter()
+                    // allDontHaveClasses && this.plansGetter()
                 }).catch((error) => this.displayErrorOrRefreshToken(error, this.getPrix))
         },
         getChoices() {
@@ -342,13 +330,13 @@ export default {
                 .then((rep) => this.options = rep.data.actions.POST.table.choices, this.getPrix())
                 .catch((error) => this.displayErrorOrRefreshToken(error, this.getChoices))
         },
-        plansGetter() {
-            if (this.$store.state.plan_comptables.length) {
-                this.plan_comptables = this.$store.state.plan_comptables
-            } else {
-                this.getPlans();
-            }
-        }
+        // plansGetter() {
+        //     if (this.$store.state.plan_comptables.length) {
+        //         this.plan_comptables = this.$store.state.plan_comptables
+        //     } else {
+        //         this.getPlans();
+        //     }
+        // }
     },
     mounted() {
         this.getChoices()

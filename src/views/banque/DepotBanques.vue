@@ -5,24 +5,7 @@
             <span class="title"> Depot Bancaire</span>
             <div class="content">
                 <label for="">Créditeur</label>
-                <div class="searchbox">
-                    <input 
-                        class="input-search for_grps" type="text" 
-                        v-model="keyword_attributed" id="key"
-                        placeholder="Rechercher par nom ou numero"
-                    >
-                    <span class="btn-search">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </span>
-                </div>
-                <div class="content">
-                    <label v-for="plan in filteredPlans" :key="plan.id">
-                        <input type="radio" v-model="debiteur" :value="plan.id" name="table" style="width: fit-content;">
-                        {{ plan.numero }} : {{ plan.nom }}
-                        <br>
-                    </label>
-                </div>
-
+                <SearchClasse @select="debiteur = $event" />
                 <label>Nom du client:</label>
                 <input type="text" placeholder="Nom du client" v-model="nom_du_client">
                 <label>Numero de référence:</label>
@@ -102,6 +85,7 @@
 import Modal from '@/Overlays/Modal.vue';
 import Navbar from '@/components/Navbar.vue';
 import SearchComponent from '@/components/SearchComponent.vue';
+import SearchClasse from '@/components/SearchClasse.vue';
 export default {
     data() {
         return {
@@ -145,7 +129,7 @@ export default {
         },
     },
     components: {
-        Navbar, Modal, SearchComponent
+        Navbar, Modal, SearchComponent, SearchClasse
     },
     methods: {
         closing() {

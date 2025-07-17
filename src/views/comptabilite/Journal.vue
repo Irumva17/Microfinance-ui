@@ -23,6 +23,16 @@
     <form class="form" @submit.prevent="">
       <span class="title">Ajouter</span>
       <div class="content">
+        <label for="debiteur">Debiteur</label>
+        <SearchClasse @select="debiteur = $event" />
+        <small v-for="err in data_error?.crediteur" :key="err.id">
+          {{ err }}
+        </small>
+        <label for="Crediteur">Crediteur</label>
+        <SearchClasse @select="crediteur = $event" />
+        <small v-for="err in data_error?.crediteur" :key="err.id">
+          {{ err }}
+        </small>
         <label for="montant">Montant</label>
         <input type="number" id="montant" placeholder="Montant" v-model="montant" />
         <label for="ref_number">Numero de référence</label>
@@ -35,21 +45,7 @@
         <small v-for="err in data_error?.motif" :key="err.id">
           {{ err }}
         </small>
-        <label for="debiteur">Debiteur</label>
-        <select id="debiteur" v-model="debiteur">
-          <option value="" disabled>--------</option>
-          <option v-for="plan in plan_comptables" :key="plan.id" :value="plan.id">{{ plan.numero + '-' + plan.nom }}
-          </option>
-        </select>
-        <label for="Crediteur">Crediteur</label>
-        <select id="crediteur" v-model="crediteur">
-          <option value="" disabled>--------</option>
-          <option v-for="plan in plan_comptables" :key="plan.id" :value="plan.id">{{ plan.numero + '-' + plan.nom }}
-          </option>
-        </select>
-        <small v-for="err in data_error?.crediteur" :key="err.id">
-          {{ err }}
-        </small>
+        
       </div>
       <button class="btn-modal" @click="nouveauxJournal">Créer &nbsp; {{money(montant)}}</button>
     </form>
@@ -109,6 +105,7 @@
 import Navbar from "@/components/Navbar.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
 import Modal from "@/Overlays/Modal.vue";
+import SearchClasse from "@/components/SearchClasse.vue";
 export default {
   data() {
     return {
@@ -134,7 +131,8 @@ export default {
   components: {
     Navbar,
     Modal,
-    SearchComponent
+    SearchComponent,
+    SearchClasse
   },
   methods: {
     // getJournalNumber(nom){

@@ -70,8 +70,9 @@ export default {
         width: 100%;
     }
     .compte_result{
-        max-height: 150px!important;
+        max-height: 120px!important;
         overflow: auto;
         padding: 5px 0;
+        flex: 1;
     }
 </style>

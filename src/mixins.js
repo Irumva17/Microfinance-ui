@@ -108,12 +108,20 @@ export default {
         .then((rep) => {
           const data = rep.data;
           plans = plans.concat(data.results);
-          data.next
-            ? this.getPlans(page + 1, plans)
-            : ((this.plan_comptables = plans.filter(
-              (plan) => plan.numero.length >= 3
-            )),
-              (this.$store.state.plan_comptables = this.plan_comptables));
+          if(data.next){
+            this.getPlans(page + 1, plans)
+          } else {
+            this.plan_comptables = plans
+              .filter(plan => plan.numero.length >= 3)
+              .filter(plan => {
+                return !plans.some(
+                  other =>
+                    other.numero !== plan.numero &&
+                    other.numero.startsWith(plan.numero)
+                );
+              });
+            this.$store.state.plan_comptables = this.plan_comptables;
+          };
         })
         .catch((error) => {
           this.displayErrorOrRefreshToken(error, this.getPlans);
