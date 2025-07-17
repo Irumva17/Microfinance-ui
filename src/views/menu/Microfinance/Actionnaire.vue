@@ -42,7 +42,7 @@
                         {{ err }}
                     </small>
                     <label for="detail">Detail</label>
-                    <input type="text" id="detail" v-model="details" placeholder="Veuillez dire votre motif">
+                    <textarea type="text" id="detail" v-model="details" placeholder="Veuillez dire votre motif"></textarea>
                     <small v-for="err in data_error?.details" :key="err.id">
                         {{ err }}
                     </small>

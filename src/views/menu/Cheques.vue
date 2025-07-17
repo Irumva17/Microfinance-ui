@@ -26,7 +26,7 @@
                     </small>
 
                     <label for="detail">Detail: </label>
-                    <input type="text" v-model="detail" id="detail">
+                    <textarea type="text" v-model="detail" id="detail"></textarea>
                     <small v-for="err in data_error?.details" :key="err.id">
                         {{ err }}
                     </small>
@@ -39,13 +39,13 @@
                 <div class="content">
                     <label for="detail">Date de naissance : </label>
                     <div class="inputRow">
-                        <input type="date" v-model="age_superieur" id="detail">
-                        <input type="date" v-model="age_inferieur" id="detail">
+                        <input type="date" v-model="age_superieur">
+                        <input type="date" v-model="age_inferieur">
                     </div>
                     <label for="detail">Date de creation: </label>
                     <div class="inputRow">
-                        <input type="date" v-model="create_superieur" id="detail">
-                        <input type="date" v-model="create_inferieur" id="detail">
+                        <input type="date" v-model="create_superieur">
+                        <input type="date" v-model="create_inferieur">
                     </div>
                     <div class="inputColumn">
                         <label>Province:</label>

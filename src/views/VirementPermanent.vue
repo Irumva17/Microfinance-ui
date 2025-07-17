@@ -33,7 +33,7 @@
                     {{ err }}
                 </small>
                 <label>Motif</label>
-                <input type="text" v-model="details" placeholder="Motif">
+                <textarea rows="3" type="text" v-model="details" placeholder="Motif"></textarea>
                 <small v-for="err in data_error?.motif" :key="err.id">
                     {{ err }}
                 </small>

@@ -23,40 +23,57 @@
     </Modal>
     <Modal :isVisible="show_modal" @close="closing">
       <form @submit.prevent="newPlan" class="form">
-        <span class="title">Ajouter un plan comptable</span>
+        <span class="title">
+          {{ isUpdating ? 'Modifier' : 'Ajouter' }} un plan comptable
+        </span>
         <div class="content">
-          <label>Numero</label>
-          <input type="text" v-model="numero" />
+          <label for="numero">Numero</label>
+          <input type="text" id="numero" v-model="numero" />
           <small v-for="err in data_error?.numero" :key="err.id">
             {{ err }}
           </small>
-          <label>Nom</label>
-          <input type="text" v-model="nom" />
+          <label for="nom">Nom</label>
+          <input type="text" id="nom" v-model="nom" />
           <small v-for="err in data_error?.nom" :key="err.id">
+            {{ err }}
+          </small>
+          <label for="category">Categorie</label>
+          <!-- <input type="text" id="nom" v-model="category" /> -->
+          <select name="" id="" v-model="category">
+            <option value="">------</option>
+            <option value="actif">Actif</option>
+            <option value="passif">Passif</option>
+            <option value="charge">Charge</option>
+            <option value="produit">Produit</option>
+            <option value="resultat">Resultat</option>
+            <option value="hors_bilan">Hors bilan</option>
+          </select>
+          <small v-for="err in data_error?.category" :key="err.id">
             {{ err }}
           </small>
         </div>
         <button class="btn-modal" type="submit">Creer</button>
       </form>
     </Modal>
-    <Modal :isVisible="show_edit" @close="closing">
+
+    <!-- <Modal :isVisible="show_edit" @close="closing">
       <div class="form">
         <span class="title">Modifier le plan comptable</span>
         <div class="content">
-          <!-- <label v-for="(config , index) in configs"  :for="index">
-            {{ config.label }}
-            <input v-model="FormData" type="text" >
-          </label> -->
           <label>Numero 
             <input v-model="FormData.numero" type="text">
           </label>
           <label>Nom
             <input v-model="FormData.nom" type="text">
           </label>
+          <label>Categorie
+            <input v-model="FormData.category" type="text">
+          </label>
         </div>
         <button class="btn-modal" @click="updatePlan">Modifier</button>
       </div>
-    </Modal>
+    </Modal> -->
+
     <div class="page">
       <div class="subMenu-headers">
         <div class="row">
@@ -94,15 +111,17 @@ export default {
       show_modal: false,
       microfinance: "",
       microfinances: [],
-      motif: "",
       nom: "",
+      category: "",
       numero: "",
       microfinance: "",
       show_edit : false,
-      FormData : {},
+      // FormData : {},
+      isUpdating: false,
       document: null,
       imported_plans : null,
-      data_error : {}
+      data_error : {},
+      itemId: ''
     };
   },
   components: {
@@ -111,24 +130,29 @@ export default {
   },
   methods: {
     handlePlan(item){
-      this.show_edit = true
-      this.FormData = { ...item }
+      this.show_modal = true
+      // this.FormData = { ...item }
+      this.nom = item.nom
+      this.numero = item.numero
+      this.category = item.category
+      this.itemId = item.id
+      this.isUpdating = true
     },
-    updatePlan(){
-      if (!this.FormData.nom) {
-        this.$store.commit('setError', 'Le nom ne peut être vide.')
-        return
-      }
-      axios.put(`plancomptable/${this.FormData.id}/`, this.FormData)
-      .then((response)=>{
-        this.plans = this.plans.map( plan => plan.id === this.FormData.id ? {  ...plan, ...response.data} :  plan )
-        this.$store.commit('setSuccess', 'Modifié avec succès.')
-        this.closing()
-      }).catch((error)=>{
-        this.data_error = error?.reponse?.data
-        this.displayErrorOrRefreshToken(error, this.updatePlan)
-      })
-    },
+    // updatePlan(){
+    //   if (!this.FormData.nom) {
+    //     this.$store.commit('setError', 'Le nom ne peut être vide.')
+    //     return
+    //   }
+    //   axios.put(`plancomptable/${this.FormData.id}/`, this.FormData)
+    //   .then((response)=>{
+    //     this.plans = this.plans.map( plan => plan.id === this.FormData.id ? {  ...plan, ...response.data} :  plan )
+    //     this.$store.commit('setSuccess', 'Modifié avec succès.')
+    //     this.closing()
+    //   }).catch((error)=>{
+    //     this.data_error = error?.reponse?.data
+    //     this.displayErrorOrRefreshToken(error, this.updatePlan)
+    //   })
+    // },
     // deleter(item) {
     //   let confirmDelete = confirm(`Vous voulez vraiment supprimer le plan pour ${item.nom.toUpperCase()}?`)
     //   if (confirmDelete) {
@@ -158,11 +182,14 @@ export default {
       const form = new FormData();
       form.append("numero", this.numero);
       form.append("nom", this.nom);
+      form.append("category", this.category);
 
-      axios.post(`plancomptable/`, form)
+      let url = this.isUpdating ? `plancomptable/${this.itemId}/` : `plancomptable/`
+
+      axios[this.isUpdating ? 'put': 'post'](url, form)
         .then((reponse) => {
           // this.$store.state.plan_comptables.push(reponse.data)
-          this.$store.state.message.success = 'Vous avez crée un nouveau plan comptable avec succèss.'
+          this.$store.state.message.success = `Vous avez ${this.isUpdating ? 'crée' : 'modifié'} un plan comptable avec succèss.`
           this.show_modal = false;
           this.numero = this.nom = ''
           this.getPlans()
@@ -175,8 +202,8 @@ export default {
     closing() {
       this.show_modal = false;
       this.show_edit = false
-      this.numero = this.nom = ''
-      this.FormData = {}
+      this.numero = this.nom = this.category = ''
+      // this.FormData = {}
       this.data_error = {}
       this.imported_plans = []
     },

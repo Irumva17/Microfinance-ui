@@ -115,7 +115,8 @@ export default {
     box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.2);
 }
 input,
-select {
+select,
+textarea {
     padding: 6px;
     border-radius: 5px;
     outline: none;

@@ -32,9 +32,9 @@
                 <option value="1">Banque centrale</option>
                 <option value="2">Banques commerciales</option>
                 <option value="3">Institution de microfinance</option>
-                <option value="4">Autres sociétés financières</option>
+                <option value="4">Autres sociétés</option>
             </select>
-            <label for="activite">Activite:</label>
+            <label for="activite">Secteur d'activite:</label>
             <select name="activite" id="activite" v-model="activite">
                 <option value="AGRO-ELEVEUR">Agro Eleveur</option>
                 <option value="COMMERCANT">Commerçant</option>

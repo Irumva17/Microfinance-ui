@@ -11,7 +11,7 @@
                 <label>Adresse</label>
                 <input type="text" v-model="adresse">
                 <label>Details</label>
-                <input type="text" v-model="details">
+                <textarea type="text" v-model="details"></textarea>
                 <!-- <label>Microfinance</label>
                 <input type="text" v-model="get_microfinance" disabled> -->
             </div>

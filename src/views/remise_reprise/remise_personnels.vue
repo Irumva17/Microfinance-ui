@@ -14,13 +14,10 @@
                 </small>
                 
                 <label>Details :</label>
-                <input type="text" v-model="details">
+                <textarea rows="3" type="text" v-model="details"></textarea>
                 <small v-for="err in data_error?.details" :key="err.id">
                     {{ err }}
                 </small>
-                <!-- <small v-for="err in data_error?.received_by" :key="err.id">
-                    {{ err }}
-                </small> -->
             </div>
             <button class="btn-modal">
                 {{ action }} {{ money(montant || 0) }}

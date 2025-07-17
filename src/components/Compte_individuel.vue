@@ -56,7 +56,7 @@
             </div>
             <div class="inputRow">
                 <div class="inputColumn">
-                    <label for="activite">Activite:</label>
+                    <label for="activite">Secteur d'ctivite:</label>
                     <select name="activite" v-model="activite">
                         <option value="AGRO-ELEVEUR">Agro Eleveur</option>
                         <option value="COMMERCANT">Commerçant(e)</option>

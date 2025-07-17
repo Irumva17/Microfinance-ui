@@ -29,7 +29,7 @@
           {{ err }}
         </small>
         <label for="Crediteur">Crediteur</label>
-        <SearchClasse @select="crediteur = $event" />
+        <SearchClasse @select="crediteur = $event" name="crediteur"/>
         <small v-for="err in data_error?.crediteur" :key="err.id">
           {{ err }}
         </small>
@@ -41,7 +41,7 @@
           {{ err }}
         </small>
         <label for="motif">Motif</label>
-        <input type="text" id="motif" placeholder="Motif" v-model="motif" />
+        <textarea type="text" id="motif" placeholder="Motif" v-model="motif" ></textarea>
         <small v-for="err in data_error?.motif" :key="err.id">
           {{ err }}
         </small>

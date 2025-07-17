@@ -49,7 +49,7 @@
                     </small>
                     
                     <label for="motif">Details</label>
-                    <input id="motif" type="text" v-model="motif" placeholder="Details">
+                    <textarea id="motif" type="text" v-model="motif" placeholder="Details"></textarea>
                     <small v-for="err in data_error?.motif" :key="err.id">
                         {{ err }}
                     </small>

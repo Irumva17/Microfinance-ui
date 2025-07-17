@@ -65,7 +65,7 @@
                     <label>Motif</label>
                     <input type="text" v-model="motif" placeholder="Source de l'argent" required>
                     <label>Details</label>
-                    <input type="text" v-model="details" placeholder="Details" required>
+                    <textarea rows="4" type="text" v-model="details" placeholder="Details" required></textarea>
                     <small v-for="err in data_error?.details" :key="err.id" >
                         {{ err }}
                     </small>
@@ -97,7 +97,7 @@
                     {{ err }}
                 </small>
                 <label for="details">Details</label>
-                <input type="text" id="details" v-model="details" placeholder="Details">
+                <textarea rows="4" type="text" id="details" v-model="details" placeholder="Details"></textarea>
                 <small v-for="err in data_error?.cni" :key="err.id">
                     {{ err }}
                 </small>
@@ -124,7 +124,7 @@
                     {{ err }}
                 </small>
                 <label>Motif</label>
-                <input type="text" v-model="details" placeholder="Motif">
+                <textarea rows="4" type="text" v-model="details" placeholder="Motif"></textarea>
                 <small v-for="err in data_error?.motif" :key="err.id">
                     {{ err }}
                 </small>

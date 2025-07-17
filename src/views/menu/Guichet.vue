@@ -292,17 +292,17 @@
       <span class="title">Créer un mandataire du compte {{ this.compte.numero }}</span>
       <div class="content">
         <label for="numero">Nom:</label>
-        <input type="text" v-model="nom" placeholder="Mettez votre nom" />
+        <input type="text" v-model="nom" placeholder="Nom" />
         <label for="numero">Prenom:</label>
-        <input type="text" v-model="prenom" placeholder="Mettez votre prenom" />
+        <input type="text" v-model="prenom" placeholder="Prenom" />
         <label for="numero">Adresse:</label>
-        <input type="text" v-model="adresse" placeholder="Mettez votre adresse" />
+        <input type="text" v-model="adresse" placeholder="Adresse" />
         <label for="numero">CNI:</label>
-        <input type="number" v-model="CNI" placeholder="Mettez votre CNI" />
+        <input type="number" v-model="CNI" placeholder="CNI" />
         <label for="numero">Telephone:</label>
-        <input type="number" v-model="telephone" placeholder="Mettez votre telephone" />
+        <input type="number" v-model="telephone" placeholder="Telephone" />
         <label for="numero">Details:</label>
-        <input type="text" v-model="details" placeholder="Mettez les details" />
+        <textarea type="text" v-model="details" placeholder="Details" ></textarea>
         <label for="numero">Photos:</label>
         <input type="file" @change="handleImageUpload" accept="image/*" required />
       </div>

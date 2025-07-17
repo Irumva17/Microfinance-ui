@@ -13,7 +13,7 @@
         <label v-for="plan in filteredPlans" :key="plan.id">
             <input type="radio" 
                 v-model="selectedItem" 
-                :value="plan.id" name="table" 
+                :value="plan.id" :name="name ? namec : table" 
                 style="width: fit-content;"
             >
                 {{ plan.numero }} : {{ plan.nom }}
@@ -35,6 +35,12 @@ export default {
             if(newVal) {
                 this.$emit('select', newVal)
             }
+        }
+    },
+    props: {
+        name: {
+            type: String,
+            required:false
         }
     },
     computed: {

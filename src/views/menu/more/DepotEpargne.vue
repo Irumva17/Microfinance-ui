@@ -8,7 +8,7 @@
                 <label> Montant:</label>
                 <input type="number" placeholder="Montant" v-model="depot.montant" required>
                 <label> Details:</label>
-                <input type="text" placeholder="Details" v-model="depot.details" required>
+                <textarea type="text" placeholder="Details" v-model="depot.details" required></textarea>
             </div>
             <button class="btn-modal">Deposer {{ money(depot.montant || 0) }}</button>
         </form>

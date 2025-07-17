@@ -39,8 +39,8 @@
             <div class="form">
                 <span class="title">Filtrage</span>
                 <div class="content">
-                    <label> Details:</label>
-                    <input type="text" placeholder="Mettez le detail" v-model="detail">
+                    <!-- <label> Details:</label>
+                    <input type="text" placeholder="Mettez le detail" v-model="detail"> -->
                     <label> Numero:</label>
                     <input type="number" placeholder="Mettez le numero" v-model="numero">
                     <label> Nom:</label>
@@ -67,7 +67,7 @@
                 <div class="content">
                     <SearchCompte @compte="add_account" />
                     <label for="Detail">Details:</label>
-                    <input type="text" placeholder="les details sur l'épargne" v-model="detail" id="detail" />
+                    <textarea type="text" placeholder="les details sur l'épargne" v-model="detail" id="detail"></textarea>
                     <label for="interet">Interet</label>
                     <input type="number" placeholder="Frais d'interet" v-model="interet" id="detail">
                 </div>

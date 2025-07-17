@@ -33,7 +33,7 @@
                     {{ err }}
                 </small>
                 <label for="details">Details :</label>
-                <input type="text" v-model="details" id="details" class="trois">
+                <textarea type="text" v-model="details" id="details" class="trois"></textarea>
                 <small v-for="err in data_error?.details" :key="err.id">
                     {{ err }}
                 </small>
