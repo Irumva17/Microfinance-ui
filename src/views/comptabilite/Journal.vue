@@ -93,7 +93,7 @@
             <button v-if="journal.created_by" class="btn delete" @click="deleteItem(journal.id)">
               <i class="fa-solid fa-trash"></i>
             </button>
-            <span v-else class="fa-solid fa-ban"></span>
+            <!-- <span v-else>-</span> -->
           </td>
         </tr>
       </table>
