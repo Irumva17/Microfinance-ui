@@ -134,6 +134,8 @@
     <form @submit.prevent="searchLasta('')" class="form">
       <span class="title">Filtrage</span>
       <div class="content">
+        <label>Compte No.:</label>
+        <input type="text" placeholder="Compte No." v-model="compte__numero" />
         <div>
           <label>Etat :</label>
           <select v-model="is_active">
@@ -149,9 +151,20 @@
             <option value="false">Non</option>
           </select>
         </div>
-        <div v-show="physique === 'false'" class="inputColumn">
-          <label for="activite">Personne morale activite:</label>
-          <select name="activite" id="activite" v-model="personne_morale__activite">
+        <div v-if="physique === 'false'" class="inputColumn">
+          <label for="activite">Institution:</label>
+          <select name="genre" id="genre" v-model="morale__institution">
+            <option value="">------</option>
+            <option value="1">Banque centrale</option>
+            <option value="2">Banques commerciales</option>
+            <option value="3">Institution de microfinance</option>
+            <option value="4">Autres sociétés</option>
+          </select>
+        </div>
+        <div class="inputColumn">
+          <label for="activite">Secteur d'activite:</label>
+          <select name="activite" id="activite" v-model="secteur__activite">
+            <option value="">-------</option>
             <option value="AGRO-ELEVEUR">Agro Eleveur</option>
             <option value="COMMERCANT">Commercant</option>
             <option value="INDUSTRIEL">Industriel</option>
@@ -196,7 +209,7 @@
           </div>
 
           <div v-show="physique === 'true'">
-            <label> Age :</label>
+            <label> Date de naissance :</label>
             <div class="inputRow">
               <input type="date" placeholder="numero de votre age" v-model="age_superieur" />
               <input type="date" placeholder="numero de votre age" v-model="age_inferieur" />
@@ -442,7 +455,9 @@ export default {
       done_at__gte: '',
       done_at__lte: '',
       compte__personne_physique__residence:'',
-      personne_morale__activite:''
+      secteur__activite:'',
+      morale__institution:'',
+      compte__numero: ""
 
     };
   },
@@ -601,9 +616,9 @@ export default {
     searchLasta(keyword) {
       axios.get(
         keyword ? `credits/?search=${keyword}` :
-          `/credits/?compte__commune__icontains=${this.compte}&is_active=${this.is_active}&compte__personne_physique__date_naissance__gte=${this.age_superieur}&compte__personne_physique__date_naissance__lte=${this.age_inferieur}&compte__personne_physique__sexe=${this.sexe}&type_credit=${this.credite}&
+          `/credits/?compte__numero=${this.compte__numero}&compte__commune__icontains=${this.compte}&is_active=${this.is_active}&compte__personne_physique__date_naissance__gte=${this.age_superieur}&compte__personne_physique__date_naissance__lte=${this.age_inferieur}&compte__personne_physique__sexe=${this.sexe}&type_credit=${this.credite}&
           approved_at__gte=${this.approved_superieur}&approved_at__lte=${this.approved_inferieur}&payment_date__gte=${this.paiement_superieur}&payment_date__lte=${this.paiement_inferieur}&montant__gte=${this.montant_maximal}&montant__lte=${this.montant_minimal}&compte__personne_physique__isnull=${this.physique}&
-          done_at__gte=${this.done_at__gte}&done_at__lte=${this.done_at__lte}&compte__personne_physique__residence=${this.compte__personne_physique__residence}&personne_morale__activite=${this.personne_morale__activite}`
+          done_at__gte=${this.done_at__gte}&done_at__lte=${this.done_at__lte}&compte__personne_physique__residence=${this.compte__personne_physique__residence}&personne_morale__activite=${this.secteur__activite}&compte__personne_physique__activite${this.secteur__activite}&compte__personne_morale__institution${this.morale__institution}`
       ).then((reponse) => {
         this.credits = reponse.data;
         this.closeModal()
@@ -671,6 +686,8 @@ export default {
         this.paiement_superieur = '',
         this.montant_minimal = '',
         this.montant_maximal = '';
+        this.secteur__activite = '',
+        this.compte__numero = ''
     },
     valider() {
       if (this.amortissement === "") {
