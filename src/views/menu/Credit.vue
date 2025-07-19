@@ -616,9 +616,7 @@ export default {
     searchLasta(keyword) {
       axios.get(
         keyword ? `credits/?search=${keyword}` :
-          `/credits/?compte__numero=${this.compte__numero}&compte__commune__icontains=${this.compte}&is_active=${this.is_active}&compte__personne_physique__date_naissance__gte=${this.age_superieur}&compte__personne_physique__date_naissance__lte=${this.age_inferieur}&compte__personne_physique__sexe=${this.sexe}&type_credit=${this.credite}&
-          approved_at__gte=${this.approved_superieur}&approved_at__lte=${this.approved_inferieur}&payment_date__gte=${this.paiement_superieur}&payment_date__lte=${this.paiement_inferieur}&montant__gte=${this.montant_maximal}&montant__lte=${this.montant_minimal}&compte__personne_physique__isnull=${this.physique}&
-          done_at__gte=${this.done_at__gte}&done_at__lte=${this.done_at__lte}&compte__personne_physique__residence=${this.compte__personne_physique__residence}&personne_morale__activite=${this.secteur__activite}&compte__personne_physique__activite${this.secteur__activite}&compte__personne_morale__institution${this.morale__institution}`
+          `/credits/?compte__numero=${this.compte__numero}&compte__commune__icontains=${this.compte}&is_active=${this.is_active}&compte__personne_physique__date_naissance__gte=${this.age_superieur}&compte__personne_physique__date_naissance__lte=${this.age_inferieur}&compte__personne_physique__sexe=${this.sexe}&type_credit=${this.credite}&approved_at__gte=${this.approved_superieur}&approved_at__lte=${this.approved_inferieur}&payment_date__gte=${this.paiement_superieur}&payment_date__lte=${this.paiement_inferieur}&montant__gte=${this.montant_maximal}&montant__lte=${this.montant_minimal}&compte__personne_physique__isnull=${this.physique}&done_at__gte=${this.done_at__gte}&done_at__lte=${this.done_at__lte}&compte__personne_physique__residence=${this.compte__personne_physique__residence}&personne_morale__activite=${this.secteur__activite}&compte__personne_physique__activite${this.secteur__activite}&compte__personne_morale__institution${this.morale__institution}`
       ).then((reponse) => {
         this.credits = reponse.data;
         this.closeModal()
