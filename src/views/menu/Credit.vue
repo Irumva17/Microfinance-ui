@@ -294,7 +294,9 @@
         <span>{{ credits.count }}</span>
       </div>
       <Account account_name="Montant total" :account_money="totals.montant" />
+      <Account account_name="Capital" :account_money="extratotals.capital" />
       <Account account_name="Interet" :account_money="totals.interet" />
+      <Account account_name="Penalités" :account_money="extratotals.penalite" />
     </div>
     <section class="table">
       <table>
@@ -457,8 +459,8 @@ export default {
       compte__personne_physique__residence:'',
       secteur__activite:'',
       morale__institution:'',
-      compte__numero: ""
-
+      compte__numero: "",
+      extratotals: {}
     };
   },
   components: {
@@ -633,6 +635,14 @@ export default {
           this.displayErrorOrRefreshToken(error, this.getCredits);
         })
     },
+    async getExtraTotals() {
+      await axios.get('amortissementcredits/')
+        .then((response) => {
+          this.extratotals = response.data.totals
+        }).catch((error) => {
+          this.displayErrorOrRefreshToken(error, this.getExtraTotals);
+        })
+    },
     // async getConf() {
     //   await axios.get("creditconfiguration/")
     //     .then((response) => {
@@ -776,6 +786,7 @@ export default {
       ? this.credits = this.$store.state.credits
       : this.getCredits();
     // this.getConf()
+    this.getExtraTotals()
   },
 
 };
