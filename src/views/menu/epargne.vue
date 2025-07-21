@@ -11,30 +11,6 @@
                 <SearchComponent :search-function="searchLasta" />
             </div>
         </div>
-        <!-- <Modal :isVisible="show_black" @close="closeModal">
-            <div class="form">
-                <span class="title">Depot sur l'epargne de {{ printable[0]?.compte }}</span>
-                <div class="content">
-                    <label> Montant:</label>
-                    <input type="number" placeholder="Montant" v-model="montant">
-                    <label> Details:</label>
-                    <input type="text" placeholder="Details" v-model="detail">
-                </div>
-                <button class="btn-modal" @click="blackLister(printable[0]?.id)">Deposer {{ money(montant || 0) }}</button>
-            </div>
-        </Modal> -->
-        <!-- <Modal  :isVisible="show_etat" @close="closeModal">
-            <div class="form">
-                <span class="title">Etat de l'epargne {{ printable[0]?.compte }}</span>
-                <div class="content">
-                    <label>Montant : {{ money(Etat.montant_epargne) }}</label>
-                    <label>Interet : {{ money(Etat.interets) }}</label>
-                    <label>Durée en jours : {{ Etat.duree_jours }}</label>
-                    <label>Montant toatl : {{ money(Etat.montant_total) }}</label>
-                </div>
-            </div>
-        </Modal> -->
-
         <Modal :isVisible="show_flitre" @close="closeModal">
             <div class="form">
                 <span class="title">Filtrage</span>
@@ -66,10 +42,10 @@
                 <span class="title">Nouveau épargne</span>
                 <div class="content">
                     <SearchCompte @compte="add_account" />
-                    <label for="Detail">Details:</label>
-                    <textarea type="text" placeholder="les details sur l'épargne" v-model="detail" id="detail"></textarea>
                     <label for="interet">Interet</label>
                     <input type="number" placeholder="Frais d'interet" v-model="interet" id="detail">
+                    <label for="Detail">Details:</label>
+                    <textarea type="text" placeholder="les details sur l'épargne" v-model="detail" id="detail"></textarea>
                 </div>
                 <button class="btn-modal" @click="postEpargne">Créer</button>
             </form>
@@ -235,24 +211,24 @@ export default {
             this.show_black = false
             this.black_nums = ''
             this.black_compte = '',
-                this.show_cheques = false,
-                this.show_etat = false,
-                this.cheques_account = ''
+            this.show_cheques = false,
+            this.show_etat = false,
+            this.cheques_account = ''
             this.client_cheques = '',
-                this.show_modale = false,
-                this.result = '',
-                this.got_accounts = [],
-                this.account = [],
-                this.keyword = '',
-                this.clients = '',
-                this.quantite = '',
-                this.agence = '',
-                this.agences = [],
-                this.montant = '',
-                this.bordereau = '',
-                this.detail = '',
-                this.interet = '',
-                this.show_flitre = false
+            this.show_modale = false,
+            this.result = '',
+            this.got_accounts = [],
+            this.account = [],
+            this.keyword = '',
+            this.clients = '',
+            this.quantite = '',
+            this.agence = '',
+            this.agences = [],
+            this.montant = '',
+            this.bordereau = '',
+            this.detail = '',
+            this.interet = '',
+            this.show_flitre = false
         },
         searchLasta(text) {
             axios.get(`epargnes/?search=${text}`)

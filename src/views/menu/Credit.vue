@@ -14,18 +14,20 @@
         <small v-for="err in data_error?.montant" :key="err.id">
           {{ err }}
         </small>
-        <label for="interet">Interet</label>
+        <label for="interet">Interet (annuel)</label>
         <input type="number" id="interet" v-model="interet" />
         <small v-for="err in data_error?.interet" :key="err.id">
           {{ err }}
         </small>
-        <label for="motif">Motif</label>
-        <input type="text" v-model="motif" />
         <label for="echeance">Echeance</label>
         <input type="number" id="echeance" v-model="echeance" />
         <small v-for="err in data_error?.echeance" :key="err.id">
           {{ err }}
         </small>
+        <span v-if="interet && echeance">
+          Interet mensuel 
+          {{ money( (interet / echeance)|| 0 ) }}
+        </span>
         <label for="avaliseur">Avaliseur</label>
         <input type="text" id="Avaliseur" v-model="avaliseur" />
         <label for="Document">Document</label>
@@ -44,9 +46,14 @@
           </option>
           <option value="LES DECOUVERTS">Les Decouverts</option>
           <option value="CREDITS AUX EMPLOYES">Credits aux employes</option>
-          <option value="micro credit">Micro credit</option>
+          <option value="MICRO CREDIT">Micro credit</option>
           <option value="AUTRES">Autres</option>
         </select>
+        <label for="motif">Motif</label>
+        <input type="text" v-model="motif" />
+        <small v-for="err in data_error?.motif" :key="err.id">
+          {{ err }}
+        </small>
       </div>
       <button class="btn-modal" @click="functionCredit">Créditer {{ money(montant) }}</button>
     </form>
@@ -294,13 +301,13 @@
         <span>{{ credits.count }}</span>
       </div>
       <Account account_name="Montant total" :account_money="totals.montant" />
-      <Account account_name="Capital" :account_money="extratotals.capital" />
+      <!-- <Account account_name="Capital" :account_money="extratotals.capital" /> -->
       <Account account_name="Interet" :account_money="totals.interet" />
-      <Account account_name="Penalités" :account_money="extratotals.penalite" />
+      <!-- <Account account_name="Penalités" :account_money="extratotals.penalite" /> -->
       <Account account_name="Mensualite" :account_money="extratotals.mensualite" />
       <!-- <Account account_name="Capital a payer" :account_money="extratotals.capital_a_payer" />
-      <Account account_name="Interet a payer" :account_money="extratotals.interet_a_payer" /> -->
-      <!-- <Account account_name="Mensualite a payer" :account_money="extratotals.mensualite_a_payer" /> -->
+      <Account account_name="Interet a payer" :account_money="extratotals.interet_a_payer" />
+      <Account account_name="Mensualite a payer" :account_money="extratotals.mensualite_a_payer" /> -->
     </div>
     <section class="table">
       <table>
@@ -311,7 +318,7 @@
           <th>Date</th>
           <th>Jours</th>
           <th>Taux </th>
-          <th>Periode (Mois)</th>
+          <th>Periode (Mensuel)</th>
           <th>Montant</th>
           <!-- <th>Mensualites</th> -->
           <th>Aprouver par</th>
@@ -352,11 +359,11 @@
               <button v-if="!credit.approved_by" @click="(showSelect = true), (amId = credit.id)" class="btn">
                 Valider
               </button>
-              <!-- <button v-if="!credit.approved" @click="handleDelete(credit.id)" class="btn delete">
+              <button v-if="!credit.approved_by" @click="handleDelete(credit.id)" class="btn delete">
                 <i class="fa-solid fa-trash"></i>
-              </button> -->
-              <span v-else-if="credit.done && credit.approved_by" class="valid">Crédit déjà terminer</span>
-            </div>
+              </button>
+              <span v-if="credit.done && credit.approved_by" class="valid">Crédit déjà terminer</span>
+            </div>  
             <i class="btn fa fa-ellipsis-v" v-if="credit.is_active && credit.approved_by" @click="toggleOptions(credit.id)">
               <div class="option-links" v-show="selectedItemId === credit.id">
                 <span class="option-link" v-if="!credit.done && credit.approved_by" @click="getLiquidation(credit.id)">
@@ -488,18 +495,18 @@ export default {
     }
   },
   methods: {
-    // async handleDelete(id) {
-    //   const confirmation = confirm(`Vous voulez vraiment supprimer ce crédit?`)
-    //   if (confirmation) {
-    //     try {
-    //       await axios.delete(`credits/${id}/`);
-    //       this.credits.results = this.credits.results.filter(user => user.id != id);
-    //       this.$store.state.message.success = 'Supprimés avec succès.'
-    //     } catch (error) {
-    //       this.displayErrorOrRefreshToken(error, this.handleDelete)
-    //     }
-    //   }
-    // },
+    async handleDelete(id) {
+      const confirmation = confirm(`Vous voulez vraiment supprimer ce crédit?`)
+      if (confirmation) {
+        try {
+          await axios.delete(`credits/${id}/`);
+          this.credits.results = this.credits.results.filter(user => user.id != id);
+          this.$store.state.message.success = 'Supprimés avec succès.'
+        } catch (error) {
+          this.displayErrorOrRefreshToken(error,() => this.handleDelete(id))
+        }
+      }
+    },
     async confDelete(id) {
       const confirmation = confirm(`Vous voulez vraiment supprimer ce configuration?`)
       if (confirmation) {
