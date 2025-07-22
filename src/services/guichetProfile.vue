@@ -106,18 +106,21 @@
         </div>
         <div class="form" v-if="action === 'Virement' || action === 'Virement Externe'">
             <div class="content">
-                <span class="title">{{ action === 'Virement' ? 'Virement interne' : 'Virement Externe' }}</span>
-                <span>Compte arrivée(Bénéficiaire)</span>
-                <SearchCompte @compte="add_account" />
-                <!-- <input type="text" v-model="compte" placeholder="Compte arrivée"> -->
-                <small v-for="err in data_error?.compte_arrivee" :key="err.id">
-                    {{ err }}
-                </small>
+                <span class="title">
+                    {{ action === 'Virement' ? 'Virement interne' : 'Virement Externe' }}
+                </span>
                 <span v-if="action === 'Virement Externe'">Compte du donneur d'ordre(Banque)</span>
                 <SearchCompte  v-if="action === 'Virement Externe'" search_for='banque' @compte="add_account" />
                 <small v-for="err in data_error?.banque" :key="err.id">
                     {{ err }}
                 </small>
+                <span>Compte arrivée(Bénéficiaire)</span>
+                <input v-if="action === 'Virement Externe'" type="text" v-model="compte" placeholder="Compte arrivée">
+                <SearchCompte v-else @compte="add_account" />
+                <small v-for="err in data_error?.compte_arrivee" :key="err.id">
+                    {{ err }}
+                </small>
+                
                 <label>Montant</label>
                 <input type="number" v-model="montant" placeholder="Montant">
                 <small v-for="err in data_error?.montant" :key="err.id">
