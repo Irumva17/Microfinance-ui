@@ -14,18 +14,18 @@
         <small v-for="err in data_error?.montant" :key="err.id">
           {{ err }}
         </small>
-        <label for="interet">Interet (annuel)</label>
-        <input type="number" id="interet" v-model="interet" />
-        <small v-for="err in data_error?.interet" :key="err.id">
-          {{ err }}
-        </small>
         <label for="echeance">Echeance</label>
         <input type="number" id="echeance" v-model="echeance" />
         <small v-for="err in data_error?.echeance" :key="err.id">
           {{ err }}
         </small>
+        <label for="interet">Interet (annuel)</label>
+        <input type="number" id="interet" v-model="interet" />
+        <small v-for="err in data_error?.interet" :key="err.id">
+          {{ err }}
+        </small>
         <span v-if="interet && echeance">
-          Interet mensuel 
+          Interet (mensuel) 
           {{ money( (interet / echeance)|| 0 ) }}
         </span>
         <label for="avaliseur">Avaliseur</label>

@@ -29,7 +29,7 @@
 
     <div class="accounts" v-if="extratotals">
       <Account account_name="Capital" :account_money="extratotals?.capital" />
-      <Account account_name="Interet" :account_money="totals?.interet" />
+      <Account account_name="Interet" :account_money="extratotals?.interet" />
       <Account account_name="Penalités" :account_money="extratotals.penalite" />
       <!-- <Account account_name="Capital a payer" :account_money="extratotals.capital_a_payer" />
       <Account account_name="Interet a payer" :account_money="extratotals.interet_a_payer" />
