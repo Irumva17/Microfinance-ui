@@ -248,15 +248,21 @@
     </form>
   </Modal>
   <Modal :isVisible="show_liquider" @close="closeModal">
-    <div class="form">
+    <form class="form"  @submit.prevent="getLiquider">
       <span class="title">Liquidation</span>
       <div class="content">
-        <span>capital : {{ money(liquidation?.capital) }}</span>
+        <span>Capital : {{ money(liquidation?.capital) }}</span>
         <span>Interet : {{ money(liquidation?.interet) }}</span>
         <span>Retard : {{ money(liquidation?.retard) }}</span>
       </div>
-      <button class="btn-modal" @click="getLiquider">Liquider</button>
-    </div>
+      <label>Interet : </label>
+      <input type="number" v-model="interet" />
+      <small v-for="err in data_error?.interet" :key="err.id" required>
+        {{ err }}
+      </small>
+      <br>
+      <button class="btn-modal">Liquider</button>
+    </form>
   </Modal>
   <Modal :isVisible="show_reecholer_impayer" @close="closeModal">
     <div class="form">
@@ -368,8 +374,13 @@
             </div>  
             <i class="btn fa fa-ellipsis-v" v-if="credit.is_active && credit.approved_by" @click="toggleOptions(credit.id)">
               <div class="option-links" v-show="selectedItemId === credit.id">
-                <span class="option-link" v-if="!credit.done && credit.approved_by" @click="getLiquidation(credit.id)">
-                  <span>&#9656;</span> Liquidation</span>
+                <span 
+                  class="option-link" 
+                  v-if="!credit.done && credit.approved_by" 
+                  @click="getLiquidation(credit.id)"
+                >
+                  <span>&#9656;</span> Liquidation
+                </span>
                 <!-- <span class="option-link" @click="Decalage(credit)"> <span>&#9656;</span> Décalage</span> -->
                 <span class="option-link" @click="Reecholer(credit)"> <span>&#9656;</span> Réechelonnement</span>
                 <!-- <span class="option-link" @click="getReecholer_impayer(credit.id)"> <span>&#9656;</span> Réechelonnement
@@ -619,14 +630,15 @@ export default {
         })
     },
     getLiquider() {
-      axios.get(`credits/${this.credit_id}/liquider/`)
-        .then((reponse) => {
-          this.update(reponse.data)
-          this.closeModal()
-          this.$store.commit('setSuccess', 'Liquidé avec succès.')
-        }).catch((error) => {
-          this.displayErrorOrRefreshToken(error, this.getLiquider);
-        })
+      axios.post(`credits/${this.credit_id}/liquider/`, {
+        interet: this.interet
+      }).then((reponse) => {
+        this.update(reponse.data)
+        this.closeModal()
+        this.$store.commit('setSuccess', 'Liquidé avec succès.')
+      }).catch((error) => {
+        this.displayErrorOrRefreshToken(error, this.getLiquider);
+      })
     },
     searchLasta(keyword) {
       axios.get(
@@ -687,6 +699,7 @@ export default {
         interet: null,
         retard: null
       }
+      this.interet = ''
       this.compte = "",
         this.searchQuery = "",
         this.search = "",
