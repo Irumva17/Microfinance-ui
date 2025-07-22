@@ -3,7 +3,7 @@
     <div class="printable" v-if="itemToPrint">
         <PrintDepot :item="itemToPrint" class="printable" />
     </div>
-    <div class="container not_printable" >
+    <div class="container not_printable">
         <div class="btns">
             <button class="btn retour" @click="goBack">&#10094;</button>
         </div>
@@ -26,16 +26,15 @@
                     <td>{{ datetime(item.created_at) }}</td>
                     <td>{{ item.created_by }}</td>
                     <td>
-                        <button class="btn" @click="printDepot(item)">
-                            <i class="fa-solid fa-print"></i>
-                            Imprimer
-                        </button>
-                        <button 
-                            @click="handleDelete(credit.id)" 
-                            class="btn delete"
-                        >
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+                        <div class="btns">
+                            <button class="btn" @click="printDepot(item)">
+                                <i class="fa-solid fa-print"></i>
+                                Imprimer
+                            </button>
+                            <button @click="handleDelete(credit.id)" class="btn delete">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -58,7 +57,7 @@ export default {
         Navbar, PrintDepot
     },
     methods: {
-        printDepot(depot){
+        printDepot(depot) {
             this.itemToPrint = depot;
             this.$nextTick(() => {
                 window.print();
@@ -73,7 +72,7 @@ export default {
                     this.list = this.list.filter((item) => item.id != id);
                     this.$store.state.message.success = 'Supprimés avec succès.'
                 } catch (error) {
-                    this.displayErrorOrRefreshToken(error,() => this.handleDelete(id))
+                    this.displayErrorOrRefreshToken(error, () => this.handleDelete(id))
                 }
             }
         },
