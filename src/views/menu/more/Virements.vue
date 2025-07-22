@@ -14,6 +14,7 @@
                     <th>Compte arrivee</th>
                     <th>Date</th>
                     <th>Fait par</th>
+                    <th>Options</th>
                 </tr>
                 <tr v-for="(item, index) in list" :key="index">
                     <td>{{ item.id }}</td>
@@ -23,6 +24,14 @@
                     <td>{{ item.compte_arrivee }}</td>
                     <td>{{ datetime(item.virement_interne.created_at) }}</td>
                     <td>{{ item.virement_interne.created_by }}</td>
+                    <td>
+                        <button 
+                            @click="handleDelete(credit.id)" 
+                            class="btn delete"
+                        >
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
                 </tr>
             </table>
         </section>
@@ -42,6 +51,18 @@ export default {
         Navbar
     },
     methods: {
+        async handleDelete(id) {
+            const confirmation = confirm(`Vous voulez vraiment supprimer ce depot?`)
+            if (confirmation) {
+                try {
+                    await axios.delete(`virementinternedetails/${id}/`);
+                    this.list = this.list.filter((item) => item.id != id);
+                    this.$store.state.message.success = 'Supprimés avec succès.'
+                } catch (error) {
+                    this.displayErrorOrRefreshToken(error,() => this.handleDelete(id))
+                }
+            }
+        },
         getItems() {
             const account = this.$route.query.number
             axios.get(`virementinternedetails/?virement_interne__compte_depart__numero=${account}`)

@@ -255,7 +255,7 @@
         <span>Interet : {{ money(liquidation?.interet) }}</span>
         <span>Retard : {{ money(liquidation?.retard) }}</span>
       </div>
-      <label>Réduction des interets(en pourcentage) : </label>
+      <label>Réduction des interets en % : </label>
       <input type="number" v-model="interet" />
       <small v-for="err in data_error?.interet" :key="err.id" required>
         {{ err }}
@@ -309,10 +309,10 @@
         <span>{{ credits.count }}</span>
       </div>
       <Account account_name="Montant total" :account_money="totals.montant" />
-      <!-- <Account account_name="Capital" :account_money="extratotals.capital" /> -->
       <Account account_name="Interet" :account_money="totals.interet" />
-      <!-- <Account account_name="Penalités" :account_money="extratotals.penalite" /> -->
       <Account account_name="Mensualite" :account_money="extratotals.mensualite" />
+      <!-- <Account account_name="Capital" :account_money="extratotals.capital" /> -->
+      <!-- <Account account_name="Penalités" :account_money="extratotals.penalite" /> -->
       <!-- <Account account_name="Capital a payer" :account_money="extratotals.capital_a_payer" />
       <Account account_name="Interet a payer" :account_money="extratotals.interet_a_payer" />
       <Account account_name="Mensualite a payer" :account_money="extratotals.mensualite_a_payer" /> -->
@@ -370,9 +370,9 @@
               <button v-if="!credit.approved_by" @click="handleDelete(credit.id)" class="btn delete">
                 <i class="fa-solid fa-trash"></i>
               </button>
-              <span v-if="credit.done && credit.approved_by" class="valid">Crédit déjà terminer</span>
+              <!-- <span v-if="credit.done_at" class="valid">Crédit déjà terminer</span> -->
             </div>  
-            <i class="btn fa fa-ellipsis-v" v-if="credit.is_active && credit.approved_by" @click="toggleOptions(credit.id)">
+            <i class="btn fa fa-ellipsis-v" v-if="!credit.done_at && credit.approved_by" @click="toggleOptions(credit.id)">
               <div class="option-links" v-show="selectedItemId === credit.id">
                 <span 
                   class="option-link" 
@@ -392,7 +392,7 @@
                 <span class="option-link" @click="navigateToCredit(credit)"> <span>&#9656;</span>Plus d'information</span>
               </div>
             </i>
-            <span v-if="!credit.is_active" class="valid">Terminé</span>
+            <span v-if="credit.done_at" class="valid">Terminé</span>
           </td>
         </tr>
       </table>
@@ -643,7 +643,7 @@ export default {
     searchLasta(keyword) {
       axios.get(
         keyword ? `credits/?search=${keyword}` :
-          `/credits/?compte__numero=${this.compte__numero}&compte__commune__icontains=${this.compte}&is_active=${this.is_active}&compte__personne_physique__date_naissance__gte=${this.age_superieur}&compte__personne_physique__date_naissance__lte=${this.age_inferieur}&compte__personne_physique__sexe=${this.sexe}&type_credit=${this.credite}&approved_at__gte=${this.approved_superieur}&approved_at__lte=${this.approved_inferieur}&payment_date__gte=${this.paiement_superieur}&payment_date__lte=${this.paiement_inferieur}&montant__gte=${this.montant_maximal}&montant__lte=${this.montant_minimal}&compte__personne_physique__isnull=${this.physique}&done_at__gte=${this.done_at__gte}&done_at__lte=${this.done_at__lte}&compte__personne_physique__residence=${this.compte__personne_physique__residence}&personne_morale__activite=${this.secteur__activite}&compte__personne_physique__activite${this.secteur__activite}&compte__personne_morale__institution${this.morale__institution}`
+          `/credits/?compte__numero=${this.compte__numero}&compte__commune__icontains=${this.compte}&done_at__isnull=${this.is_active}&compte__personne_physique__date_naissance__gte=${this.age_superieur}&compte__personne_physique__date_naissance__lte=${this.age_inferieur}&compte__personne_physique__sexe=${this.sexe}&type_credit=${this.credite}&approved_at__gte=${this.approved_superieur}&approved_at__lte=${this.approved_inferieur}&payment_date__gte=${this.paiement_superieur}&payment_date__lte=${this.paiement_inferieur}&montant__gte=${this.montant_maximal}&montant__lte=${this.montant_minimal}&compte__personne_physique__isnull=${this.physique}&done_at__gte=${this.done_at__gte}&done_at__lte=${this.done_at__lte}&compte__personne_physique__residence=${this.compte__personne_physique__residence}&personne_morale__activite=${this.secteur__activite}&compte__personne_physique__activite${this.secteur__activite}&compte__personne_morale__institution${this.morale__institution}`
       ).then((reponse) => {
         this.credits = reponse.data;
         this.closeModal()
@@ -653,7 +653,7 @@ export default {
     },
     // is_active=false&approved_at=false
     async getCredits() {
-      await axios.get('credits/')
+      await axios.get('credits/?done_at__isnull=true')
         .then((response) => {
           this.credits = response.data;
           this.totals = response.data.totals

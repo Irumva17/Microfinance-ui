@@ -54,7 +54,6 @@
                     <th>Motif</th>
                     <th>Date</th>
                     <th>Fait par</th>
-                    <!-- <th>Options</th> -->
                 </tr>
                 <tr v-for="(item, index) in list" :key="index">
                     <td>{{ item.id }}</td>
@@ -62,12 +61,6 @@
                     <td>{{ item.details }}</td>
                     <td>{{ datetime(item.created_at) }}</td>
                     <td>{{ item.created_by }}</td>
-                    <!-- <td>
-                        <button class="btn" @click="printDepot(item)">
-                            <i class="fa-solid fa-print"></i>
-                            Imprimer
-                        </button>
-                    </td> -->
                 </tr>
             </table>
         </section>

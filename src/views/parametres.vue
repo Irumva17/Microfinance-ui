@@ -26,7 +26,7 @@
                             <i class="fa-solid fa-image"></i>
                             Changer l'arrière plan.
                         </label>
-                        <input id="image" type="file" @change="handleFileUpload" />
+                        <input id="image" type="file" @change="handleFileUpload" accept="image/*" />
                     </div>
                     <span class="lubrik_title">Sons</span>
                     <div class="audio_wrapper">

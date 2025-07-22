@@ -365,7 +365,7 @@
                     <i class="option-link fa-solid fa-pencil" @click="modifier(client)"><span>Modifier</span></i>
                     <i class="option-link fa-solid fa-users" @click="goToMandataire(client)"><span>Mandataire</span></i>
                     <i class="option-link fa-brands fa-buromobelexperte">
-                      <span>Operations</span>
+                      <span>Hist. transactions</span>
                       <div class="actions">
                         <i 
                           @click="navigateToRoute(

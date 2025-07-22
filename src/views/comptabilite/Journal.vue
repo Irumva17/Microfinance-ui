@@ -81,8 +81,8 @@
           <td>{{ journal.id }}</td>
           <td>{{ datetime(journal.created_at) }}</td>
           <td>{{ journal.ref_number }}</td>
-          <td>{{ journal.debiteur.nom }}</td>
-          <td>{{ journal.crediteur.nom }}</td>
+          <td>{{ journal.debiteur?.nom }}</td>
+          <td>{{ journal.crediteur?.nom }}</td>
           <td>{{ journal.motif }}</td>
           <td>{{ money(journal.montant) }}</td>
           <td>

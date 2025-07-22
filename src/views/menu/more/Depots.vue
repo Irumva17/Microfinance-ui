@@ -30,6 +30,12 @@
                             <i class="fa-solid fa-print"></i>
                             Imprimer
                         </button>
+                        <button 
+                            @click="handleDelete(credit.id)" 
+                            class="btn delete"
+                        >
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
                     </td>
                 </tr>
             </table>
@@ -58,6 +64,18 @@ export default {
                 window.print();
                 this.itemToPrint = null;
             });
+        },
+        async handleDelete(id) {
+            const confirmation = confirm(`Vous voulez vraiment supprimer ce depot?`)
+            if (confirmation) {
+                try {
+                    await axios.delete(`depots/${id}/`);
+                    this.list = this.list.filter((item) => item.id != id);
+                    this.$store.state.message.success = 'Supprimés avec succès.'
+                } catch (error) {
+                    this.displayErrorOrRefreshToken(error,() => this.handleDelete(id))
+                }
+            }
         },
         getItems() {
             const account = parseInt(this.$route.params.compte)

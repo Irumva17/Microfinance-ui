@@ -14,6 +14,7 @@
                     <th>Motif</th>
                     <th>Date</th>
                     <th>Fait par</th>
+                    <th>Options</th>
                 </tr>
                 <tr v-for="(item, index) in list" :key="index">
                     <td>{{ item.id }}</td>
@@ -23,6 +24,14 @@
                     <td>{{ item.details }}</td>
                     <td>{{ datetime(item.created_at) }}</td>
                     <td>{{ item.created_by }}</td>
+                    <td>
+                        <button 
+                            @click="handleDelete(credit.id)" 
+                            class="btn delete"
+                        >
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
                 </tr>
             </table>
         </section>
@@ -43,6 +52,18 @@ export default {
         Navbar
     },
     methods: {
+        async handleDelete(id) {
+            const confirmation = confirm(`Vous voulez vraiment supprimer ce depot?`)
+            if (confirmation) {
+                try {
+                    await axios.delete(`retraits/${id}/`);
+                    this.list = this.list.filter((item) => item.id != id);
+                    this.$store.state.message.success = 'Supprimés avec succès.'
+                } catch (error) {
+                    this.displayErrorOrRefreshToken(error,() => this.handleDelete(id))
+                }
+            }
+        },
         getItems() {
             const account = this.$route.query.number
             axios.get(`retraits/?compte__numero=${account}`)
