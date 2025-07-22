@@ -43,7 +43,7 @@
           <th>Interet</th>
           <th>Capital</th>
           <th>Mensualite</th>
-          <th>Mensualite à payer</th>
+          <th>Mensualites payés</th>
           <th>Retard</th>
           <th>Date</th>
           <th>Date de fin</th>
