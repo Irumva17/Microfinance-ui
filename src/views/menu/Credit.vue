@@ -1,7 +1,7 @@
 <template>
   <Navbar />
   <Modal :isVisible="showModal" @close="closeModal">
-    <form class="form" @submit.prevent="functionCredit">
+    <div class="form" >
       <span class="title">Nouveau Crédit</span>
       <div class="content">
         <label for="Document">Compte</label>
@@ -55,10 +55,10 @@
           {{ err }}
         </small>
       </div>
-      <button class="btn-modal">
+      <button class="btn-modal" @click="functionCredit">
         Ajouter crédit {{ money(montant) }}
       </button>
-    </form>
+    </div>
   </Modal>
   <Modal :isVisible="showconf" @close="closeModal">
     <div class="form">
@@ -255,7 +255,7 @@
         <span>Interet : {{ money(liquidation?.interet) }}</span>
         <span>Retard : {{ money(liquidation?.retard) }}</span>
       </div>
-      <label>Interet : </label>
+      <label>Réduction des interets(en pourcentage) : </label>
       <input type="number" v-model="interet" />
       <small v-for="err in data_error?.interet" :key="err.id" required>
         {{ err }}

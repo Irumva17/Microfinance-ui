@@ -55,7 +55,8 @@
           <td>{{ money(item.interet) }}</td>
           <td>{{ money(item.capital) }}</td>
           <td>{{ money(item.mensualite) }}</td>
-          <td>{{ money(item?.mensualite_a_payer) }}</td>
+          <!-- <td>{{ money(item?.mensualite_a_payer) }}</td> -->
+          <td>{{ money(item?.mensualite_payer) }}</td>
           <td>{{ datetime(item.retard) }}</td>
           <td>{{ datetime(item.date) }}</td>
           <td>{{ datetime(item.date_fin) }}</td>
