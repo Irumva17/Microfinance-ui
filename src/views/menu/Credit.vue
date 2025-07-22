@@ -1,7 +1,7 @@
 <template>
   <Navbar />
   <Modal :isVisible="showModal" @close="closeModal">
-    <form class="form" @submit.prevent="">
+    <form class="form" @submit.prevent="functionCredit">
       <span class="title">Nouveau Crédit</span>
       <div class="content">
         <label for="Document">Compte</label>
@@ -55,7 +55,9 @@
           {{ err }}
         </small>
       </div>
-      <button class="btn-modal" @click="functionCredit">Créditer {{ money(montant) }}</button>
+      <button class="btn-modal">
+        Ajouter crédit {{ money(montant) }}
+      </button>
     </form>
   </Modal>
   <Modal :isVisible="showconf" @close="closeModal">
