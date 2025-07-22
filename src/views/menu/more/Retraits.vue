@@ -26,7 +26,7 @@
                     <td>{{ item.created_by }}</td>
                     <td>
                         <button 
-                            @click="handleDelete(credit.id)" 
+                            @click="handleDelete(item.id)" 
                             class="btn delete"
                         >
                             <i class="fa-solid fa-trash"></i>
@@ -53,7 +53,7 @@ export default {
     },
     methods: {
         async handleDelete(id) {
-            const confirmation = confirm(`Vous voulez vraiment supprimer ce depot?`)
+            const confirmation = confirm(`Vous voulez vraiment supprimer ce retrait?`)
             if (confirmation) {
                 try {
                     await axios.delete(`retraits/${id}/`);

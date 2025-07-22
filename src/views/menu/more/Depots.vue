@@ -31,7 +31,7 @@
                                 <i class="fa-solid fa-print"></i>
                                 Imprimer
                             </button>
-                            <button @click="handleDelete(credit.id)" class="btn delete">
+                            <button @click="handleDelete(item.id)" class="btn delete">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </div>
