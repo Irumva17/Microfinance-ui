@@ -646,14 +646,14 @@ export default {
           this.displayErrorOrRefreshToken(error, this.getCredits);
         })
     },
-    async getExtraTotals() {
-      await axios.get('amortissementcredits/')
-        .then((response) => {
-          this.extratotals = response.data.totals
-        }).catch((error) => {
-          this.displayErrorOrRefreshToken(error, this.getExtraTotals);
-        })
-    },
+    // async getExtraTotals() {
+    //   await axios.get('amortissementcredits/')
+    //     .then((response) => {
+    //       this.extratotals = response.data.totals
+    //     }).catch((error) => {
+    //       this.displayErrorOrRefreshToken(error, this.getExtraTotals);
+    //     })
+    // },
     // async getConf() {
     //   await axios.get("creditconfiguration/")
     //     .then((response) => {

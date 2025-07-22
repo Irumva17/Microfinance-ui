@@ -26,6 +26,16 @@
         Imprimer
       </button>
     </div>
+
+    <div class="accounts" v-if="extratotals">
+      <Account account_name="Capital" :account_money="extratotals?.capital" />
+      <Account account_name="Interet" :account_money="totals?.interet" />
+      <Account account_name="Penalités" :account_money="extratotals.penalite" />
+      <!-- <Account account_name="Capital a payer" :account_money="extratotals.capital_a_payer" />
+      <Account account_name="Interet a payer" :account_money="extratotals.interet_a_payer" />
+      <Account account_name="Mensualite a payer" :account_money="extratotals.mensualite_a_payer" /> -->
+    </div>
+
     <section class="table">
       <table>
         <tr>
@@ -67,11 +77,13 @@ import Navbar from "@/components/Navbar.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
 import Print_header from "@/services/print_header.vue";
 import Printed_by from "@/services/Printed_by.vue";
+import Account from "@/components/account.vue";
 export default {
   components: {
     Navbar,
     SearchComponent,
-    Print_header, Printed_by
+    Print_header, Printed_by,
+    Account
   },
 
   data() {
@@ -80,6 +92,7 @@ export default {
       credite: [],
       credit: {},
       choose: "",
+      extratotals:null
     };
   },
 
@@ -95,18 +108,17 @@ export default {
       axios.get(`${url}/?credit=${this.$route.params.id}`)
         .then((reponse) => {
           this.credite = reponse.data.results;
+          this.extratotals = reponse.data.totals
         }).catch((error) => {
           this.displayErrorOrRefreshToken(error, this.getCreditData)
         });
     },
+    
     async getCredit() {
       await axios
         .get(`credits/${this.$route.params.id}/`)
         .then((response) => {
           this.credit = response.data;
-
-
-          
           if (this.credit.approved_by) {
             this.getCreditData('amortissementcredits')
           } else if (!this.credit.approved_by) {
@@ -126,6 +138,7 @@ export default {
   },
   mounted() {
     this.getCredit();
+    // this.getExtraTotals();
   },
 };
 </script>

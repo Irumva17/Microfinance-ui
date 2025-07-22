@@ -29,6 +29,15 @@ export default {
     },
   },
   methods: {
+    async getExtraTotals() {
+      await axios.get('amortissementcredits/')
+        .then((response) => {
+          this.extratotals = response.data.totals
+        }).catch((error) => {
+          this.displayErrorOrRefreshToken(error, this.getExtraTotals);
+        })
+    },
+
     getItemName(item) {
       if (!item?.last_name && !item?.first_name) return item?.username;
       return `${item?.last_name} ${item?.first_name}`;
