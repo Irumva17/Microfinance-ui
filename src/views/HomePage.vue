@@ -23,7 +23,7 @@
             <Account account_name="Retraits Journalières" :account_money="retraits_journalier" />
             <Account account_name="Depots Journalières" :account_money="depots_journalier" />
             <Account account_name="Situations Journalière" :account_money="situation_journaliere" />
-            <Account account_name="Dépôt epargne" :account_money="depots_epargnes" />
+            <Account account_name="Dépôts epargne" :account_money="depots_epargnes" />
         </div>
         <Agences />
     </div>
