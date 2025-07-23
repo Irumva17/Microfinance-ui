@@ -23,6 +23,7 @@
             <Account account_name="Retraits Journalières" :account_money="retraits_journalier" />
             <Account account_name="Depots Journalières" :account_money="depots_journalier" />
             <Account account_name="Situations Journalière" :account_money="situation_journaliere" />
+            <Account account_name="Dépôt epargne" :account_money="depots_epargnes" />
         </div>
         <Agences />
     </div>
@@ -42,6 +43,7 @@ export default {
             balance_personnel: 0,
             depots_journalier: 0,
             retraits_journalier: 0,
+            depots_epargnes: 0,
         }
     },
     computed: {
@@ -81,12 +83,21 @@ export default {
                 }).catch((error) => {
                     this.displayErrorOrRefreshToken(error, this.getRetraits)
                 })
+        },
+        getDepotEpargnes() {
+            axios.get('depotepargnes/')
+                .then((response) => {
+                    this.depots_epargnes = response.data?.totals?.montant || 0
+                }).catch((error) => {
+                    this.displayErrorOrRefreshToken(error, this.getDepotEpargnes)
+                })
         }
     },
     created() {
         this.getStates()
         this.getDepots()
         this.getRetraits()
+        this.getDepotEpargnes()
     }
 }
 </script>

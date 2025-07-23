@@ -26,7 +26,7 @@
                     <td>{{ item.virement_interne.created_by }}</td>
                     <td>
                         <button 
-                            @click="handleDelete(item.id)" 
+                            @click="handleDelete(item?.virement_interne.id)" 
                             class="btn delete"
                         >
                             <i class="fa-solid fa-trash"></i>
@@ -55,8 +55,8 @@ export default {
             const confirmation = confirm(`Vous voulez vraiment supprimer ce virement?`)
             if (confirmation) {
                 try {
-                    await axios.delete(`virementinternedetails/${id}/`);
-                    this.list = this.list.filter((item) => item.id != id);
+                    await axios.delete(`virementinternes/${id}/`);
+                    this.list = this.list.filter((item) => item?.virement_interne.id != id);
                     this.$store.state.message.success = 'Supprimés avec succès.'
                 } catch (error) {
                     this.displayErrorOrRefreshToken(error,() => this.handleDelete(id))
