@@ -93,8 +93,11 @@
           </td>
         </tr>
       </table>
-      <div v-if="journals.next" class="nextPaginator">
-        <button class="btn" @click="getJournals(journals.next)">
+      <div class="nextPaginator">
+        <button v-if="journals.previous" class="btn" @click="getJournals(journals.previous)">
+          &#10094;  &nbsp; Page précédente
+        </button>
+        <button v-if="journals.next" class="btn" @click="getJournals(journals.next)">
           Page suivante &nbsp; &#10095;
         </button>
       </div>
