@@ -9,11 +9,11 @@
             <i class="fa-solid fa-magnifying-glass"></i>
         </span>
     </div>
-    <div class="compte_result">
+    <div v-if="filteredPlans" class="compte_result">
         <label v-for="plan in filteredPlans" :key="plan.id">
             <input type="radio" 
                 v-model="selectedItem" 
-                :value="plan.id" :name="name ? namec : table" 
+                :value="plan.id" :name="name ? name : 'table'" 
                 style="width: fit-content;"
             >
                 {{ plan.numero }} : {{ plan.nom }}
@@ -73,7 +73,8 @@ export default {
     }
 }
 .compte_result {
-    height: fit-content !important;
-    height: 50px;
+    /* height: fit-content !important;
+    height: 100px ; */
+    flex: unset;
 }
 </style>
